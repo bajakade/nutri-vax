@@ -1,6 +1,9 @@
-# Welcome to your Expo app 👋
+# NutriVax-Measles
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+### Procedure for SQ-LNS distributions at health centers (PHCCs)
+The aim of this app is to support health centers (PHCCs) in managing
+and supervising the distribution of SQ-LNS as part of the NutriVax-Measles clinical trial conducted in
+Nigeria, Yobe state.
 
 ## Get started
 
