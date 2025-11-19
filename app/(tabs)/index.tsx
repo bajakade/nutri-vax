@@ -1,98 +1,155 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
+import React from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import TopBarHeader from '@/components/tob-bar-header';
 
-export default function HomeScreen() {
+interface DashboardProps {
+  user: any;
+  onNavigate: (page: string) => void;
+}
+
+export default function Dashboard({ user, onNavigate }: DashboardProps) {
+  const today = new Date().toLocaleDateString('en-GB', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+      stickyHeader={<TopBarHeader />}
+      headerBackgroundColor={{ light: '#e8f5e9', dark: '#004d00' }}
+    >
+      {/* Header Info */}
+      <View style={{ alignItems: 'center', marginBottom: 4 }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: 4,
+          }}
+        >
+          <Icon name="calendar-alt" size={16} color="#666" />
+          <Text style={{ color: '#666', fontSize: 14, marginLeft: 6 }}>{today}</Text>
+        </View>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: 2,
+          }}
+        >
+          <Icon name="map-marker-alt" size={20} color="#006600" />
+          <Text style={{ color: '#006600', fontSize: 18, fontWeight: '600', marginLeft: 6 }}>
+            {user?.facility || 'Afunori PHCC'}
+          </Text>
+        </View>
+
+        <Text style={{ color: '#666', fontSize: 14 }}>{user?.lga || 'Nguru'} LGA, Yobe State</Text>
+      </View>
+
+      {/* Main Action Buttons */}
+      <View
+        style={{
+          justifyContent: 'center',
+          maxWidth: 400,
+          alignSelf: 'center',
+          marginVertical: 8,
+        }}
+      >
+        {/* Enroll Button */}
+        <TouchableOpacity
+          onPress={() => onNavigate('enroll')}
+          style={{
+            backgroundColor: '#006600',
+            borderRadius: 20,
+            padding: 48,
+            alignItems: 'center',
+            marginBottom: 16,
+            shadowColor: '#000',
+            shadowOpacity: 0.1,
+            shadowRadius: 10,
+            elevation: 6,
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: '#fff',
+              borderRadius: 999,
+              padding: 18,
+              marginBottom: 8,
+            }}
+          >
+            <Icon name="user-plus" size={28} color="#006600" />
+          </View>
+          <Text
+            style={{
+              color: '#ffffff',
+              fontSize: 20,
+              fontWeight: '500',
+              marginBottom: 4,
+              textAlign: 'center',
+            }}
+          >
+            Scan to Enrol New Child
+          </Text>
+          <Text style={{ fontSize: 14, color: '#C6F0C6', textAlign: 'center' }}>
+            Register new beneficiary
+          </Text>
+        </TouchableOpacity>
+
+        {/* Monthly Visit Button */}
+        <TouchableOpacity
+          onPress={() => onNavigate('visit')}
+          style={{
+            backgroundColor: '#00A651',
+            borderRadius: 20,
+            padding: 48,
+            alignItems: 'center',
+            shadowColor: '#000',
+            shadowOpacity: 0.1,
+            shadowRadius: 10,
+            elevation: 6,
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: '#fff',
+              borderRadius: 999,
+              padding: 16,
+              marginBottom: 8,
+            }}
+          >
+            <Icon name="barcode" size={32} color="#00A651" />
+          </View>
+          <Text
+            style={{
+              color: '#ffffff',
+              fontSize: 20,
+              fontWeight: '500',
+              marginBottom: 4,
+              textAlign: 'center',
+            }}
+          >
+            Scan for Monthly Visit
+          </Text>
+          <Text style={{ fontSize: 14, color: '#C6F0C6', textAlign: 'center' }}>
+            Record attendance & distribute
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Footer */}
+      <View style={{ alignItems: 'center', marginTop: 24 }}>
+        <Text style={{ color: '#666', fontSize: 14 }}>
+          Health Worker: {user?.name || 'Amina Musa'}
+        </Text>
+      </View>
     </ParallaxScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
