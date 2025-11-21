@@ -15,7 +15,7 @@ export default function Dashboard({ user }: { user?: any }) {
 
   return (
     <ParallaxScrollView>
-      <View className="items-center py-6">
+      <View className="items-center py-3">
         <View className="flex-row items-center mb-3">
           <Icon name="calendar-alt" size={16} color="#666" />
           <Text className="ml-2 text-base text-muted-foreground">{today}</Text>
@@ -38,7 +38,7 @@ export default function Dashboard({ user }: { user?: any }) {
         <TouchableOpacity
           onPress={() => router.push('/(tabs)/enroll')}
           activeOpacity={0.9}
-          className="items-center px-20 py-16 mb-6 shadow-xl bg-primary rounded-3xl shadow-black/20"
+          className="items-center px-10 py-8 mb-6 shadow-xl bg-primary rounded-3xl shadow-black/20"
         >
           <View className="p-6 mb-4 rounded-full bg-primary-foreground">
             <Icon name="user-plus" size={36} color="hsl(var(--primary))" />
@@ -53,7 +53,7 @@ export default function Dashboard({ user }: { user?: any }) {
         <TouchableOpacity
           onPress={() => router.push('/(tabs)/visit')}
           activeOpacity={0.9}
-          className="items-center px-20 py-16 shadow-xl bg-accent rounded-3xl shadow-black/20"
+          className="items-center px-16 py-8 shadow-xl bg-accent rounded-3xl shadow-black/20"
         >
           <View className="p-6 mb-4 rounded-full bg-primary-foreground">
             <Icon name="barcode" size={40} color="hsl(var(--accent))" />
@@ -67,7 +67,7 @@ export default function Dashboard({ user }: { user?: any }) {
         </TouchableOpacity>
       </View>
 
-      <View className="items-center my-10">
+      <View className="items-center my-5">
         <Text className="text-base text-muted-foreground">
           Health Worker: {user?.name || 'Amina Musa'}
         </Text>
