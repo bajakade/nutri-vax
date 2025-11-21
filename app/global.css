@@ -1,0 +1,16 @@
+/* global.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .card-shadow {
+    /* Use standard CSS box-shadow for web */
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .logo-glow {
+    /* Use standard CSS box-shadow for web */
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+  }
+}
