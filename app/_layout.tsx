@@ -13,7 +13,6 @@ import CustomSplashScreen from '@/app/screens/splash-screen';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import LoginScreen from './screens/login';
 
-
 export const unstable_settings = {
   initialRouteName: 'splash',
 };
@@ -26,15 +25,13 @@ export default function RootLayout() {
   useEffect(() => {
     async function prepare() {
       try {
-     
         await SplashScreen.preventAutoHideAsync();
 
         await Font.loadAsync(Ionicons.font);
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise((resolve) => setTimeout(resolve, 2000));
       } catch (e) {
         console.warn(e);
       } finally {
-
         try {
           await SplashScreen.hideAsync();
         } catch (e) {
@@ -63,10 +60,7 @@ export default function RootLayout() {
     <ThemeProvider value={DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="modal"
-          options={{ presentation: 'modal', headerShown: false }}
-        />
+        <Stack.Screen name="modal" options={{ presentation: 'modal', headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>

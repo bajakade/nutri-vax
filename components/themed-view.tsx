@@ -14,17 +14,7 @@ export function ThemedView({
   style,
   ...rest
 }: ThemedViewProps) {
-  const bgClass = color 
-    ? '' 
-    : transparent 
-      ? 'bg-transparent' 
-      : 'bg-background'; 
+  const bgClass = color ? '' : transparent ? 'bg-transparent' : 'bg-background';
 
-  return (
-    <View
-      className={`${bgClass} ${className}`}
-      style={style} 
-      {...rest}
-    />
-  );
+  return <View className={`${bgClass} ${className}`} style={style} {...rest} />;
 }

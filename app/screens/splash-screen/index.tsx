@@ -18,28 +18,34 @@ export default function SplashScreen() {
           Animated.delay(index * 150),
           Animated.timing(value, { toValue: -12, duration: 400, useNativeDriver: true }),
           Animated.timing(value, { toValue: 0, duration: 400, useNativeDriver: true }),
-        ])
-      )
+        ]),
+      ),
     );
     Animated.stagger(150, animations).start();
   }, []);
 
   return (
-
     <LinearGradient colors={['#006600', '#00A651']} style={{ flex: 1 }}>
       <View className="flex-1 justify-center items-center px-6">
-
         {/* Logo */}
         <View className="mb-8">
           <View className="w-24 h-24 bg-white rounded-3xl justify-center items-center shadow-2xl shadow-black/30">
-            <ThemedText type="title" className="text-[#006600] text-5xl font-bold" lightColor="#006600">
+            <ThemedText
+              type="title"
+              className="text-[#006600] text-5xl font-bold"
+              lightColor="#006600"
+            >
               NV
             </ThemedText>
           </View>
         </View>
 
         {/* App Name */}
-        <ThemedText type="title" className="text-white text-3xl text-center mb-2 font-bold" lightColor="#FFFFFF">
+        <ThemedText
+          type="title"
+          className="text-white text-3xl text-center mb-2 font-bold"
+          lightColor="#FFFFFF"
+        >
           NutriVax Tracker NG
         </ThemedText>
 

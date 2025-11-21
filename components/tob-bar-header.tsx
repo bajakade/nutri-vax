@@ -8,9 +8,7 @@ export default function TopBarHeader() {
         <Text className="text-primary-foreground text-sm font-bold">NV</Text>
       </View>
 
-      <Text className="text-primary text-base font-semibold ">
-        NutriVax
-      </Text>
+      <Text className="text-primary text-base font-semibold ">NutriVax</Text>
     </View>
   );
 }

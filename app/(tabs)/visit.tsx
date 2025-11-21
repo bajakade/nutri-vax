@@ -4,24 +4,18 @@ import { View, Text } from 'react-native';
 
 const EnrollChild = () => {
   return (
-    <View className="flex-1 bg-background justify-center items-center px-8">
+    <View className="items-center justify-center flex-1 px-8 bg-background">
       <View className="items-center">
-       
+        <Text className="mb-4 text-4xl font-bold text-center text-foreground">Coming Soon</Text>
 
-        <Text className="text-4xl font-bold text-foreground text-center mb-4">
-          Coming Soon
-        </Text>
-
-        <Text className="text-lg text-muted-foreground text-center leading-7">
+        <Text className="text-lg leading-7 text-center text-muted-foreground">
           This feature is under development{'\n'}and will be available very soon.
         </Text>
 
-        <Text className="text-sm text-muted-foreground/70 text-center mt-8">
-          Stay tuned!
-        </Text>
+        <Text className="mt-8 text-sm text-center text-muted-foreground/70">Stay tuned!</Text>
       </View>
     </View>
   );
-}
+};
 
 export default EnrollChild;

@@ -1,30 +1,9 @@
-// src/types/enum.ts
-
-export enum YoN {
-  Yes = 'Y',
-  No = 'N',
-}
-
-export enum Eligibility {
-  Eligible = 'eligible',
-  Refer = 'refer',
-}
-
-export enum Gender {
-  Male = 'M',
-  Female = 'F',
-}
-
-export enum AssessmentStep {
-  Scan = 1,
-  Verify = 2,
-  Issue = 3,
-}
+import { Gender, VaccinationStatus, YoN } from './enum';
 
 export interface ChildData {
   name: string;
   sex: Gender;
-  dob: string; 
+  dob: string;
   immunizationNumber: string;
   muac: string;
   oedema: YoN;
@@ -41,5 +20,11 @@ export interface Child {
   muac: number;
   visits: number;
   lastVisit: string;
-  vaccineStatus: "up-to-date" | "updated-today";
+  vaccineStatus: VaccinationStatus;
+}
+export interface Vaccine {
+  id: string;
+  name: string;
+  dueAgeMonths: number;
+  status: VaccinationStatus;
 }

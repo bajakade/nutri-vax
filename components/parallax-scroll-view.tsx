@@ -32,15 +32,11 @@ export default function ParallaxScrollView({
         translateY: interpolate(
           scrollOffset.value,
           [-HEADER_HEIGHT, 0, HEADER_HEIGHT],
-          [-HEADER_HEIGHT / 2, 0, HEADER_HEIGHT * 0.75]
+          [-HEADER_HEIGHT / 2, 0, HEADER_HEIGHT * 0.75],
         ),
       },
       {
-        scale: interpolate(
-          scrollOffset.value,
-          [-HEADER_HEIGHT, 0, HEADER_HEIGHT],
-          [2, 1, 1]
-        ),
+        scale: interpolate(scrollOffset.value, [-HEADER_HEIGHT, 0, HEADER_HEIGHT], [2, 1, 1]),
       },
     ],
   }));
@@ -76,9 +72,7 @@ export default function ParallaxScrollView({
           </Animated.View>
         )}
 
-        <View className={`pt-${HEADER_HEIGHT / 4 + 12} px-5 gap-6`}>
-          {children}
-        </View>
+        <View className={`pt-${HEADER_HEIGHT / 4 + 12} px-5 gap-6`}>{children}</View>
       </Animated.ScrollView>
     </View>
   );

@@ -7,15 +7,15 @@ type IconMapping = Record<SymbolViewProps['name'], ComponentProps<typeof Materia
 type IconSymbolName = keyof typeof MAPPING;
 
 const MAPPING = {
-  "house.fill": "home",
-  "paperplane.fill": "send",
-  "chevron.left.forwardslash.chevron.right": "code",
-  "chevron.right": "chevron-right",
+  'house.fill': 'home',
+  'paperplane.fill': 'send',
+  'chevron.left.forwardslash.chevron.right': 'code',
+  'chevron.right': 'chevron-right',
 
   // Tabs
-  "person.crop.circle.badge.plus": "person-add",
-  "barcode.viewfinder": "qr-code-scanner",
-  "arrowshape.turn.up.right.fill": "open-in-new",
+  'person.crop.circle.badge.plus': 'person-add',
+  'barcode.viewfinder': 'qr-code-scanner',
+  'arrowshape.turn.up.right.fill': 'open-in-new',
 } as unknown as IconMapping;
 
 export function IconSymbol({
@@ -30,14 +30,7 @@ export function IconSymbol({
   style?: StyleProp<TextStyle>;
   weight?: SymbolWeight;
 }) {
-  const mappedName = (MAPPING as Record<string, string>)[name] ?? "help-outline";
+  const mappedName = (MAPPING as Record<string, string>)[name] ?? 'help-outline';
 
-  return (
-    <MaterialIcons
-      color={color}
-      size={size}
-      name={mappedName as any}
-      style={style}
-    />
-  );
+  return <MaterialIcons color={color} size={size} name={mappedName as any} style={style} />;
 }

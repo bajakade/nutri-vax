@@ -50,19 +50,12 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
             onPress={() => setShowPassword(!showPassword)}
             className="absolute right-3 inset-y-0 justify-center"
           >
-            <FontAwesome
-              name={showPassword ? 'eye' : 'eye-slash'}
-              size={22}
-              color="#666"
-            />
+            <FontAwesome name={showPassword ? 'eye' : 'eye-slash'} size={22} color="#666" />
           </TouchableOpacity>
         </View>
 
         {/* Sign In Button – using your beautiful Button component */}
-        <Button
-          onPress={onLogin}
-          size="lg"
-        >
+        <Button onPress={onLogin} size="lg">
           Sign In
         </Button>
 

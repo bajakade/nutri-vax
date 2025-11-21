@@ -24,10 +24,8 @@ export function ThemedText({
     link: 'text-base leading-7 text-primary underline',
   };
 
-  const colorClass = lightColor || darkColor
-    ? '' 
-    : 'text-foreground'; 
-  
+  const colorClass = lightColor || darkColor ? '' : 'text-foreground';
+
   return (
     <Text
       className={`font-medium ${colorClass} ${typeClasses[type]} ${className}`}

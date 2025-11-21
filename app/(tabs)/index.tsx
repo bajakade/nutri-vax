@@ -14,66 +14,64 @@ export default function Dashboard({ user }: { user?: any }) {
   });
 
   return (
-      <ParallaxScrollView headerBackgroundColor={{ light: '#fff', dark: '#004d00' }}>
-        <View className="items-center py-6">
+    <ParallaxScrollView>
+      <View className="items-center py-6">
         <View className="flex-row items-center mb-3">
           <Icon name="calendar-alt" size={16} color="#666" />
-          <Text className="text-muted-foreground text-base ml-2">{today}</Text>
+          <Text className="ml-2 text-base text-muted-foreground">{today}</Text>
         </View>
 
         <View className="flex-row items-center mb-2">
           <Icon name="map-marker-alt" size={22} color="hsl(var(--primary))" />
-          <Text className="text-primary text-lg font-semibold ml-2">
+          <Text className="ml-2 text-lg font-semibold text-primary">
             {user?.facility || 'Afunori PHCC'}
           </Text>
         </View>
 
-        <Text className="text-muted-foreground text-base">
+        <Text className="text-base text-muted-foreground">
           {user?.lga || 'Nguru'} LGA, Yobe State
         </Text>
       </View>
 
-      <View className="px-5 max-w-md mx-auto">
+      <View className="max-w-md px-5 mx-auto">
         {/* Enrol New Child */}
         <TouchableOpacity
           onPress={() => router.push('/(tabs)/enroll')}
           activeOpacity={0.9}
-          className="bg-primary rounded-3xl py-16 px-20 items-center mb-6 shadow-xl shadow-black/20"
+          className="items-center px-20 py-16 mb-6 shadow-xl bg-primary rounded-3xl shadow-black/20"
         >
-          <View className="bg-primary-foreground rounded-full p-6 mb-4">
+          <View className="p-6 mb-4 rounded-full bg-primary-foreground">
             <Icon name="user-plus" size={36} color="hsl(var(--primary))" />
           </View>
-          <Text className="text-primary-foreground text-xl font-semibold px-8 text-center">
+          <Text className="px-8 text-xl font-semibold text-center text-primary-foreground">
             Scan to Enrol New Child
           </Text>
-          <Text className="text-primary-foreground/80 text-sm mt-2">
-            Register new beneficiary
-          </Text>
+          <Text className="mt-2 text-sm text-primary-foreground/80">Register new beneficiary</Text>
         </TouchableOpacity>
 
         {/* Monthly Visit */}
         <TouchableOpacity
           onPress={() => router.push('/(tabs)/visit')}
           activeOpacity={0.9}
-          className="bg-accent rounded-3xl py-16 px-20 items-center shadow-xl shadow-black/20"
+          className="items-center px-20 py-16 shadow-xl bg-accent rounded-3xl shadow-black/20"
         >
-          <View className="bg-primary-foreground rounded-full p-6 mb-4">
+          <View className="p-6 mb-4 rounded-full bg-primary-foreground">
             <Icon name="barcode" size={40} color="hsl(var(--accent))" />
           </View>
-          <Text className="text-accent-foreground text-xl font-semibold px-8 text-center">
+          <Text className="px-8 text-xl font-semibold text-center text-accent-foreground">
             Scan for Monthly Visit
           </Text>
-          <Text className="text-accent-foreground/80 text-sm mt-2">
+          <Text className="mt-2 text-sm text-accent-foreground/80">
             Record attendance & distribute
           </Text>
         </TouchableOpacity>
       </View>
 
-        <View className="items-center my-10">
-        <Text className="text-muted-foreground text-base">
+      <View className="items-center my-10">
+        <Text className="text-base text-muted-foreground">
           Health Worker: {user?.name || 'Amina Musa'}
         </Text>
-        </View>
-      </ParallaxScrollView>
+      </View>
+    </ParallaxScrollView>
   );
 }
