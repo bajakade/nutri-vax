@@ -27,15 +27,15 @@ export default function SplashScreen() {
   }, []);
 
   return (
-    <LinearGradient colors={[colors.primary, colors.accent]} style={{ flex: 1 }}>
+    <LinearGradient colors={[colors?.primary, colors?.accent]} style={{ flex: 1 }}>
       <View className="flex-1 justify-center items-center px-6">
         {/* Logo */}
         <View className="mb-8">
           <View className="w-24 h-24 bg-white rounded-3xl justify-center items-center shadow-2xl shadow-black/30">
             <ThemedText
               type="title"
-              className={`text-[${colors.primary}] text-5xl font-bold`}
-              lightColor={colors.primary}
+              className={`text-primary text-5xl font-bold`}
+              lightColor={colors?.primary}
             >
               NV
             </ThemedText>
@@ -46,7 +46,7 @@ export default function SplashScreen() {
         <ThemedText
           type="title"
           className="text-white text-3xl text-center mb-2 font-bold"
-          lightColor={colors.background}
+          lightColor={colors?.background}
         >
           NutriVax Tracker NG
         </ThemedText>
