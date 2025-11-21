@@ -1,5 +1,3 @@
-// Fallback for using MaterialIcons on Android and web.
-
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { SymbolViewProps, SymbolWeight } from 'expo-symbols';
 import { ComponentProps } from 'react';
@@ -8,27 +6,18 @@ import { OpaqueColorValue, type StyleProp, type TextStyle } from 'react-native';
 type IconMapping = Record<SymbolViewProps['name'], ComponentProps<typeof MaterialIcons>['name']>;
 type IconSymbolName = keyof typeof MAPPING;
 
-/**
- * Add your SF Symbols to Material Icons mappings here.
- * - see Material Icons in the [Icons Directory](https://icons.expo.fyi).
- * - see SF Symbols in the [SF Symbols](https://developer.apple.com/sf-symbols/) app.
- */
 const MAPPING = {
-  'house.fill': 'home',
-  'paperplane.fill': 'send',
-  'chevron.left.forwardslash.chevron.right': 'code',
-  'chevron.right': 'chevron-right',
-  // Tab bar / common mappings
-  'person.crop.circle.badge.plus': 'person_add',
-  'barcode.viewfinder': 'qr_code_scanner',
-  'arrowshape.turn.up.right.fill': 'open_in_new',
+  "house.fill": "home",
+  "paperplane.fill": "send",
+  "chevron.left.forwardslash.chevron.right": "code",
+  "chevron.right": "chevron-right",
+
+  // Tabs
+  "person.crop.circle.badge.plus": "person-add",
+  "barcode.viewfinder": "qr-code-scanner",
+  "arrowshape.turn.up.right.fill": "open-in-new",
 } as unknown as IconMapping;
 
-/**
- * An icon component that uses native SF Symbols on iOS, and Material Icons on Android and web.
- * This ensures a consistent look across platforms, and optimal resource usage.
- * Icon `name`s are based on SF Symbols and require manual mapping to Material Icons.
- */
 export function IconSymbol({
   name,
   size = 24,
@@ -41,7 +30,14 @@ export function IconSymbol({
   style?: StyleProp<TextStyle>;
   weight?: SymbolWeight;
 }) {
-  // Provide a safe fallback icon name in case a mapping is missing.
-  const mappedName = (MAPPING as Record<string, string>)[name] ?? 'help-outline';
-  return <MaterialIcons color={color} size={size} name={mappedName as any} style={style} />;
+  const mappedName = (MAPPING as Record<string, string>)[name] ?? "help-outline";
+
+  return (
+    <MaterialIcons
+      color={color}
+      size={size}
+      name={mappedName as any}
+      style={style}
+    />
+  );
 }
