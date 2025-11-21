@@ -1,19 +1,28 @@
+import { useThemeColor } from '@/hooks/use-theme-color';
 import { Tabs } from 'expo-router';
 import React from 'react';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { HapticTab } from '@/components/haptic-tab';
+import TopBarHeader from '@/components/tob-bar-header';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 
 export default function TabLayout() {
+  const insets = useSafeAreaInsets();
+  const background = useThemeColor({}, 'background');
   return (
-    <Tabs
+    <React.Fragment>
+      <SafeAreaView edges={['top']} style={{ backgroundColor: background }}>
+        <TopBarHeader />
+      </SafeAreaView>
+      <Tabs
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
           backgroundColor: '#004d00',
           borderTopWidth: 0,
-          height: 80,
-          paddingBottom: 6,
+          height: 56 + (insets.bottom || 0),
+          paddingBottom: insets.bottom || 6,
           paddingTop: 6,
         },
 
@@ -57,5 +66,6 @@ export default function TabLayout() {
         }}
       />
     </Tabs>
+    </React.Fragment>
   );
 }

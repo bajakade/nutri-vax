@@ -1,155 +1,79 @@
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
-import TopBarHeader from '@/components/tob-bar-header';
+import { useRouter } from 'expo-router';
+import React from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
-interface DashboardProps {
-  user: any;
-  onNavigate: (page: string) => void;
-}
-
-export default function Dashboard({ user, onNavigate }: DashboardProps) {
+export default function Dashboard({ user }: { user?: any }) {
+  const router = useRouter();
   const today = new Date().toLocaleDateString('en-GB', {
     weekday: 'long',
-    year: 'numeric',
-    month: 'long',
     day: 'numeric',
+    month: 'long',
+    year: 'numeric',
   });
 
   return (
-    <ParallaxScrollView
-      stickyHeader={<TopBarHeader />}
-      headerBackgroundColor={{ light: '#e8f5e9', dark: '#004d00' }}
-    >
-      {/* Header Info */}
-      <View style={{ alignItems: 'center', marginBottom: 4 }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 4,
-          }}
-        >
+      <ParallaxScrollView headerBackgroundColor={{ light: '#fff', dark: '#004d00' }}>
+        <View className="items-center py-6">
+        <View className="flex-row items-center mb-3">
           <Icon name="calendar-alt" size={16} color="#666" />
-          <Text style={{ color: '#666', fontSize: 14, marginLeft: 6 }}>{today}</Text>
+          <Text className="text-muted-foreground text-base ml-2">{today}</Text>
         </View>
 
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 2,
-          }}
-        >
-          <Icon name="map-marker-alt" size={20} color="#006600" />
-          <Text style={{ color: '#006600', fontSize: 18, fontWeight: '600', marginLeft: 6 }}>
+        <View className="flex-row items-center mb-2">
+          <Icon name="map-marker-alt" size={22} color="hsl(var(--primary))" />
+          <Text className="text-primary text-lg font-semibold ml-2">
             {user?.facility || 'Afunori PHCC'}
           </Text>
         </View>
 
-        <Text style={{ color: '#666', fontSize: 14 }}>{user?.lga || 'Nguru'} LGA, Yobe State</Text>
+        <Text className="text-muted-foreground text-base">
+          {user?.lga || 'Nguru'} LGA, Yobe State
+        </Text>
       </View>
 
-      {/* Main Action Buttons */}
-      <View
-        style={{
-          justifyContent: 'center',
-          maxWidth: 400,
-          alignSelf: 'center',
-          marginVertical: 8,
-        }}
-      >
-        {/* Enroll Button */}
+      <View className="px-5 max-w-md mx-auto">
+        {/* Enrol New Child */}
         <TouchableOpacity
-          onPress={() => onNavigate('enroll')}
-          style={{
-            backgroundColor: '#006600',
-            borderRadius: 20,
-            padding: 48,
-            alignItems: 'center',
-            marginBottom: 16,
-            shadowColor: '#000',
-            shadowOpacity: 0.1,
-            shadowRadius: 10,
-            elevation: 6,
-          }}
+          onPress={() => router.push('/(tabs)/enroll')}
+          activeOpacity={0.9}
+          className="bg-primary rounded-3xl py-16 px-20 items-center mb-6 shadow-xl shadow-black/20"
         >
-          <View
-            style={{
-              backgroundColor: '#fff',
-              borderRadius: 999,
-              padding: 18,
-              marginBottom: 8,
-            }}
-          >
-            <Icon name="user-plus" size={28} color="#006600" />
+          <View className="bg-primary-foreground rounded-full p-6 mb-4">
+            <Icon name="user-plus" size={36} color="hsl(var(--primary))" />
           </View>
-          <Text
-            style={{
-              color: '#ffffff',
-              fontSize: 20,
-              fontWeight: '500',
-              marginBottom: 4,
-              textAlign: 'center',
-            }}
-          >
+          <Text className="text-primary-foreground text-xl font-semibold px-8 text-center">
             Scan to Enrol New Child
           </Text>
-          <Text style={{ fontSize: 14, color: '#C6F0C6', textAlign: 'center' }}>
+          <Text className="text-primary-foreground/80 text-sm mt-2">
             Register new beneficiary
           </Text>
         </TouchableOpacity>
 
-        {/* Monthly Visit Button */}
+        {/* Monthly Visit */}
         <TouchableOpacity
-          onPress={() => onNavigate('visit')}
-          style={{
-            backgroundColor: '#00A651',
-            borderRadius: 20,
-            padding: 48,
-            alignItems: 'center',
-            shadowColor: '#000',
-            shadowOpacity: 0.1,
-            shadowRadius: 10,
-            elevation: 6,
-          }}
+          onPress={() => router.push('/(tabs)/visit')}
+          activeOpacity={0.9}
+          className="bg-accent rounded-3xl py-16 px-20 items-center shadow-xl shadow-black/20"
         >
-          <View
-            style={{
-              backgroundColor: '#fff',
-              borderRadius: 999,
-              padding: 16,
-              marginBottom: 8,
-            }}
-          >
-            <Icon name="barcode" size={32} color="#00A651" />
+          <View className="bg-primary-foreground rounded-full p-6 mb-4">
+            <Icon name="barcode" size={40} color="hsl(var(--accent))" />
           </View>
-          <Text
-            style={{
-              color: '#ffffff',
-              fontSize: 20,
-              fontWeight: '500',
-              marginBottom: 4,
-              textAlign: 'center',
-            }}
-          >
+          <Text className="text-accent-foreground text-xl font-semibold px-8 text-center">
             Scan for Monthly Visit
           </Text>
-          <Text style={{ fontSize: 14, color: '#C6F0C6', textAlign: 'center' }}>
+          <Text className="text-accent-foreground/80 text-sm mt-2">
             Record attendance & distribute
           </Text>
         </TouchableOpacity>
       </View>
 
-      {/* Footer */}
-      <View style={{ alignItems: 'center', marginTop: 24 }}>
-        <Text style={{ color: '#666', fontSize: 14 }}>
+        <View className="items-center my-10">
+        <Text className="text-muted-foreground text-base">
           Health Worker: {user?.name || 'Amina Musa'}
         </Text>
-      </View>
-    </ParallaxScrollView>
+        </View>
+      </ParallaxScrollView>
   );
 }
