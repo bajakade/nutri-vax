@@ -1,7 +1,6 @@
 import './global.css';
 
 import { Ionicons } from '@expo/vector-icons';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import * as Font from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -10,15 +9,14 @@ import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 
 import CustomSplashScreen from '@/app/screens/splash-screen';
-import { useColorScheme } from '@/hooks/use-color-scheme';
 import LoginScreen from './screens/login';
+import ThemeProvider from './providers/theme';
 
 export const unstable_settings = {
   initialRouteName: 'splash',
 };
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
   const [isReady, setIsReady] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -49,7 +47,7 @@ export default function RootLayout() {
 
   if (!isLoggedIn) {
     return (
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <ThemeProvider>
         <LoginScreen onLogin={() => setIsLoggedIn(true)} />
         <StatusBar style="auto" />
       </ThemeProvider>
@@ -57,7 +55,7 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={DefaultTheme}>
+    <ThemeProvider>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal', headerShown: false }} />

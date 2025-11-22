@@ -43,12 +43,19 @@ const EnrollChild: FC = () => {
   };
 
   const handleNext = () => {
-    if (step === 2) checkEligibility();
-    if (step < 3) setStep(step + 1);
+    if (step === 2) {
+      checkEligibility();
+    }
+
+    if (step < 3) {
+      setStep(step + 1);
+    }
   };
 
   const handleBack = () => {
-    if (step > 1) setStep(step - 1);
+    if (step > 1) {
+      setStep(step - 1);
+    }
   };
 
   const handleGenerateCard = () => {
