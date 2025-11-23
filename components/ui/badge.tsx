@@ -25,9 +25,9 @@ export function Badge({ variant = 'default', children, icon, className, ...props
   return (
     <View
       {...props}
-      className={`flex flex-row items-center justify-center px-2 py-1 rounded-md ${variantStyles[variant]} ${className || ''}`}
+      className={`flex flex-row items-center justify-center px-2 py-1 rounded-2xl ${variantStyles[variant]} ${className || ''}`}
     >
-      {icon && <View className="mr-2 items-center justify-center">{icon}</View>}
+      {icon && <View className="items-center justify-center mr-2">{icon}</View>}
       <Text className={`text-xs font-medium ${textStyles[variant]}`}>{children}</Text>
     </View>
   );

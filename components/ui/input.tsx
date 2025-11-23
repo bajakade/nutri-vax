@@ -16,7 +16,7 @@ export function Input({ style, ...props }: { style?: any; [key: string]: any }) 
           borderColor: border,
           backgroundColor: bg,
           paddingHorizontal: 12,
-          borderRadius: 8,
+          borderRadius: 12,
           color: text,
         },
         style,

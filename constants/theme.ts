@@ -1,8 +1,4 @@
-/**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
- */
-
+// constants/Colors.ts
 import { Platform } from 'react-native';
 
 const tintColorLight = '#0a7ea4';
@@ -10,7 +6,7 @@ const tintColorDark = '#fff';
 
 export const Colors = {
   light: {
-    // Original expo template
+    // Expo defaults
     text: '#11181C',
     background: '#fff',
     tint: tintColorLight,
@@ -18,12 +14,12 @@ export const Colors = {
     tabIconDefault: '#687076',
     tabIconSelected: tintColorLight,
 
-    // -------------------------
-    // Added: Your custom theme
-    // -------------------------
+    // Your custom theme — shadcn/ui style
     foreground: '#000000',
+
     card: '#ffffff',
     cardForeground: '#000000',
+
     popover: '#ffffff',
     popoverForeground: '#000000',
 
@@ -51,10 +47,9 @@ export const Colors = {
     border: 'rgba(0, 0, 0, 0.1)',
     input: 'transparent',
     inputBackground: '#f8f8f8',
-    switchBackground: '#cbced4',
-
     ring: '#006600',
 
+    // Charts & Sidebar
     chart1: '#006600',
     chart2: '#00A651',
     chart3: '#28A745',
@@ -72,7 +67,7 @@ export const Colors = {
   },
 
   dark: {
-    // Original expo template
+    // Expo defaults
     text: '#ECEDEE',
     background: '#151718',
     tint: tintColorDark,
@@ -80,9 +75,7 @@ export const Colors = {
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
 
-    // -------------------------
-    // Added: Your custom theme
-    // -------------------------
+    // Your dark theme — using OKLCH for perfect contrast
     foreground: 'oklch(0.985 0 0)',
 
     card: 'oklch(0.145 0 0)',
@@ -91,8 +84,8 @@ export const Colors = {
     popover: 'oklch(0.145 0 0)',
     popoverForeground: 'oklch(0.985 0 0)',
 
-    primary: 'oklch(0.985 0 0)',
-    primaryForeground: 'oklch(0.205 0 0)',
+    primary: 'oklch(0.488 0.243 264.376)', // Bright green in dark
+    primaryForeground: 'oklch(0.205 0 0)', // Dark text on bright green
 
     secondary: 'oklch(0.269 0 0)',
     secondaryForeground: 'oklch(0.985 0 0)',
@@ -125,25 +118,4 @@ export const Colors = {
     sidebarBorder: 'oklch(0.269 0 0)',
     sidebarRing: 'oklch(0.439 0 0)',
   },
-};
-
-export const Fonts = Platform.select({
-  ios: {
-    sans: 'system-ui',
-    serif: 'ui-serif',
-    rounded: 'ui-rounded',
-    mono: 'ui-monospace',
-  },
-  default: {
-    sans: 'normal',
-    serif: 'serif',
-    rounded: 'normal',
-    mono: 'monospace',
-  },
-  web: {
-    sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-    serif: "Georgia, 'Times New Roman', serif",
-    rounded: "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
-    mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
-  },
-});
+} as const;

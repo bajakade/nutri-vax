@@ -4,7 +4,7 @@ import React from 'react';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { HapticTab } from '@/components/haptic-tab';
-import TopBarHeader from '@/components/tob-bar-header';
+import TopBarHeader from '@/components/top-bar-header';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 
 export default function TabLayout() {
