@@ -1,10 +1,12 @@
 // app/screens/splash-screen/index.tsx
 import { ThemedText } from '@/components/themed-text';
+import { useTheme } from '@/hooks/use-theme';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useRef } from 'react';
 import { Animated, View } from 'react-native';
 
 export default function SplashScreen() {
+  const { colors } = useTheme();
   const bounceValues = [
     useRef(new Animated.Value(0)).current,
     useRef(new Animated.Value(0)).current,
@@ -25,15 +27,15 @@ export default function SplashScreen() {
   }, []);
 
   return (
-    <LinearGradient colors={['#006600', '#00A651']} style={{ flex: 1 }}>
+    <LinearGradient colors={[colors?.primary, colors?.accent]} style={{ flex: 1 }}>
       <View className="flex-1 justify-center items-center px-6">
         {/* Logo */}
         <View className="mb-8">
           <View className="w-24 h-24 bg-white rounded-3xl justify-center items-center shadow-2xl shadow-black/30">
             <ThemedText
               type="title"
-              className="text-[#006600] text-5xl font-bold"
-              lightColor="#006600"
+              className={`text-primary text-5xl font-bold`}
+              lightColor={colors?.primary}
             >
               NV
             </ThemedText>
@@ -44,7 +46,7 @@ export default function SplashScreen() {
         <ThemedText
           type="title"
           className="text-white text-3xl text-center mb-2 font-bold"
-          lightColor="#FFFFFF"
+          lightColor={colors?.background}
         >
           NutriVax Tracker NG
         </ThemedText>
