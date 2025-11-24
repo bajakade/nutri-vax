@@ -1,6 +1,7 @@
+import ReferralInput from '@/components/form/referral-input';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { FACILITIES, REFERRAL_TYPE } from '@/constants/referral';
+import { FACILITIES, REFERRAL_TYPE, REFERRAL_TYPE_OPTIONS } from '@/constants/referral';
 import { ReferralFormData } from '@/types';
 import { Gender } from '@/types/enum';
 import { useRouter } from 'expo-router';
@@ -116,38 +117,33 @@ export default function ReferralFormScreen() {
 
         <View className="p-6 space-y-5">
           <View className="flex-row gap-4">
-            <View className="flex-1">
-              <Text className="mb-2 text-sm font-medium text-foreground">Child Name *</Text>
-              <Input
-                placeholder="Enter child's name"
-                value={formData.childName}
-                onChangeText={(text: string) => updateForm('childName', text)}
-              />
-            </View>
+            <ReferralInput
+              name="childName"
+              label="Child Name *"
+              placeholder="Enter child's name"
+              value={formData.childName}
+              handleOnChange={updateForm}
+            />
           </View>
           <View className="flex-row gap-4 my-2">
-            <View className="flex-1">
-              <Text className="mb-2 text-sm font-medium text-foreground">
-                Immunization Number *
-              </Text>
-              <Input
-                placeholder="Enter immunization #"
-                value={formData.immunizationNumber}
-                onChangeText={(text: string) => updateForm('immunizationNumber', text)}
-              />
-            </View>
+            <ReferralInput
+              name="immunizationNumber"
+              label="Immunization Number *"
+              placeholder="Enter immunization #"
+              value={formData.immunizationNumber}
+              handleOnChange={updateForm}
+            />
           </View>
 
           <View className="flex-row gap-4 my-2">
-            <View className="flex-1">
-              <Text className="mb-2 text-sm font-medium text-foreground">Age (months) *</Text>
-              <Input
-                keyboardType="numeric"
-                placeholder="e.g. 18"
-                value={formData.age}
-                onChangeText={(text: string) => updateForm('age', text)}
-              />
-            </View>
+            <ReferralInput
+              name="age"
+              label="Age (months) *"
+              placeholder="e.g. 18"
+              keyboardType="numeric"
+              value={formData.age}
+              handleOnChange={updateForm}
+            />
 
             <View className="flex-1">
               <Text className="mb-2 text-sm font-medium text-foreground">Sex *</Text>
@@ -244,12 +240,7 @@ export default function ReferralFormScreen() {
           <View>
             <Text className="my-3 text-sm font-medium text-foreground">Referral Type *</Text>
             <View className="grid grid-cols-2 gap-3">
-              {[
-                { value: REFERRAL_TYPE.SAM, label: 'SAM', desc: 'Severe Acute' },
-                { value: REFERRAL_TYPE.MAM, label: 'MAM', desc: 'Moderate Acute' },
-                { value: REFERRAL_TYPE.OTP, label: 'OTP', desc: 'Outpatient' },
-                { value: REFERRAL_TYPE.SC, label: 'SC', desc: 'Stabilization' },
-              ].map((type) => (
+              {REFERRAL_TYPE_OPTIONS.map((type) => (
                 <TouchableOpacity
                   key={type.value}
                   onPress={() => updateForm('referralType', type.value)}

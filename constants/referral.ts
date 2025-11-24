@@ -11,3 +11,10 @@ export const FACILITIES = [
   { value: 'machina-sc', label: 'Machina Stabilization Center' },
   { value: 'potiskum-hospital', label: 'Potiskum General Hospital' },
 ] as const;
+
+export const REFERRAL_TYPE_OPTIONS = [
+  { value: REFERRAL_TYPE.SAM, label: 'SAM', desc: 'Severe Acute' },
+  { value: REFERRAL_TYPE.MAM, label: 'MAM', desc: 'Moderate Acute' },
+  { value: REFERRAL_TYPE.OTP, label: 'OTP', desc: 'Outpatient' },
+  { value: REFERRAL_TYPE.SC, label: 'SC', desc: 'Stabilization' },
+];

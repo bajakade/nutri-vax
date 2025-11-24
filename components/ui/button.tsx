@@ -1,4 +1,3 @@
-// components/ui/button.tsx
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { cn } from '@/lib/utils';
 import React from 'react';

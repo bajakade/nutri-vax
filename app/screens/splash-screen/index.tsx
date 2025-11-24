@@ -1,4 +1,3 @@
-// app/screens/splash-screen/index.tsx
 import { ThemedText } from '@/components/themed-text';
 import { useTheme } from '@/hooks/use-theme';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -28,10 +27,10 @@ export default function SplashScreen() {
 
   return (
     <LinearGradient colors={[colors?.primary, colors?.accent]} style={{ flex: 1 }}>
-      <View className="flex-1 justify-center items-center px-6">
+      <View className="items-center justify-center flex-1 px-6">
         {/* Logo */}
         <View className="mb-8">
-          <View className="w-24 h-24 bg-white rounded-3xl justify-center items-center shadow-2xl shadow-black/30">
+          <View className="items-center justify-center w-24 h-24 bg-white shadow-2xl rounded-3xl shadow-black/30">
             <ThemedText
               type="title"
               className={`text-primary text-5xl font-bold`}
@@ -45,7 +44,7 @@ export default function SplashScreen() {
         {/* App Name */}
         <ThemedText
           type="title"
-          className="text-white text-3xl text-center mb-2 font-bold"
+          className="mb-2 text-3xl font-bold text-center text-white"
           lightColor={colors?.background}
         >
           NutriVax Tracker NG

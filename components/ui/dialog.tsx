@@ -1,4 +1,3 @@
-// components/ui/dialog.tsx
 import React from 'react';
 import { Modal, View, Text, TouchableOpacity, Pressable } from 'react-native';
 import { X } from 'lucide-react-native';

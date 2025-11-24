@@ -1,4 +1,3 @@
-// app/(tabs)/enroll.tsx
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import React, { FC, useState } from 'react';
