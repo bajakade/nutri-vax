@@ -1,13 +1,14 @@
-import ReferralInput from '@/components/form/referral-input';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { FACILITIES, REFERRAL_TYPE, REFERRAL_TYPE_OPTIONS } from '@/constants/referral';
-import { ReferralFormData } from '@/types';
-import { Gender } from '@/types/enum';
-import { useRouter } from 'expo-router';
+import { FACILITIES, REFERRAL_TYPE_OPTIONS } from '@/constants/referral';
+import { Gender, ReferralType } from '@/types/enum';
 import { CheckCircle, ChevronDown, Printer, Save, Share2 } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+
+import ReferralInput from '@/components/form/referral-input';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { ReferralFormData } from '@/types';
+import { useRouter } from 'expo-router';
 
 export default function ReferralFormScreen() {
   const router = useRouter();
@@ -20,7 +21,7 @@ export default function ReferralFormScreen() {
     settlement: '',
     fromFacility: 'Afunori PHCC',
     toFacility: '',
-    referralType: REFERRAL_TYPE.SAM,
+    referralType: ReferralType.SAM,
     reason: '',
     signature: '',
   });
