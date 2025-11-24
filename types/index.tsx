@@ -1,3 +1,4 @@
+import { REFERRAL_TYPE } from '@/constants/referral';
 import { Gender, VaccinationStatus, YoN } from './enum';
 
 export interface ChildData {
@@ -27,4 +28,18 @@ export interface Vaccine {
   name: string;
   dueAgeMonths: number;
   status: VaccinationStatus;
+}
+
+export interface ReferralFormData {
+  childName: string;
+  immunizationNumber: string;
+  age: string;
+  sex: Gender;
+  muac: string;
+  settlement: string;
+  fromFacility: string;
+  toFacility: string;
+  referralType: REFERRAL_TYPE;
+  reason: string;
+  signature: string;
 }

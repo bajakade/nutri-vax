@@ -50,7 +50,7 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
           />
           <TouchableOpacity
             onPress={() => setShowPassword(!showPassword)}
-            className="absolute right-3 inset-y-0 justify-center"
+            className="absolute inset-y-0 justify-center right-3"
           >
             <FontAwesome name={showPassword ? 'eye' : 'eye-slash'} size={22} color={colors.icon} />
           </TouchableOpacity>
@@ -67,7 +67,7 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
           </TouchableOpacity>
 
           <TouchableOpacity>
-            <Text className="text-gray-600 font-medium">Forgot?</Text>
+            <Text className="font-medium text-gray-600">Forgot?</Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -1,4 +1,3 @@
-// components/parallax-scroll-view.tsx
 import type { PropsWithChildren, ReactElement } from 'react';
 import { View } from 'react-native';
 import Animated, {
