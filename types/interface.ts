@@ -55,3 +55,12 @@ export interface Response {
   ok: boolean;
   error?: Error;
 }
+
+export type DictOf<T> = Record<string, T>;
+
+export interface LoginForm {
+  email?: string;
+  username?: string;
+  password: string;
+  rememberUsername?: boolean;
+}
