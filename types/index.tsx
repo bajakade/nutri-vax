@@ -1,5 +1,6 @@
-import { REFERRAL_TYPE } from '@/constants/referral';
 import { Gender, VaccinationStatus, YoN } from './enum';
+
+import { REFERRAL_TYPE } from '@/constants/referral';
 
 export interface ChildData {
   name: string;
@@ -43,3 +44,5 @@ export interface ReferralFormData {
   reason: string;
   signature: string;
 }
+
+export type Response = {ok: boolean; error?: Error};
