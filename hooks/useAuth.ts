@@ -1,8 +1,10 @@
 import { DictOf, LoginForm, User } from '@/types';
 
 import { authenticate } from '@/services/auth';
+import { authActions } from '@/store/auth';
 import React from 'react';
 import useBackend from './useBackend';
+import useDispatch from './useDispatch';
 
 export interface AuthRef {
   processing: boolean;
@@ -12,14 +14,16 @@ export interface AuthRef {
 
 export default function useAuth(database: DictOf<any>): AuthRef {
   const { processing, backendFetch } = useBackend();
+  const { dispatch } = useDispatch();
 
   /**
    * Log out:
    * - remove auth data from RxDB and local store
    */
   const logout = React.useCallback(() => {
+    dispatch(authActions.logout());
     return database?.auth.logout();
-  }, [database]);
+  }, [database, dispatch]);
 
   /**
    * Log in:
@@ -31,13 +35,14 @@ export default function useAuth(database: DictOf<any>): AuthRef {
       const res = await authenticate(backendFetch, formData);
       if ('user' in res) {
         const user = res as User;
+        dispatch(authActions.login(user, user.token!, user.username));
 
         return database!.auth.login(user, user.token!, user.username);
       } else {
         return { ok: false, error: res.error };
       }
     },
-    [database, backendFetch],
+    [database, dispatch, backendFetch],
   );
 
   return { processing, login, logout };

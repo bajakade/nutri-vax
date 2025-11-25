@@ -1,16 +1,19 @@
+import 'react-native-reanimated';
 import './global.css';
 
-import { Ionicons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
-import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
+
 import { useEffect, useState } from 'react';
-import 'react-native-reanimated';
 
 import CustomSplashScreen from '@/app/screens/splash-screen';
-import LoginScreen from './screens/login';
+import { Provider as DatabaseProvider } from '@/database';
+import { Provider as StoreProvider } from '@/store';
+import { Ionicons } from '@expo/vector-icons';
+import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import ThemeProvider from './providers/theme';
+import LoginScreen from './screens/login';
 
 export const unstable_settings = {
   initialRouteName: 'splash',
@@ -56,11 +59,15 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', headerShown: false }} />
-      </Stack>
-      <StatusBar style="auto" />
+      <DatabaseProvider>
+        <StoreProvider>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="modal" options={{ presentation: 'modal', headerShown: false }} />
+          </Stack>
+          <StatusBar style="auto" />
+        </StoreProvider>
+      </DatabaseProvider>
     </ThemeProvider>
   );
 }

@@ -1,3 +1,5 @@
+import { Context, createContext, useEffect, useState } from 'react';
+import { Text, View, ViewProps } from 'react-native';
 import { RxDatabase, addRxPlugin, createRxDatabase, removeRxDatabase } from 'rxdb';
 import { getRxStorageSQLiteTrial, getSQLiteBasicsNodeNative } from 'rxdb/plugins/storage-sqlite';
 import { NutriVaxCollection, collections } from './collections';
@@ -71,3 +73,50 @@ export const initializeDB = async (): Promise<DbRef> => {
     return { error };
   }
 };
+
+/**
+ * VaxTrac application database context.
+ */
+export const DbContext: Context<DbRef> = createContext({} as DbRef);
+
+export function Provider({ children }: ViewProps) {
+  const [database, setDatabase] = useState<NutriDatabase>();
+  const [error, setError] = useState<any>();
+
+  // initialize database
+  const initDB = async () => {
+    setDatabase(undefined);
+    setError(undefined);
+
+    const result = await initializeDB();
+
+    setDatabase(result.database);
+    setError(result.error);
+  };
+
+  useEffect(() => {
+    initDB();
+
+    return () => {
+      setDatabase(undefined);
+      setError(undefined);
+    };
+  }, []);
+
+  if (error) {
+    return (
+      <View className="flex flex-col item-center justify-center h-screen">
+        <Text>Error initializing database </Text>
+      </View>
+    );
+  }
+
+  if (database) {
+    return (
+      <DbContext.Provider value={{ database }}>
+        {/* prettier-ignore */}
+        {children}
+      </DbContext.Provider>
+    );
+  }
+}

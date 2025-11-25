@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 
 import { type FetchArgs, type FetchFn, type Method, request } from '../helpers/request';
 import type { DictOf } from '../types';
+import useSelector from './useSelector';
 
 /**
  * Prepare arguments for making calls to backend server by
@@ -33,8 +34,7 @@ export default function useBackend(): {
   processing: boolean;
   backendFetch: FetchFn;
 } {
-  // const { t } = useTranslation();
-  const auth = { token: '' }; // todo: get token from db;
+  const auth = useSelector((store) => store.auth);
 
   const [error, setError] = useState('');
   const [processing, setProcessing] = useState(false);
