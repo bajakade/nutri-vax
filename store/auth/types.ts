@@ -1,9 +1,9 @@
+import { User } from '@/types';
 import React from 'react';
-import { User } from 'types/models/backend.user';
 
 export enum AuthTypes {
-  LOGIN = '@vaxtrac/auth/LOGIN',
-  LOGOUT = '@vaxtrac/auth/LOGOUT',
+  LOGIN = '@nutrivax/auth/LOGIN',
+  LOGOUT = '@nutrivax/auth/LOGOUT',
 }
 
 export type AuthState = {

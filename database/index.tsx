@@ -11,7 +11,7 @@ import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder';
 import { RxDBUpdatePlugin } from 'rxdb/plugins/update';
 
 /**
- * Represents the VaxTrac RxDatabase-based type.
+ * Represents the NutriVax RxDatabase-based type.
  */
 export type NutriDatabase = RxDatabase<NutriVaxCollection>;
 
@@ -75,7 +75,7 @@ export const initializeDB = async (): Promise<DbRef> => {
 };
 
 /**
- * VaxTrac application database context.
+ * NutriVax application database context.
  */
 export const DbContext: Context<DbRef> = createContext({} as DbRef);
 
