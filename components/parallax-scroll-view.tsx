@@ -1,3 +1,4 @@
+import { useThemeColor } from '@/hooks/use-theme-color';
 import type { PropsWithChildren, ReactElement } from 'react';
 import { View } from 'react-native';
 import Animated, {
@@ -6,7 +7,6 @@ import Animated, {
   useAnimatedStyle,
   useScrollOffset,
 } from 'react-native-reanimated';
-import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const HEADER_HEIGHT = 250;
@@ -24,6 +24,9 @@ export default function ParallaxScrollView({
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollOffset(scrollRef);
   const insets = useSafeAreaInsets();
+  const background = useThemeColor({}, 'background');
+  // Use headerBackgroundColor prop if provided, else fallback to theme 'card'
+  const headerBg = useThemeColor(headerBackgroundColor ?? {}, 'card');
 
   const headerAnimatedStyle = useAnimatedStyle(() => ({
     transform: [
@@ -40,12 +43,8 @@ export default function ParallaxScrollView({
     ],
   }));
 
-  // Use current color scheme to pick header bg
-  const isDark = useColorScheme() === 'dark';
-  const headerBg = headerBackgroundColor[isDark ? 'dark' : 'light'];
-
   return (
-    <View className="flex-1 bg-background">
+    <View className="flex-1" style={{ backgroundColor: background }}>
       <Animated.ScrollView
         ref={scrollRef}
         scrollEventThrottle={16}
@@ -54,6 +53,7 @@ export default function ParallaxScrollView({
           paddingBottom: insets.bottom + 24,
         }}
         className="flex-1"
+        style={{ backgroundColor: background }}
       >
         {/* Parallax Header Image */}
         {headerImage && (

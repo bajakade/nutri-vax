@@ -65,54 +65,60 @@ export const Colors = {
 
   dark: {
     // Expo defaults
-    text: '#ECEDEE',
-    background: '#151718',
+    text: '#E2E8F0',
+    background: '#0F172A',
     tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
+    icon: '#94A3B8',
+    tabIconDefault: '#94A3B8',
     tabIconSelected: tintColorDark,
 
-    // Your dark theme — using OKLCH for perfect contrast
-    foreground: 'oklch(0.985 0 0)',
+    // Custom dark palette using hex values for React Native compatibility
+    foreground: '#F8FAFC',
 
-    card: 'oklch(0.145 0 0)',
-    cardForeground: 'oklch(0.985 0 0)',
+    card: '#111827',
+    cardForeground: '#F8FAFC',
 
-    popover: 'oklch(0.145 0 0)',
-    popoverForeground: 'oklch(0.985 0 0)',
+    popover: '#111827',
+    popoverForeground: '#F8FAFC',
 
-    primary: 'oklch(0.488 0.243 264.376)', // Bright green in dark
-    primaryForeground: 'oklch(0.205 0 0)', // Dark text on bright green
+    primary: '#22C55E',
+    primaryForeground: '#052E16',
 
-    secondary: 'oklch(0.269 0 0)',
-    secondaryForeground: 'oklch(0.985 0 0)',
+    secondary: '#1E293B',
+    secondaryForeground: '#E2E8F0',
 
-    muted: 'oklch(0.269 0 0)',
-    mutedForeground: 'oklch(0.708 0 0)',
+    muted: '#1F2937',
+    mutedForeground: '#94A3B8',
 
-    accent: 'oklch(0.269 0 0)',
-    accentForeground: 'oklch(0.985 0 0)',
+    accent: '#34D399',
+    accentForeground: '#052E16',
 
-    destructive: 'oklch(0.396 0.141 25.723)',
-    destructiveForeground: 'oklch(0.637 0.237 25.331)',
+    destructive: '#EF4444',
+    destructiveForeground: '#FEE2E2',
 
-    border: 'oklch(0.269 0 0)',
-    input: 'oklch(0.269 0 0)',
-    ring: 'oklch(0.439 0 0)',
+    success: '#22C55E',
+    successForeground: '#052E16',
 
-    chart1: 'oklch(0.488 0.243 264.376)',
-    chart2: 'oklch(0.696 0.17 162.48)',
-    chart3: 'oklch(0.769 0.188 70.08)',
-    chart4: 'oklch(0.627 0.265 303.9)',
-    chart5: 'oklch(0.645 0.246 16.439)',
+    warning: '#F97316',
+    warningForeground: '#FFF7ED',
 
-    sidebar: 'oklch(0.205 0 0)',
-    sidebarForeground: 'oklch(0.985 0 0)',
-    sidebarPrimary: 'oklch(0.488 0.243 264.376)',
-    sidebarPrimaryForeground: 'oklch(0.985 0 0)',
-    sidebarAccent: 'oklch(0.269 0 0)',
-    sidebarAccentForeground: 'oklch(0.985 0 0)',
-    sidebarBorder: 'oklch(0.269 0 0)',
-    sidebarRing: 'oklch(0.439 0 0)',
+    border: '#334155',
+    input: '#1F2937',
+    ring: '#22C55E',
+
+    chart1: '#22C55E',
+    chart2: '#34D399',
+    chart3: '#10B981',
+    chart4: '#F97316',
+    chart5: '#EF4444',
+
+    sidebar: '#0F172A',
+    sidebarForeground: '#F8FAFC',
+    sidebarPrimary: '#22C55E',
+    sidebarPrimaryForeground: '#052E16',
+    sidebarAccent: '#1E293B',
+    sidebarAccentForeground: '#E2E8F0',
+    sidebarBorder: '#1E293B',
+    sidebarRing: '#34D399',
   },
 } as const;
