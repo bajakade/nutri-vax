@@ -6,8 +6,9 @@ import { Award, CheckCircle } from 'lucide-react-native';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { TOTAL_VISITS } from '@/constants/distribution';
+import { useThemeColor } from '@/hooks/use-theme-color';
 
-import { ChildRecord, getMUACColorClass } from '../helpers';
+import { ChildRecord, getMUACColorToken, withOpacity } from '../helpers';
 
 type ChildCardProps = {
   child: ChildRecord;
@@ -15,50 +16,80 @@ type ChildCardProps = {
 };
 
 export const ChildCard = ({ child, onDistribute }: ChildCardProps) => {
+  const card = useThemeColor({}, 'card');
+  const border = useThemeColor({}, 'border');
+  const foreground = useThemeColor({}, 'foreground');
+  const mutedForeground = useThemeColor({}, 'mutedForeground');
+  const success = useThemeColor({}, 'success');
+  const successSurface = withOpacity(success, 0.12);
+  const muted = useThemeColor({}, 'muted');
+  const mutedSurface = withOpacity(muted, 0.5);
+  const muacToken = getMUACColorToken(child.muac);
+  const muacColor = useThemeColor({}, muacToken);
+
   return (
-    <View className="p-5 my-2 border shadow-sm bg-card rounded-2xl border-border">
+    <View
+      className="p-5 my-2 border shadow-sm rounded-2xl"
+      style={{ backgroundColor: card, borderColor: border }}
+    >
       <View className="flex-row gap-4">
-        <View className="items-center justify-center w-12 h-12 rounded-full bg-success/10">
+        <View
+          className="items-center justify-center w-12 h-12 rounded-full"
+          style={{ backgroundColor: successSurface }}
+        >
           <Text className="text-xl">{child.photo}</Text>
         </View>
 
         <View className="flex-1">
           <View className="flex-row items-start justify-between mb-2">
             <View>
-              <Text className="font-semibold text-foreground">{child.name}</Text>
-              <Text className="text-sm text-muted-foreground">{child.serial}</Text>
+              <Text className="font-semibold" style={{ color: foreground }}>
+                {child.name}
+              </Text>
+              <Text className="text-sm" style={{ color: mutedForeground }}>
+                {child.serial}
+              </Text>
             </View>
-            <View className={`w-7 h-7 rounded-full ${getMUACColorClass(child.muac)}`} />
+            <View className="w-7 h-7 rounded-full" style={{ backgroundColor: muacColor }} />
           </View>
 
           <View className="grid grid-cols-2 gap-3 mb-4 text-sm">
-            <Text className="text-muted-foreground">
-              Age: <Text className="text-foreground">{child.age} years</Text>
+            <Text style={{ color: mutedForeground }}>
+              Age: <Text style={{ color: foreground }}>{child.age} years</Text>
             </Text>
-            <Text className="text-muted-foreground">
-              MUAC: <Text className="text-foreground">{child.muac}mm</Text>
+            <Text style={{ color: mutedForeground }}>
+              MUAC: <Text style={{ color: foreground }}>{child.muac}mm</Text>
             </Text>
-            <Text className="text-muted-foreground">
-              Visits: <Text className="text-foreground">{child.visits}/12</Text>
+            <Text style={{ color: mutedForeground }}>
+              Visits: <Text style={{ color: foreground }}>{child.visits}/12</Text>
             </Text>
-            <Text className="text-muted-foreground">
-              Last: <Text className="text-foreground">{child.lastVisit}</Text>
+            <Text style={{ color: mutedForeground }}>
+              Last: <Text style={{ color: foreground }}>{child.lastVisit}</Text>
             </Text>
           </View>
 
           <View className="flex-row flex-wrap gap-2 mb-4">
-            {Array.from({ length: TOTAL_VISITS }).map((_, i) => (
-              <View
-                key={i}
-                className={`w-9 h-9 rounded-lg border items-center justify-center ${
-                  i < child.visits
-                    ? 'bg-success/10 border-success text-success'
-                    : 'bg-muted border-border text-muted-foreground'
-                }`}
-              >
-                <Text className="text-xs font-medium">{i + 1}</Text>
-              </View>
-            ))}
+            {Array.from({ length: TOTAL_VISITS }).map((_, index) => {
+              const isCompleted = index < child.visits;
+
+              return (
+                <View
+                  key={index}
+                  className="w-9 h-9 rounded-lg border items-center justify-center"
+                  style={{
+                    backgroundColor: isCompleted ? successSurface : mutedSurface,
+                    borderColor: isCompleted ? success : border,
+                  }}
+                >
+                  <Text
+                    className="text-xs font-medium"
+                    style={{ color: isCompleted ? success : mutedForeground }}
+                  >
+                    {index + 1}
+                  </Text>
+                </View>
+              );
+            })}
           </View>
 
           <View className="flex-row flex-wrap w-full gap-2 mb-4">

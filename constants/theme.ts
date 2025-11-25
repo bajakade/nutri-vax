@@ -11,7 +11,6 @@ export const Colors = {
     tabIconDefault: '#687076',
     tabIconSelected: tintColorLight,
 
-    // Your custom theme — shadcn/ui style
     foreground: '#000000',
 
     card: '#ffffff',
@@ -61,6 +60,15 @@ export const Colors = {
     sidebarAccentForeground: '#ffffff',
     sidebarBorder: '#005500',
     sidebarRing: '#00A651',
+
+    neutralSurface: '#f8f8f8',
+    neutralCard: '#efefef',
+    neutralElevated: '#e6e6e6',
+    neutralBorderStrong: '#c7c7c7',
+    neutralMuted: '#5c5c5c',
+    neutralAccent: '#050505',
+    neutralAccentInverse: '#ffffff',
+    overlay: 'rgba(0, 0, 0, 0.45)',
   },
 
   dark: {
@@ -120,5 +128,14 @@ export const Colors = {
     sidebarAccentForeground: '#E2E8F0',
     sidebarBorder: '#1E293B',
     sidebarRing: '#34D399',
+
+    neutralSurface: '#0a0a0a',
+    neutralCard: '#111111',
+    neutralElevated: '#181818',
+    neutralBorderStrong: '#2f2f2f',
+    neutralMuted: '#a0a0a0',
+    neutralAccent: '#f5f5f5',
+    neutralAccentInverse: '#050505',
+    overlay: 'rgba(0, 0, 0, 0.75)',
   },
 } as const;

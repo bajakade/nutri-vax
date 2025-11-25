@@ -7,6 +7,8 @@ import { ChildRecord, filterChildrenByQuery } from '@/screens/visit/helpers';
 import React, { FC, useMemo, useState } from 'react';
 import { Alert, ScrollView, Text, View } from 'react-native';
 
+import { useThemeColor } from '@/hooks/use-theme-color';
+
 const AttendanceScreen: FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedChild, setSelectedChild] = useState<ChildRecord | null>(null);
@@ -30,10 +32,18 @@ const AttendanceScreen: FC = () => {
     setVaccineUpdated(false);
   };
 
+  const background = useThemeColor({}, 'background');
+  const foreground = useThemeColor({}, 'foreground');
+  const mutedForeground = useThemeColor({}, 'mutedForeground');
+
   return (
-    <ScrollView className="flex-1 px-4 pt-6 bg-background">
-      <Text className="mb-1 text-2xl font-bold text-foreground">Attendance & Distribution</Text>
-      <Text className="mb-6 text-muted-foreground">Record daily SQ-LNS distribution</Text>
+    <ScrollView className="flex-1 px-4 pt-6" style={{ backgroundColor: background }}>
+      <Text className="mb-1 text-2xl font-bold" style={{ color: foreground }}>
+        Attendance & Distribution
+      </Text>
+      <Text className="mb-6" style={{ color: mutedForeground }}>
+        Record daily SQ-LNS distribution
+      </Text>
 
       <SearchBar value={searchQuery} onChange={setSearchQuery} />
 
