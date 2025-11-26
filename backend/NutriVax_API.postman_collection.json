@@ -1,0 +1,1900 @@
+{
+	"info": {
+		"name": "NutriVax API - Complete Collection",
+		"description": "Complete API collection for NutriVax-Measles SQ-LNS Supplementation Program. Multi-tenant system for managing nutritional data across multiple health projects.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_postman_id": "nutrivax-api-v1"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Get Access Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set('access_token', jsonData.access);",
+									"    pm.environment.set('refresh_token', jsonData.refresh);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"your_password\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/token/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "token", ""]
+						},
+						"description": "Obtain JWT access and refresh tokens. Store the access token for subsequent requests."
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh\": \"{{refresh_token}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/token/refresh/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "token", "refresh", ""]
+						},
+						"description": "Refresh the access token using the refresh token."
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"token\": \"{{access_token}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/token/verify/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "token", "verify", ""]
+						},
+						"description": "Verify if a token is valid."
+					},
+					"response": []
+				}
+			],
+			"description": "JWT authentication endpoints. Get token first, then use it in Authorization header for all other requests."
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "List Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/auth/users/?is_superuser=false",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "users", ""],
+							"query": [
+								{
+									"key": "is_superuser",
+									"value": "false",
+									"description": "Filter by superuser status"
+								},
+								{
+									"key": "search",
+									"value": "john",
+									"description": "Search in username, email, first_name, last_name",
+									"disabled": true
+								},
+								{
+									"key": "ordering",
+									"value": "username",
+									"description": "Order by: username, email, date_joined",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List all users. Only GlobalAdmin (superuser) can access."
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"john_manager\",\n    \"email\": \"john@nutrivax.org\",\n    \"password\": \"secure123\",\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/users/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "users", ""]
+						},
+						"description": "Create a new Django User. Only GlobalAdmin can create users. After creating, create a UserProfile to assign them to a project and set their role."
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/auth/users/{{user_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "users", "{{user_id}}", ""],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": ""
+								}
+							]
+						},
+						"description": "Retrieve a specific user by ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"john_manager\",\n    \"email\": \"john.updated@nutrivax.org\",\n    \"password\": \"newpassword123\",\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe Updated\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/users/{{user_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "users", "{{user_id}}", ""]
+						},
+						"description": "Full update of a user. Password will be hashed automatically."
+					},
+					"response": []
+				},
+				{
+					"name": "Partial Update User",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"john.newemail@nutrivax.org\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/users/{{user_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "users", "{{user_id}}", ""]
+						},
+						"description": "Partial update of a user. Only send fields to update."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/auth/users/{{user_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "users", "{{user_id}}", ""]
+						},
+						"description": "Delete a user. Only GlobalAdmin can delete users."
+					},
+					"response": []
+				}
+			],
+			"description": "User management endpoints. Create Django User accounts here, then create UserProfiles to assign them to projects."
+		},
+		{
+			"name": "Projects",
+			"item": [
+				{
+					"name": "List Projects",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/projects/?country=Nigeria&is_active=true",
+							"host": ["{{base_url}}"],
+							"path": ["api", "projects", ""],
+							"query": [
+								{
+									"key": "country",
+									"value": "Nigeria",
+									"description": "Filter by country"
+								},
+								{
+									"key": "is_active",
+									"value": "true",
+									"description": "Filter by active status"
+								},
+								{
+									"key": "search",
+									"value": "NutriVax",
+									"description": "Search in name and country",
+									"disabled": true
+								},
+								{
+									"key": "ordering",
+									"value": "name",
+									"description": "Order by: name, country, created_at",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List all projects. Only GlobalAdmin (superuser) can access. Supports filtering by country and is_active."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Project",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"NutriVax Nigeria\",\n    \"country\": \"Nigeria\",\n    \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/projects/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "projects", ""]
+						},
+						"description": "Create a new project. Only GlobalAdmin can create projects."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/projects/{{project_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "projects", "{{project_id}}", ""],
+							"variable": [
+								{
+									"key": "project_id",
+									"value": ""
+								}
+							]
+						},
+						"description": "Retrieve a specific project by UUID."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Project",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"NutriVax Nigeria Updated\",\n    \"country\": \"Nigeria\",\n    \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/projects/{{project_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "projects", "{{project_id}}", ""]
+						},
+						"description": "Full update of a project. Requires all fields."
+					},
+					"response": []
+				},
+				{
+					"name": "Partial Update Project",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/projects/{{project_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "projects", "{{project_id}}", ""]
+						},
+						"description": "Partial update of a project. Only send fields to update."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/projects/{{project_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "projects", "{{project_id}}", ""]
+						},
+						"description": "Delete a project. Only GlobalAdmin can delete projects."
+					},
+					"response": []
+				}
+			],
+			"description": "Project management endpoints. Projects are the top-level tenant in the multi-tenant system."
+		},
+		{
+			"name": "Admin Levels",
+			"item": [
+				{
+					"name": "List Admin Levels",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin-levels/?project={{project_id}}&is_active=true",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin-levels", ""],
+							"query": [
+								{
+									"key": "project",
+									"value": "{{project_id}}",
+									"description": "Filter by project UUID"
+								},
+								{
+									"key": "is_active",
+									"value": "true",
+									"description": "Filter by active status"
+								},
+								{
+									"key": "search",
+									"value": "State",
+									"description": "Search in name",
+									"disabled": true
+								},
+								{
+									"key": "ordering",
+									"value": "order",
+									"description": "Order by: order, name, created_at",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List administrative levels (e.g., Country, State, LGA, Ward). Automatically filtered by user's project."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Admin Level",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"project\": \"{{project_id}}\",\n    \"name\": \"State\",\n    \"order\": 1,\n    \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin-levels/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin-levels", ""]
+						},
+						"description": "Create a new administrative level. ProjectManager can create for their project."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Admin Level by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin-levels/{{admin_level_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin-levels", "{{admin_level_id}}", ""],
+							"variable": [
+								{
+									"key": "admin_level_id",
+									"value": ""
+								}
+							]
+						},
+						"description": "Retrieve a specific administrative level."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Admin Level",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"project\": \"{{project_id}}\",\n    \"name\": \"State Updated\",\n    \"order\": 1,\n    \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin-levels/{{admin_level_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin-levels", "{{admin_level_id}}", ""]
+						},
+						"description": "Full update of an administrative level."
+					},
+					"response": []
+				},
+				{
+					"name": "Partial Update Admin Level",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin-levels/{{admin_level_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin-levels", "{{admin_level_id}}", ""]
+						},
+						"description": "Partial update of an administrative level."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Admin Level",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin-levels/{{admin_level_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin-levels", "{{admin_level_id}}", ""]
+						},
+						"description": "Delete an administrative level."
+					},
+					"response": []
+				}
+			],
+			"description": "Administrative level management (hierarchy levels like Country, State, LGA, Ward)."
+		},
+		{
+			"name": "Admin Divisions",
+			"item": [
+				{
+					"name": "List Admin Divisions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin-divisions/?project={{project_id}}&level={{admin_level_id}}&is_active=true",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin-divisions", ""],
+							"query": [
+								{
+									"key": "project",
+									"value": "{{project_id}}",
+									"description": "Filter by project UUID"
+								},
+								{
+									"key": "level",
+									"value": "{{admin_level_id}}",
+									"description": "Filter by admin level UUID"
+								},
+								{
+									"key": "parent_division",
+									"value": "",
+									"description": "Filter by parent division UUID",
+									"disabled": true
+								},
+								{
+									"key": "is_active",
+									"value": "true",
+									"description": "Filter by active status"
+								},
+								{
+									"key": "search",
+									"value": "Lagos",
+									"description": "Search in name",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List administrative divisions (actual locations like Lagos State, Ikeja LGA, etc.). Automatically filtered by user's project."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Admin Division",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"project\": \"{{project_id}}\",\n    \"level\": \"{{admin_level_id}}\",\n    \"parent_division\": null,\n    \"name\": \"Lagos State\",\n    \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin-divisions/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin-divisions", ""]
+						},
+						"description": "Create a new administrative division. parent_division can be null for top-level divisions."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Admin Division by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin-divisions/{{admin_division_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin-divisions", "{{admin_division_id}}", ""],
+							"variable": [
+								{
+									"key": "admin_division_id",
+									"value": ""
+								}
+							]
+						},
+						"description": "Retrieve a specific administrative division."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Children Divisions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin-divisions/{{admin_division_id}}/children/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin-divisions", "{{admin_division_id}}", "children", ""],
+							"variable": [
+								{
+									"key": "admin_division_id",
+									"value": ""
+								}
+							]
+						},
+						"description": "Get all child divisions of a specific administrative division (e.g., get all LGAs under a State)."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Admin Division",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"project\": \"{{project_id}}\",\n    \"level\": \"{{admin_level_id}}\",\n    \"parent_division\": null,\n    \"name\": \"Lagos State Updated\",\n    \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin-divisions/{{admin_division_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin-divisions", "{{admin_division_id}}", ""]
+						},
+						"description": "Full update of an administrative division."
+					},
+					"response": []
+				},
+				{
+					"name": "Partial Update Admin Division",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin-divisions/{{admin_division_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin-divisions", "{{admin_division_id}}", ""]
+						},
+						"description": "Partial update of an administrative division."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Admin Division",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin-divisions/{{admin_division_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin-divisions", "{{admin_division_id}}", ""]
+						},
+						"description": "Delete an administrative division."
+					},
+					"response": []
+				}
+			],
+			"description": "Administrative division management (actual locations like states, LGAs, wards)."
+		},
+		{
+			"name": "Facility Types",
+			"item": [
+				{
+					"name": "List Facility Types",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/facility-types/?project={{project_id}}&is_active=true",
+							"host": ["{{base_url}}"],
+							"path": ["api", "facility-types", ""],
+							"query": [
+								{
+									"key": "project",
+									"value": "{{project_id}}",
+									"description": "Filter by project UUID"
+								},
+								{
+									"key": "is_active",
+									"value": "true",
+									"description": "Filter by active status"
+								},
+								{
+									"key": "search",
+									"value": "PHCC",
+									"description": "Search in name",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List facility types (e.g., PHCC, Health Post, OTP). Automatically filtered by user's project."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Facility Type",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"project\": \"{{project_id}}\",\n    \"name\": \"Primary Health Care Centre\",\n    \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/facility-types/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "facility-types", ""]
+						},
+						"description": "Create a new facility type."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Facility Type by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/facility-types/{{facility_type_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "facility-types", "{{facility_type_id}}", ""],
+							"variable": [
+								{
+									"key": "facility_type_id",
+									"value": ""
+								}
+							]
+						},
+						"description": "Retrieve a specific facility type."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Facility Type",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"project\": \"{{project_id}}\",\n    \"name\": \"Primary Health Care Centre Updated\",\n    \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/facility-types/{{facility_type_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "facility-types", "{{facility_type_id}}", ""]
+						},
+						"description": "Full update of a facility type."
+					},
+					"response": []
+				},
+				{
+					"name": "Partial Update Facility Type",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/facility-types/{{facility_type_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "facility-types", "{{facility_type_id}}", ""]
+						},
+						"description": "Partial update of a facility type."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Facility Type",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/facility-types/{{facility_type_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "facility-types", "{{facility_type_id}}", ""]
+						},
+						"description": "Delete a facility type."
+					},
+					"response": []
+				}
+			],
+			"description": "Facility type management (types of health facilities like PHCC, Health Post, OTP)."
+		},
+		{
+			"name": "Facilities",
+			"item": [
+				{
+					"name": "List Facilities",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/facilities/?project={{project_id}}&facility_type={{facility_type_id}}&admin_division={{admin_division_id}}&is_active=true",
+							"host": ["{{base_url}}"],
+							"path": ["api", "facilities", ""],
+							"query": [
+								{
+									"key": "project",
+									"value": "{{project_id}}",
+									"description": "Filter by project UUID"
+								},
+								{
+									"key": "facility_type",
+									"value": "{{facility_type_id}}",
+									"description": "Filter by facility type UUID"
+								},
+								{
+									"key": "admin_division",
+									"value": "{{admin_division_id}}",
+									"description": "Filter by admin division UUID"
+								},
+								{
+									"key": "is_active",
+									"value": "true",
+									"description": "Filter by active status"
+								},
+								{
+									"key": "search",
+									"value": "Hospital",
+									"description": "Search in name",
+									"disabled": true
+								},
+								{
+									"key": "ordering",
+									"value": "name",
+									"description": "Order by: name, created_at",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List facilities (hospitals, clinics, health posts). Automatically filtered by user's project."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Facility",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"project\": \"{{project_id}}\",\n    \"facility_type\": \"{{facility_type_id}}\",\n    \"admin_division\": \"{{admin_division_id}}\",\n    \"name\": \"Lagos General Hospital\",\n    \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/facilities/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "facilities", ""]
+						},
+						"description": "Create a new facility. ProjectManager can create for their project."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Facility by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/facilities/{{facility_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "facilities", "{{facility_id}}", ""],
+							"variable": [
+								{
+									"key": "facility_id",
+									"value": ""
+								}
+							]
+						},
+						"description": "Retrieve a specific facility."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Facility",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"project\": \"{{project_id}}\",\n    \"facility_type\": \"{{facility_type_id}}\",\n    \"admin_division\": \"{{admin_division_id}}\",\n    \"name\": \"Lagos General Hospital Updated\",\n    \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/facilities/{{facility_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "facilities", "{{facility_id}}", ""]
+						},
+						"description": "Full update of a facility."
+					},
+					"response": []
+				},
+				{
+					"name": "Partial Update Facility",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/facilities/{{facility_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "facilities", "{{facility_id}}", ""]
+						},
+						"description": "Partial update of a facility."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Facility",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/facilities/{{facility_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "facilities", "{{facility_id}}", ""]
+						},
+						"description": "Delete a facility."
+					},
+					"response": []
+				}
+			],
+			"description": "Facility management (actual health facilities like hospitals, clinics)."
+		},
+		{
+			"name": "User Profiles",
+			"item": [
+				{
+					"name": "List User Profiles",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/user-profiles/?project={{project_id}}&role=PROJECT_MANAGER&is_active=true",
+							"host": ["{{base_url}}"],
+							"path": ["api", "user-profiles", ""],
+							"query": [
+								{
+									"key": "project",
+									"value": "{{project_id}}",
+									"description": "Filter by project UUID"
+								},
+								{
+									"key": "facility",
+									"value": "{{facility_id}}",
+									"description": "Filter by facility UUID",
+									"disabled": true
+								},
+								{
+									"key": "role",
+									"value": "PROJECT_MANAGER",
+									"description": "Filter by role: GLOBAL_ADMIN, PROJECT_MANAGER, DATA_ENTRY_STAFF, VIEWER"
+								},
+								{
+									"key": "is_active",
+									"value": "true",
+									"description": "Filter by active status"
+								},
+								{
+									"key": "search",
+									"value": "john",
+									"description": "Search in username or email",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List user profiles. Automatically filtered by user's project."
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Profile",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": 1,\n    \"project\": \"{{project_id}}\",\n    \"facility\": null,\n    \"role\": \"PROJECT_MANAGER\",\n    \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user-profiles/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "user-profiles", ""]
+						},
+						"description": "Create a user profile. Requires:\n1. An existing Django User (create via POST /api/auth/users/)\n2. A valid project UUID (get from GET /api/projects/)\n\nIMPORTANT: project must be a valid UUID format (e.g., '550e8400-e29b-41d4-a716-446655440000'), not a placeholder string.\n\nOnly GlobalAdmin and ProjectManager can create profiles. user_id is the Django User ID from the user creation response."
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Profile by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/user-profiles/{{user_profile_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "user-profiles", "{{user_profile_id}}", ""],
+							"variable": [
+								{
+									"key": "user_profile_id",
+									"value": ""
+								}
+							]
+						},
+						"description": "Retrieve a specific user profile."
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": 1,\n    \"project\": \"{{project_id}}\",\n    \"facility\": \"{{facility_id}}\",\n    \"role\": \"DATA_ENTRY_STAFF\",\n    \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user-profiles/{{user_profile_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "user-profiles", "{{user_profile_id}}", ""]
+						},
+						"description": "Full update of a user profile."
+					},
+					"response": []
+				},
+				{
+					"name": "Partial Update User Profile",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"role\": \"VIEWER\",\n    \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user-profiles/{{user_profile_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "user-profiles", "{{user_profile_id}}", ""]
+						},
+						"description": "Partial update of a user profile."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User Profile",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/user-profiles/{{user_profile_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "user-profiles", "{{user_profile_id}}", ""]
+						},
+						"description": "Delete a user profile."
+					},
+					"response": []
+				}
+			],
+			"description": "User profile management. Links Django users to projects and facilities with roles."
+		},
+		{
+			"name": "Distribution Registers",
+			"item": [
+				{
+					"name": "List Distribution Registers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/distribution-registers/?project={{project_id}}&facility={{facility_id}}&child_serial_number=CHILD001&date_of_visit=2024-01-15&muac_status=Green",
+							"host": ["{{base_url}}"],
+							"path": ["api", "distribution-registers", ""],
+							"query": [
+								{
+									"key": "project",
+									"value": "{{project_id}}",
+									"description": "Filter by project UUID"
+								},
+								{
+									"key": "facility",
+									"value": "{{facility_id}}",
+									"description": "Filter by facility UUID"
+								},
+								{
+									"key": "child_serial_number",
+									"value": "CHILD001",
+									"description": "Filter by child serial number"
+								},
+								{
+									"key": "date_of_visit",
+									"value": "2024-01-15",
+									"description": "Filter by visit date (YYYY-MM-DD)"
+								},
+								{
+									"key": "muac_status",
+									"value": "Green",
+									"description": "Filter by MUAC status: Green, Yellow, Red"
+								},
+								{
+									"key": "search",
+									"value": "CHILD",
+									"description": "Search in child_serial_number",
+									"disabled": true
+								},
+								{
+									"key": "ordering",
+									"value": "-date_of_visit",
+									"description": "Order by: date_of_visit, child_serial_number, created_at",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List distribution registers (SQ-LNS distribution records). DataEntryStaff sees only their facility's records. Automatically filtered by user's project/facility."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Distribution Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"project\": \"{{project_id}}\",\n    \"facility\": \"{{facility_id}}\",\n    \"child_serial_number\": \"CHILD001\",\n    \"date_of_visit\": \"2024-01-15\",\n    \"muac_status\": \"Green\",\n    \"oedema\": \"No\",\n    \"new_admission\": \"Yes\",\n    \"sachets_received\": 10\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/distribution-registers/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "distribution-registers", ""]
+						},
+						"description": "Create a new distribution register. created_by is automatically set to current user. DataEntryStaff can only create for their facility."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Distribution Register by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/distribution-registers/{{distribution_register_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "distribution-registers", "{{distribution_register_id}}", ""],
+							"variable": [
+								{
+									"key": "distribution_register_id",
+									"value": ""
+								}
+							]
+						},
+						"description": "Retrieve a specific distribution register."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Distribution Register",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"project\": \"{{project_id}}\",\n    \"facility\": \"{{facility_id}}\",\n    \"child_serial_number\": \"CHILD001\",\n    \"date_of_visit\": \"2024-01-15\",\n    \"muac_status\": \"Yellow\",\n    \"oedema\": \"No\",\n    \"new_admission\": \"No\",\n    \"sachets_received\": 15\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/distribution-registers/{{distribution_register_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "distribution-registers", "{{distribution_register_id}}", ""]
+						},
+						"description": "Full update of a distribution register. DataEntryStaff can only update their facility's records."
+					},
+					"response": []
+				},
+				{
+					"name": "Partial Update Distribution Register",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"muac_status\": \"Red\",\n    \"sachets_received\": 20\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/distribution-registers/{{distribution_register_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "distribution-registers", "{{distribution_register_id}}", ""]
+						},
+						"description": "Partial update of a distribution register."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Distribution Register",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/distribution-registers/{{distribution_register_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "distribution-registers", "{{distribution_register_id}}", ""]
+						},
+						"description": "Delete a distribution register. Only GlobalAdmin and ProjectManager can delete."
+					},
+					"response": []
+				}
+			],
+			"description": "Distribution register management (SQ-LNS distribution records for children)."
+		},
+		{
+			"name": "Ration Cards",
+			"item": [
+				{
+					"name": "List Ration Cards",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/ration-cards/?project={{project_id}}&facility={{facility_id}}&child_serial_number=CHILD001&admission_date=2024-01-01&gender=M&muac_status=G",
+							"host": ["{{base_url}}"],
+							"path": ["api", "ration-cards", ""],
+							"query": [
+								{
+									"key": "project",
+									"value": "{{project_id}}",
+									"description": "Filter by project UUID"
+								},
+								{
+									"key": "facility",
+									"value": "{{facility_id}}",
+									"description": "Filter by facility UUID"
+								},
+								{
+									"key": "child_serial_number",
+									"value": "CHILD001",
+									"description": "Filter by child serial number"
+								},
+								{
+									"key": "admission_date",
+									"value": "2024-01-01",
+									"description": "Filter by admission date (YYYY-MM-DD)"
+								},
+								{
+									"key": "gender",
+									"value": "M",
+									"description": "Filter by gender: M, F"
+								},
+								{
+									"key": "muac_status",
+									"value": "G",
+									"description": "Filter by MUAC status: G (Green), Y (Yellow), R (Red)"
+								},
+								{
+									"key": "search",
+									"value": "CHILD",
+									"description": "Search in child_serial_number",
+									"disabled": true
+								},
+								{
+									"key": "ordering",
+									"value": "-admission_date",
+									"description": "Order by: admission_date, child_serial_number, created_at",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List ration cards (child admission records). DataEntryStaff sees only their facility's records. Automatically filtered by user's project/facility."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Ration Card",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"project\": \"{{project_id}}\",\n    \"facility\": \"{{facility_id}}\",\n    \"child_serial_number\": \"CHILD001\",\n    \"admission_date\": \"2024-01-01\",\n    \"gender\": \"M\",\n    \"muac_status\": \"G\",\n    \"visits_count\": 0,\n    \"sachets_received\": 0\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/ration-cards/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "ration-cards", ""]
+						},
+						"description": "Create a new ration card. created_by is automatically set to current user. DataEntryStaff can only create for their facility."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ration Card by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/ration-cards/{{ration_card_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "ration-cards", "{{ration_card_id}}", ""],
+	"variable": [
+		{
+									"key": "ration_card_id",
+									"value": ""
+								}
+							]
+						},
+						"description": "Retrieve a specific ration card."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Ration Card",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"project\": \"{{project_id}}\",\n    \"facility\": \"{{facility_id}}\",\n    \"child_serial_number\": \"CHILD001\",\n    \"admission_date\": \"2024-01-01\",\n    \"gender\": \"F\",\n    \"muac_status\": \"Y\",\n    \"visits_count\": 5,\n    \"sachets_received\": 50\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/ration-cards/{{ration_card_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "ration-cards", "{{ration_card_id}}", ""]
+						},
+						"description": "Full update of a ration card. DataEntryStaff can only update their facility's records."
+					},
+					"response": []
+				},
+				{
+					"name": "Partial Update Ration Card",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"visits_count\": 10,\n    \"sachets_received\": 100\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/ration-cards/{{ration_card_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "ration-cards", "{{ration_card_id}}", ""]
+						},
+						"description": "Partial update of a ration card."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Ration Card",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/ration-cards/{{ration_card_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "ration-cards", "{{ration_card_id}}", ""]
+						},
+						"description": "Delete a ration card. Only GlobalAdmin and ProjectManager can delete."
+					},
+					"response": []
+				}
+			],
+			"description": "Ration card management (child admission records for SQ-LNS program)."
+		},
+		{
+			"name": "API Documentation",
+			"item": [
+				{
+					"name": "OpenAPI Schema",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/schema/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "schema", ""]
+						},
+						"description": "Get OpenAPI schema in JSON format."
+					},
+					"response": []
+				},
+				{
+					"name": "Swagger UI",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/schema/swagger-ui/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "schema", "swagger-ui", ""]
+						},
+						"description": "Interactive Swagger UI documentation. Open in browser."
+					},
+					"response": []
+				},
+				{
+					"name": "ReDoc",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/schema/redoc/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "schema", "redoc", ""]
+						},
+						"description": "ReDoc API documentation. Open in browser."
+					},
+					"response": []
+				}
+			],
+			"description": "API documentation endpoints."
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "refresh_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "project_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "admin_level_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "admin_division_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "facility_type_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "facility_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user_profile_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "distribution_register_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "ration_card_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
