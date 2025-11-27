@@ -8,8 +8,8 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 
-import CustomSplashScreen from '@/app/screens/splash-screen';
-import LoginScreen from './screens/login';
+import CustomSplashScreen from '@/screens/splash-screen';
+import LoginScreen from '../screens/login';
 import ThemeProvider from './providers/theme';
 
 export const unstable_settings = {
