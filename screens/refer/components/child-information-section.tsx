@@ -3,12 +3,12 @@ import { Text, TouchableOpacity, View } from 'react-native';
 
 import ReferralInput from '@/components/form/referral-input';
 import { Input } from '@/components/ui/input';
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { useColor } from '@/hooks/use-color';
 import { ReferralFormData } from '@/types';
 import { Gender } from '@/types/enum';
 
 import { UpdateReferralForm } from '../helpers';
-import { SectionCard } from './SectionCard';
+import { SectionCard } from './section-card';
 
 type ChildInformationSectionProps = {
   formData: ReferralFormData;
@@ -23,8 +23,8 @@ export const ChildInformationSection = ({
   successSurface,
   successColor,
 }: ChildInformationSectionProps) => {
-  const foreground = useThemeColor({}, 'foreground');
-  const mutedForeground = useThemeColor({}, 'mutedForeground');
+  const foreground = useColor('foreground');
+  const mutedForeground = useColor('mutedForeground');
 
   return (
     <SectionCard

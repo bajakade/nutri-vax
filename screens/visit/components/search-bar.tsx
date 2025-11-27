@@ -4,15 +4,15 @@ import { View } from 'react-native';
 import { Search } from 'lucide-react-native';
 
 import { Input } from '@/components/ui/input';
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { useColor } from '@/hooks/use-color';
 
 type SearchBarProps = {
   value: string;
-  onChange: (text: string) => void;
+  onChange: (value: string) => void;
 };
 
 export const SearchBar = ({ value, onChange }: SearchBarProps) => {
-  const iconColor = useThemeColor({}, 'mutedForeground');
+  const iconColor = useColor('mutedForeground');
 
   return (
     <View className="relative mb-6">

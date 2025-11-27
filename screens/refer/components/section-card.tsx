@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from 'react';
 import { StyleProp, Text, View, ViewStyle } from 'react-native';
 
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { useColor } from '@/hooks/use-color';
 
 type SectionCardProps = PropsWithChildren<{
   title: string;
@@ -17,34 +17,31 @@ export const SectionCard = ({
   accentSurface,
   contentStyle,
 }: SectionCardProps) => {
-  const card = useThemeColor({}, 'card');
-  const borderColor = useThemeColor({}, 'border');
-  const success = useThemeColor({}, 'success');
-  const secondarySurface = useThemeColor({}, 'secondary');
+  const card = useColor('card');
+  const borderColor = useColor('border');
+  const success = useColor('success');
+  const secondarySurface = useColor('secondary');
   const headerColor = accentColor ?? success;
   const surface = accentSurface ?? secondarySurface;
 
   return (
     <View
+      className="mb-6 overflow-hidden rounded-3xl border"
       style={{
-        marginBottom: 24,
-        borderWidth: 1,
         borderColor,
         backgroundColor: card,
-        borderRadius: 24,
-        overflow: 'hidden',
       }}
     >
       <View
+        className="border-b px-6 py-4"
         style={{
-          paddingHorizontal: 24,
-          paddingVertical: 16,
-          borderBottomWidth: 1,
           borderColor,
           backgroundColor: surface,
         }}
       >
-        <Text style={{ fontSize: 18, fontWeight: '600', color: headerColor }}>{title}</Text>
+        <Text className="text-lg font-semibold" style={{ color: headerColor }}>
+          {title}
+        </Text>
       </View>
 
       <View style={[{ padding: 24, gap: 20 }, contentStyle]}>{children}</View>

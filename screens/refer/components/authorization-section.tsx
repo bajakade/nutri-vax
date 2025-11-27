@@ -2,11 +2,11 @@ import React from 'react';
 import { Text, View } from 'react-native';
 
 import { Input } from '@/components/ui/input';
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { useColor } from '@/hooks/use-color';
 import { ReferralFormData } from '@/types';
 
 import { UpdateReferralForm } from '../helpers';
-import { SectionCard } from './SectionCard';
+import { SectionCard } from './section-card';
 
 type AuthorizationSectionProps = {
   formData: ReferralFormData;
@@ -21,8 +21,8 @@ export const AuthorizationSection = ({
   successColor,
   successSurface,
 }: AuthorizationSectionProps) => {
-  const foreground = useThemeColor({}, 'foreground');
-  const mutedForeground = useThemeColor({}, 'mutedForeground');
+  const foreground = useColor('foreground');
+  const mutedForeground = useColor('mutedForeground');
 
   return (
     <SectionCard title="Authorization" accentColor={successColor} accentSurface={successSurface}>

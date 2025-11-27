@@ -2,10 +2,10 @@ import React from 'react';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
 import { Text, TextInput, View } from 'react-native';
 
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { useColor } from '@/hooks/use-color';
 
 import type { ChildFormValues } from '../helpers';
-import { YesNoButtonGroup } from './YesNoButtonGroup';
+import { YesNoButtonGroup } from './yes-no-button-group';
 
 type AssessmentStepProps = {
   control: Control<ChildFormValues>;
@@ -14,15 +14,15 @@ type AssessmentStepProps = {
 };
 
 export function AssessmentStep({ control, errors, errorTextStyle }: AssessmentStepProps) {
-  const foreground = useThemeColor({}, 'foreground');
-  const destructive = useThemeColor({}, 'destructive');
-  const borderColor = useThemeColor({}, 'border');
-  const card = useThemeColor({}, 'card');
-  const placeholderColor = useThemeColor({ light: '#999999', dark: '#94A3B8' }, 'mutedForeground');
+  const foreground = useColor('foreground');
+  const destructive = useColor('destructive');
+  const borderColor = useColor('border');
+  const card = useColor('card');
+  const placeholderColor = useColor('mutedForeground');
 
   return (
     <View>
-      <Text style={{ fontSize: 16, fontWeight: '500', marginBottom: 8, color: foreground }}>
+      <Text className="mb-2 text-base font-medium" style={{ color: foreground }}>
         MUAC (mm) *
       </Text>
       <Controller
@@ -36,12 +36,9 @@ export function AssessmentStep({ control, errors, errorTextStyle }: AssessmentSt
             placeholder="Enter MUAC measurement"
             keyboardType="numeric"
             placeholderTextColor={placeholderColor}
+            className="h-[50px] rounded-xl border px-3"
             style={{
-              height: 50,
-              borderWidth: 1,
               borderColor: errors.muac ? destructive : borderColor,
-              borderRadius: 12,
-              paddingHorizontal: 12,
               marginBottom: 8,
               fontSize: 16,
               backgroundColor: card,
@@ -52,7 +49,7 @@ export function AssessmentStep({ control, errors, errorTextStyle }: AssessmentSt
       />
       {errors.muac ? <Text style={errorTextStyle}>{errors.muac.message}</Text> : null}
 
-      <Text style={{ fontSize: 16, fontWeight: '500', marginBottom: 8, color: foreground }}>
+      <Text className="mb-2 text-base font-medium" style={{ color: foreground }}>
         Oedema *
       </Text>
       <Controller
@@ -64,7 +61,7 @@ export function AssessmentStep({ control, errors, errorTextStyle }: AssessmentSt
       />
       {errors.oedema ? <Text style={errorTextStyle}>{errors.oedema.message}</Text> : null}
 
-      <Text style={{ fontSize: 16, fontWeight: '500', marginBottom: 8, color: foreground }}>
+      <Text className="mb-2 text-base font-medium" style={{ color: foreground }}>
         Z-score {'>'} -2 *
       </Text>
       <Controller

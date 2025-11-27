@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { useColor } from '@/hooks/use-color';
 import { YoN } from '@/types/enum';
 
 export type YesNoButtonGroupProps = {
@@ -11,15 +11,15 @@ export type YesNoButtonGroupProps = {
 };
 
 export function YesNoButtonGroup({ value, onChange, onBlur }: YesNoButtonGroupProps) {
-  const primary = useThemeColor({}, 'primary');
-  const primaryForeground = useThemeColor({}, 'primaryForeground');
-  const borderColor = useThemeColor({}, 'border');
-  const foreground = useThemeColor({}, 'foreground');
-  const selectionActiveBg = useThemeColor({ light: '#e8f5e9', dark: '#064e3b' }, 'secondary');
-  const selectionInactiveBg = useThemeColor({ light: '#ffffff', dark: '#1f2937' }, 'card');
+  const primary = useColor('primary');
+  const primaryForeground = useColor('primaryForeground');
+  const borderColor = useColor('border');
+  const foreground = useColor('foreground');
+  const selectionActiveBg = useColor('secondary');
+  const selectionInactiveBg = useColor('card');
 
   return (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
+    <View className="mb-2 flex-row justify-between">
       {Object.values(YoN).map((option) => {
         const isSelected = value === option;
         return (
@@ -29,23 +29,15 @@ export function YesNoButtonGroup({ value, onChange, onBlur }: YesNoButtonGroupPr
               onChange(option);
               onBlur?.();
             }}
+            className="mx-1 flex-1 items-center rounded-xl border-2 py-3.5"
             style={{
-              flex: 1,
-              marginHorizontal: 4,
-              paddingVertical: 14,
-              borderRadius: 12,
-              borderWidth: 2,
               borderColor: isSelected ? primary : borderColor,
               backgroundColor: isSelected ? selectionActiveBg : selectionInactiveBg,
-              alignItems: 'center',
             }}
           >
             <Text
-              style={{
-                fontSize: 16,
-                fontWeight: '500',
-                color: isSelected ? primaryForeground : foreground,
-              }}
+              className="text-base font-medium"
+              style={{ color: isSelected ? primaryForeground : foreground }}
             >
               {option === YoN.Yes ? 'Yes' : 'No'}
             </Text>

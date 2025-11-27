@@ -5,11 +5,11 @@ import { ChevronDown } from 'lucide-react-native';
 
 import { Input } from '@/components/ui/input';
 import { FACILITIES, REFERRAL_TYPE_OPTIONS } from '@/constants/referral';
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { useColor } from '@/hooks/use-color';
 import { ReferralFormData } from '@/types';
 
 import { UpdateReferralForm, withOpacity } from '../helpers';
-import { SectionCard } from './SectionCard';
+import { SectionCard } from './section-card';
 
 type ReferralDetailsSectionProps = {
   formData: ReferralFormData;
@@ -25,11 +25,11 @@ export const ReferralDetailsSection = ({
   successSurface,
 }: ReferralDetailsSectionProps) => {
   const [showToFacility, setShowToFacility] = useState(false);
-  const foreground = useThemeColor({}, 'foreground');
-  const mutedForeground = useThemeColor({}, 'mutedForeground');
-  const borderColor = useThemeColor({}, 'border');
-  const card = useThemeColor({}, 'card');
-  const muted = useThemeColor({}, 'muted');
+  const foreground = useColor('foreground');
+  const mutedForeground = useColor('mutedForeground');
+  const borderColor = useColor('border');
+  const card = useColor('card');
+  const muted = useColor('muted');
   const mutedSurface = withOpacity(muted, 0.5);
 
   return (

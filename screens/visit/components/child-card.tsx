@@ -6,7 +6,7 @@ import { Award, CheckCircle } from 'lucide-react-native';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { TOTAL_VISITS } from '@/constants/distribution';
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { useColor } from '@/hooks/use-color';
 
 import { ChildRecord, getMUACColorToken, withOpacity } from '../helpers';
 
@@ -16,16 +16,16 @@ type ChildCardProps = {
 };
 
 export const ChildCard = ({ child, onDistribute }: ChildCardProps) => {
-  const card = useThemeColor({}, 'card');
-  const border = useThemeColor({}, 'border');
-  const foreground = useThemeColor({}, 'foreground');
-  const mutedForeground = useThemeColor({}, 'mutedForeground');
-  const success = useThemeColor({}, 'success');
+  const card = useColor('card');
+  const border = useColor('border');
+  const foreground = useColor('foreground');
+  const mutedForeground = useColor('mutedForeground');
+  const success = useColor('success');
   const successSurface = withOpacity(success, 0.12);
-  const muted = useThemeColor({}, 'muted');
+  const muted = useColor('muted');
   const mutedSurface = withOpacity(muted, 0.5);
   const muacToken = getMUACColorToken(child.muac);
-  const muacColor = useThemeColor({}, muacToken);
+  const muacColor = useColor(muacToken);
 
   return (
     <View

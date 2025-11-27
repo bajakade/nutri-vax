@@ -16,15 +16,15 @@ import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { MAX_AGE_MONTHS, MIN_AGE_MONTHS } from '@/constants/assessment';
 import { calculateAgeInMonths } from '@/helpers/age';
 import { generateNutriVaxBarcode } from '@/helpers/barcode';
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { useColor } from '@/hooks/use-color';
 import { Eligibility } from '@/types/enum';
 
-import { AssessmentStep } from './components/AssessmentStep';
-import { BarcodeScannerModal } from './components/BarcodeScannerModal';
-import { ChildInformationStep } from './components/ChildInformationStep';
-import { DobPickerModal } from './components/DobPickerModal';
-import { EligibilitySummary } from './components/EligibilitySummary';
-import { StepProgress } from './components/StepProgress';
+import { AssessmentStep } from './components/assessment-step';
+import { BarcodeScannerModal } from './components/barcode-scanner-modal';
+import { ChildInformationStep } from './components/child-information-step';
+import { DobPickerModal } from './components/dob-picker-modal';
+import { EligibilitySummary } from './components/eligibility-summary';
+import { StepProgress } from './components/step-progress';
 import {
   ChildFormValues,
   DobPickerState,
@@ -88,17 +88,14 @@ const EnrollChild: FC = () => {
     [formValues.dob],
   );
   const showAge = Number.isFinite(ageInMonths);
-  const background = useThemeColor({}, 'background');
-  const primary = useThemeColor({}, 'primary');
-  const primaryForeground = useThemeColor({}, 'primaryForeground');
-  const card = useThemeColor({}, 'card');
-  const borderColor = useThemeColor({}, 'border');
-  const destructive = useThemeColor({}, 'destructive');
-  const mutedForeground = useThemeColor({}, 'mutedForeground');
-  const assessmentCardBackground = useThemeColor(
-    { light: '#f9fff9', dark: '#111827' },
-    'secondary',
-  );
+  const background = useColor('background');
+  const primary = useColor('primary');
+  const primaryForeground = useColor('primaryForeground');
+  const card = useColor('card');
+  const borderColor = useColor('border');
+  const destructive = useColor('destructive');
+  const mutedForeground = useColor('mutedForeground');
+  const assessmentCardBackground = useColor('secondary');
   const errorTextStyle = { color: destructive, marginTop: 4, marginBottom: 8 } as const;
 
   const handleRequestDobPicker = ({

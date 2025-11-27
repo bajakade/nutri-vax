@@ -1,3 +1,3 @@
-import EnrollChild from '@/screens/enroll/EnrollChild';
+import EnrollChild from '@/screens/enroll/enroll-child';
 
 export default EnrollChild;

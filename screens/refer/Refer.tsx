@@ -1,16 +1,16 @@
 import { REFERRAL_TYPE } from '@/constants/referral';
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { useColor } from '@/hooks/use-color';
 import { ReferralFormData } from '@/types';
 import { Gender } from '@/types/enum';
 import { useRouter } from 'expo-router';
 import React, { FC, useState } from 'react';
 import { Alert, ScrollView, Text } from 'react-native';
 
-import { AuthorizationSection } from '@/screens/refer/components/AuthorizationSection';
-import { ChildInformationSection } from '@/screens/refer/components/ChildInformationSection';
-import { ReferralDetailsSection } from '@/screens/refer/components/ReferralDetailsSection';
-import { SubmissionActions } from '@/screens/refer/components/SubmissionActions';
-import { SubmissionSuccess } from '@/screens/refer/components/SubmissionSuccess';
+import { AuthorizationSection } from '@/screens/refer/components/authorization-section';
+import { ChildInformationSection } from '@/screens/refer/components/child-information-section';
+import { ReferralDetailsSection } from '@/screens/refer/components/referral-details-section';
+import { SubmissionActions } from '@/screens/refer/components/submission-actions';
+import { SubmissionSuccess } from '@/screens/refer/components/submission-success';
 import { UpdateReferralForm, withOpacity } from '@/screens/refer/helpers';
 
 const ReferralFormScreen: FC = () => {
@@ -30,9 +30,9 @@ const ReferralFormScreen: FC = () => {
   });
 
   const [submitted, setSubmitted] = useState(false);
-  const background = useThemeColor({}, 'background');
-  const mutedForeground = useThemeColor({}, 'mutedForeground');
-  const success = useThemeColor({}, 'success');
+  const background = useColor('background');
+  const mutedForeground = useColor('mutedForeground');
+  const success = useColor('success');
   const successSurface = withOpacity(success, 0.12);
 
   const handleSubmit = () => {
@@ -78,14 +78,15 @@ const ReferralFormScreen: FC = () => {
 
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: background }}
+      className="flex-1"
+      style={{ backgroundColor: background }}
       contentContainerStyle={{ padding: 16, paddingBottom: 32 }}
       keyboardShouldPersistTaps="handled"
     >
-      <Text style={{ marginBottom: 4, fontSize: 24, fontWeight: '700', color: success }}>
+      <Text className="mb-1 text-2xl font-bold" style={{ color: success }}>
         Referral Form
       </Text>
-      <Text style={{ marginBottom: 24, color: mutedForeground }}>
+      <Text className="mb-6" style={{ color: mutedForeground }}>
         Refer child to CMAM program (OTP/PHC)
       </Text>
 

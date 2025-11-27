@@ -1,13 +1,13 @@
 import { mockChildren } from '@/constants/data';
 import { SACHETS } from '@/constants/distribution';
-import { ChildCard } from '@/screens/visit/components/ChildCard';
-import { DistributionDialog } from '@/screens/visit/components/DistributionDialog';
-import { SearchBar } from '@/screens/visit/components/SearchBar';
+import { ChildCard } from '@/screens/visit/components/child-card';
+import { DistributionDialog } from '@/screens/visit/components/distribution-dialog';
+import { SearchBar } from '@/screens/visit/components/search-bar';
 import { ChildRecord, filterChildrenByQuery } from '@/screens/visit/helpers';
 import React, { FC, useMemo, useState } from 'react';
 import { Alert, ScrollView, Text, View } from 'react-native';
 
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { useColor } from '@/hooks/use-color';
 
 const AttendanceScreen: FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -32,9 +32,9 @@ const AttendanceScreen: FC = () => {
     setVaccineUpdated(false);
   };
 
-  const background = useThemeColor({}, 'background');
-  const foreground = useThemeColor({}, 'foreground');
-  const mutedForeground = useThemeColor({}, 'mutedForeground');
+  const background = useColor('background');
+  const foreground = useColor('foreground');
+  const mutedForeground = useColor('mutedForeground');
 
   return (
     <ScrollView className="flex-1 px-4 pt-6" style={{ backgroundColor: background }}>

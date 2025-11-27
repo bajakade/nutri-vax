@@ -3,7 +3,7 @@ import { Control, Controller, FieldErrors } from 'react-hook-form';
 import { Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { useColor } from '@/hooks/use-color';
 import { Gender } from '@/types/enum';
 
 import type { ChildFormValues } from '../helpers';
@@ -33,15 +33,15 @@ export function ChildInformationStep({
   formatDobDisplay,
   onOpenScanner,
 }: ChildInformationStepProps) {
-  const foreground = useThemeColor({}, 'foreground');
-  const primary = useThemeColor({}, 'primary');
-  const primaryForeground = useThemeColor({}, 'primaryForeground');
-  const card = useThemeColor({}, 'card');
-  const borderColor = useThemeColor({}, 'border');
-  const destructive = useThemeColor({}, 'destructive');
-  const placeholderColor = useThemeColor({ light: '#999999', dark: '#94A3B8' }, 'mutedForeground');
-  const selectionActiveBg = useThemeColor({ light: '#e8f5e9', dark: '#064e3b' }, 'secondary');
-  const selectionInactiveBg = useThemeColor({ light: '#ffffff', dark: '#1f2937' }, 'card');
+  const foreground = useColor('foreground');
+  const primary = useColor('primary');
+  const primaryForeground = useColor('mutedForeground');
+  const card = useColor('card');
+  const borderColor = useColor('border');
+  const destructive = useColor('destructive');
+  const placeholderColor = useColor('mutedForeground');
+  const selectionActiveBg = useColor('secondary');
+  const selectionInactiveBg = useColor('card');
 
   return (
     <View>

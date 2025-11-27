@@ -7,7 +7,7 @@ import { Dialog, DialogClose, DialogContent } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { SACHETS, TOTAL_VISITS } from '@/constants/distribution';
 import { Colors } from '@/constants/theme';
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { useColor } from '@/hooks/use-color';
 
 import { ChildRecord, MUACColorToken, getMUACColorToken } from '../helpers';
 
@@ -49,21 +49,21 @@ export const DistributionDialog = ({
   onToggleVaccine,
   onSubmit,
 }: DistributionDialogProps) => {
-  const surface = useThemeColor({}, 'neutralSurface');
-  const card = useThemeColor({}, 'neutralCard');
-  const elevated = useThemeColor({}, 'neutralElevated');
-  const border = useThemeColor({}, 'border');
-  const borderStrong = useThemeColor({}, 'neutralBorderStrong');
-  const accent = useThemeColor({}, 'neutralAccent');
-  const accentInverse = useThemeColor({}, 'neutralAccentInverse');
-  const muted = useThemeColor({}, 'neutralMuted');
-  const foreground = useThemeColor({}, 'foreground');
-  const mutedForeground = useThemeColor({}, 'mutedForeground');
-  const background = useThemeColor({}, 'background');
+  const surface = useColor('neutralSurface');
+  const card = useColor('neutralCard');
+  const elevated = useColor('neutralElevated');
+  const border = useColor('border');
+  const borderStrong = useColor('neutralBorderStrong');
+  const accent = useColor('neutralAccent');
+  const accentInverse = useColor('neutralAccentInverse');
+  const muted = useColor('neutralMuted');
+  const foreground = useColor('foreground');
+  const mutedForeground = useColor('mutedForeground');
+  const background = useColor('background');
   const muacValue = Number.parseInt(muacUpdate, 10);
   const normalizedMuac = Number.isNaN(muacValue) ? 0 : muacValue;
   const muacToken = getMUACColorToken(normalizedMuac);
-  const muacColor = useThemeColor({}, MUAC_THEME_KEYS[muacToken]);
+  const muacColor = useColor(MUAC_THEME_KEYS[muacToken]);
   const inputStyle = {
     backgroundColor: background,
     borderColor: border,

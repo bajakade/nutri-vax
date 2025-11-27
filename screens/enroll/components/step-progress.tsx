@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { useColor } from '@/hooks/use-color';
 
 type StepProgressProps = {
   currentStep: number;
@@ -10,44 +10,36 @@ type StepProgressProps = {
 const STEP_LABELS = ['Scan', 'Verify', 'Issue'];
 
 export function StepProgress({ currentStep }: StepProgressProps) {
-  const primary = useThemeColor({}, 'primary');
-  const primaryForeground = useThemeColor({}, 'primaryForeground');
-  const card = useThemeColor({}, 'card');
-  const borderColor = useThemeColor({}, 'border');
-  const mutedForeground = useThemeColor({}, 'mutedForeground');
+  const primary = useColor('primary');
+  const primaryForeground = useColor('primaryForeground');
+  const card = useColor('card');
+  const borderColor = useColor('border');
+  const mutedForeground = useColor('mutedForeground');
 
   return (
     <>
-      <View style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 16 }}>
+      <View className="mb-4 flex-row justify-center">
         {[1, 2, 3].map((step) => (
-          <View key={step} style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View key={step} className="flex-row items-center">
             <View
+              className="mx-1 h-9 w-9 items-center justify-center rounded-full"
               style={{
-                width: 36,
-                height: 36,
-                borderRadius: 18,
-                justifyContent: 'center',
-                alignItems: 'center',
                 backgroundColor: currentStep >= step ? primary : card,
                 borderWidth: currentStep >= step ? 0 : 2,
                 borderColor,
-                marginHorizontal: 4,
               }}
             >
               <Text
-                style={{
-                  color: currentStep >= step ? primaryForeground : mutedForeground,
-                  fontWeight: '700',
-                }}
+                className="font-bold"
+                style={{ color: currentStep >= step ? primaryForeground : mutedForeground }}
               >
                 {step}
               </Text>
             </View>
             {step < 3 && (
               <View
+                className="h-0.5 w-6"
                 style={{
-                  width: 24,
-                  height: 2,
                   backgroundColor: currentStep > step ? primary : borderColor,
                 }}
               />
@@ -56,7 +48,7 @@ export function StepProgress({ currentStep }: StepProgressProps) {
         ))}
       </View>
 
-      <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 24 }}>
+      <View className="mb-6 flex-row justify-around">
         {STEP_LABELS.map((label, index) => (
           <Text
             key={label}

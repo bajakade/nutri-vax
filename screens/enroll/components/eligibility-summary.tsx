@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { useColor } from '@/hooks/use-color';
 import { Eligibility } from '@/types/enum';
 
 type EligibilitySummaryProps = {
@@ -17,13 +17,13 @@ export function EligibilitySummary({
   onGenerateCard,
   onRefer,
 }: EligibilitySummaryProps) {
-  const primary = useThemeColor({}, 'primary');
-  const primaryForeground = useThemeColor({}, 'primaryForeground');
-  const successContainerBg = useThemeColor({ light: '#e8f5e9', dark: '#03291c' }, 'secondary');
-  const referContainerBg = useThemeColor({ light: '#fff3cd', dark: '#1f2937' }, 'muted');
-  const warning = useThemeColor({}, 'warning');
-  const warningForeground = useThemeColor({}, 'warningForeground');
-  const foreground = useThemeColor({}, 'foreground');
+  const primary = useColor('primary');
+  const primaryForeground = useColor('primaryForeground');
+  const successContainerBg = useColor('secondary');
+  const referContainerBg = useColor('muted');
+  const warning = useColor('warning');
+  const warningForeground = useColor('warningForeground');
+  const foreground = useColor('foreground');
 
   if (eligibility === Eligibility.Eligible) {
     return (
