@@ -1,3 +1,4 @@
+import 'react-native-get-random-values'; // polyfill for uuid
 import 'react-native-reanimated';
 import './global.css';
 
@@ -12,12 +13,16 @@ import { Provider as StoreProvider } from '@/store';
 import { Ionicons } from '@expo/vector-icons';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { install } from 'react-native-quick-crypto';
 import ThemeProvider from './providers/theme';
 import LoginScreen from './screens/login';
 
 export const unstable_settings = {
   initialRouteName: 'splash',
 };
+
+// override global.Buffer and global.crypto
+install();
 
 export default function RootLayout() {
   const [isReady, setIsReady] = useState(false);

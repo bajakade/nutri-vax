@@ -1,14 +1,19 @@
+import * as ExpoSQLite from 'expo-sqlite';
+
 import { Context, createContext, useEffect, useState } from 'react';
 import { Text, View, ViewProps } from 'react-native';
 import { RxDatabase, addRxPlugin, createRxDatabase, removeRxDatabase } from 'rxdb';
-import { getRxStorageSQLiteTrial, getSQLiteBasicsNodeNative } from 'rxdb/plugins/storage-sqlite';
+import {
+  getRxStorageSQLiteTrial,
+  getSQLiteBasicsExpoSQLiteAsync,
+} from 'rxdb/plugins/storage-sqlite';
 import { NutriVaxCollection, collections } from './collections';
 
-import { DatabaseSync } from 'node:sqlite';
 import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode';
 import { RxDBMigrationPlugin } from 'rxdb/plugins/migration-schema';
 import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder';
 import { RxDBUpdatePlugin } from 'rxdb/plugins/update';
+import { wrappedValidateAjvStorage } from 'rxdb/plugins/validate-ajv';
 
 /**
  * Represents the NutriVax RxDatabase-based type.
@@ -30,8 +35,10 @@ const prepareRxDB = () => {
 };
 
 const getStorage = () =>
-  getRxStorageSQLiteTrial({
-    sqliteBasics: getSQLiteBasicsNodeNative(DatabaseSync),
+  wrappedValidateAjvStorage({
+    storage: getRxStorageSQLiteTrial({
+      sqliteBasics: getSQLiteBasicsExpoSQLiteAsync(ExpoSQLite.openDatabaseSync),
+    }),
   });
 
 export const destroyDB = async (): Promise<void> => {

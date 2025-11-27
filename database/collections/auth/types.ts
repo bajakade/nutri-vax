@@ -12,4 +12,4 @@ export type AuthStatics = {
   login: (user: User, token: string, username?: string) => Promise<Response>;
   logout: () => Promise<Response>;
 };
-export type AuthCollection = RxCollection<Partial<User>, AuthMethods, AuthStatics>;
+export type AuthCollection = RxCollection<User, AuthMethods, AuthStatics>;
