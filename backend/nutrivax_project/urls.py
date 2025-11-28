@@ -13,12 +13,12 @@ from drf_spectacular.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('nutrivax_app.urls')),
+    path('api/nutrivax/', include('nutrivax_app.urls')),
     
     # DRF Spectacular OpenAPI schema generation
-    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+    path('api/nutrivax/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/nutrivax/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/nutrivax/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
 
 # Serve static files in development
