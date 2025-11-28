@@ -223,16 +223,16 @@ class FacilityViewSet(viewsets.ModelViewSet):
     - Others: Read-only access, restricted to their assigned Project
     
     **Filtering:**
-    - `?project={id}` - Filter by project
+    - `?projects={id}` - Filter by project (many-to-many)
     - `?facility_type={id}` - Filter by facility type
     - `?admin_division={id}` - Filter by administrative division
     - `?is_active={true/false}` - Filter by active status
     """
-    queryset = Facility.objects.select_related('project', 'facility_type', 'admin_division').all()
+    queryset = Facility.objects.prefetch_related('projects').select_related('facility_type', 'admin_division').all()
     serializer_class = FacilitySerializer
     permission_classes = [IsAuthenticated, ProjectPermission]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['project', 'facility_type', 'admin_division', 'is_active']
+    filterset_fields = ['projects', 'facility_type', 'admin_division', 'is_active']
     search_fields = ['name']
     ordering_fields = ['name', 'created_at']
     ordering = ['name']
@@ -249,7 +249,7 @@ class FacilityViewSet(viewsets.ModelViewSet):
         try:
             profile = self.request.user.profile
             if profile.project:
-                queryset = queryset.filter(project=profile.project)
+                queryset = queryset.filter(projects=profile.project)
         except UserProfile.DoesNotExist:
             queryset = queryset.none()
         

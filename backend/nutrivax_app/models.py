@@ -86,9 +86,9 @@ class FacilityType(models.Model):
 
 
 class Facility(models.Model):
-    """Health facilities - Project-scoped."""
+    """Health facilities - Can belong to multiple projects."""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='facilities')
+    projects = models.ManyToManyField(Project, related_name='facilities', db_table='facility_project')
     facility_type = models.ForeignKey(FacilityType, on_delete=models.PROTECT, related_name='facilities')
     admin_division = models.ForeignKey(AdminDivision, on_delete=models.PROTECT, related_name='facilities')
     name = models.CharField(max_length=200)
@@ -97,14 +97,14 @@ class Facility(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     class Meta:
-        ordering = ['project', 'name']
-        unique_together = [['project', 'name']]
+        ordering = ['name']
         db_table = 'facility'
         verbose_name = 'Facility'
         verbose_name_plural = 'Facilities'
     
     def __str__(self):
-        return f"{self.name} ({self.project.name})"
+        project_names = ', '.join([p.name for p in self.projects.all()])
+        return f"{self.name} ({project_names})"
 
 
 class UserProfile(models.Model):

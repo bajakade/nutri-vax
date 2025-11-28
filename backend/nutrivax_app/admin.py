@@ -112,20 +112,35 @@ class FacilityTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Facility)
 class FacilityAdmin(admin.ModelAdmin):
-    list_display = ['name', 'project', 'facility_type', 'admin_division', 'is_active']
-    list_filter = ['project', 'facility_type', 'is_active']
+    list_display = ['name', 'get_projects', 'facility_type', 'admin_division', 'is_active']
+    list_filter = ['projects', 'facility_type', 'is_active']
     search_fields = ['name']
-    ordering = ['project', 'name']
+    ordering = ['name']
     readonly_fields = ['id', 'created_at', 'updated_at']
+    filter_horizontal = ['projects']
     
     def get_queryset(self, request):
         """Override to safely handle related objects."""
         qs = super().get_queryset(request)
-        return qs.select_related('project', 'facility_type', 'admin_division')
+        return qs.prefetch_related('projects').select_related('facility_type', 'admin_division')
+    
+    def get_projects(self, obj):
+        """Return comma-separated list of project names."""
+        if obj is None:
+            return '-'
+        try:
+            projects = obj.projects.all()
+            return ', '.join([p.name for p in projects]) if projects else '-'
+        except (AttributeError, Exception):
+            return '-'
+    get_projects.short_description = 'Projects'
     
     fieldsets = (
         ('Facility Information', {
-            'fields': ('project', 'facility_type', 'admin_division', 'name', 'is_active')
+            'fields': ('name', 'facility_type', 'admin_division', 'is_active')
+        }),
+        ('Projects', {
+            'fields': ('projects',)
         }),
         ('Timestamps', {
             'fields': ('id', 'created_at', 'updated_at'),

@@ -107,7 +107,8 @@ class FacilityTypeSerializer(serializers.ModelSerializer):
 
 class FacilitySerializer(serializers.ModelSerializer):
     """Serializer for Facility model."""
-    project_name = serializers.SerializerMethodField()
+    projects = serializers.PrimaryKeyRelatedField(many=True, queryset=Project.objects.all(), required=False)
+    project_names = serializers.SerializerMethodField()
     facility_type_name = serializers.SerializerMethodField()
     admin_division_name = serializers.SerializerMethodField()
     distribution_registers_count = serializers.SerializerMethodField()
@@ -116,16 +117,16 @@ class FacilitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Facility
         fields = [
-            'id', 'project', 'project_name', 'facility_type', 'facility_type_name',
+            'id', 'projects', 'project_names', 'facility_type', 'facility_type_name',
             'admin_division', 'admin_division_name', 'name', 'is_active',
             'distribution_registers_count', 'ration_cards_count',
             'created_at', 'updated_at'
         ]
         read_only_fields = ['created_at', 'updated_at']
     
-    def get_project_name(self, obj):
-        """Return project name if project exists, otherwise None."""
-        return obj.project.name if obj.project else None
+    def get_project_names(self, obj):
+        """Return list of project names."""
+        return [p.name for p in obj.projects.all()]
     
     def get_facility_type_name(self, obj):
         """Return facility type name if facility_type exists, otherwise None."""
@@ -140,6 +141,24 @@ class FacilitySerializer(serializers.ModelSerializer):
     
     def get_ration_cards_count(self, obj):
         return obj.ration_cards.count()
+    
+    def create(self, validated_data):
+        """Create facility and associate with projects."""
+        projects = validated_data.pop('projects', [])
+        facility = Facility.objects.create(**validated_data)
+        if projects:
+            facility.projects.set(projects)
+        return facility
+    
+    def update(self, instance, validated_data):
+        """Update facility and projects."""
+        projects = validated_data.pop('projects', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        if projects is not None:
+            instance.projects.set(projects)
+        return instance
 
 
 class UserSerializer(serializers.ModelSerializer):
