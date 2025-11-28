@@ -2,9 +2,9 @@
 Django settings for nutrivax_project project.
 """
 
+import os
 from pathlib import Path
 from decouple import config
-import os
 from datetime import timedelta
 import dj_database_url
 
@@ -16,13 +16,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-this-in-production')
+# Use environment variable for Railway deployment
+SECRET_KEY = os.environ.get("SECRET_KEY", config('SECRET_KEY', default='django-insecure-change-this-in-production'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
+# Use environment variable for Railway deployment
+DEBUG = os.environ.get("DEBUG", "False") == "True" or config('DEBUG', default=True, cast=bool)
 
 # ALLOWED_HOSTS - Railway automatically sets RAILWAY_PUBLIC_DOMAIN
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')] if v else [])
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", config('ALLOWED_HOSTS', default='localhost,127.0.0.1')).split(",")
 
 # Add Railway domain to ALLOWED_HOSTS if available
 RAILWAY_PUBLIC_DOMAIN = config('RAILWAY_PUBLIC_DOMAIN', default=None)
@@ -53,6 +55,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # WhiteNoise for static files (works in dev and prod)
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -61,10 +64,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-# Add WhiteNoise middleware only in production
-if not DEBUG:
-    MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
 ROOT_URLCONF = 'nutrivax_project.urls'
 
@@ -97,28 +96,30 @@ WSGI_APPLICATION = 'nutrivax_project.wsgi.application'
 # 2. Individual env vars (DB_NAME, DB_USER, etc.) for local PostgreSQL
 # 3. DATABASE_URL will be used automatically when running in Railway
 
-DATABASE_URL = config('DATABASE_URL', default=None)
+# Database configuration for Railway deployment
+# Railway provides DATABASE_URL automatically
+# For local development, use DATABASE_PUBLIC_URL or individual env vars
+
+DATABASE_URL = os.environ.get("DATABASE_URL") or config('DATABASE_URL', default=None)
 DATABASE_PUBLIC_URL = config('DATABASE_PUBLIC_URL', default=None)
-
-# Check if DATABASE_URL is the internal Railway URL (won't work locally)
-is_railway_internal = DATABASE_URL and 'railway.internal' in DATABASE_URL
-
-# Check if we're running in Railway (Railway sets RAILWAY_ENVIRONMENT)
-is_railway = config('RAILWAY_ENVIRONMENT', default=None) is not None
 
 # Priority order:
 # 1. DATABASE_PUBLIC_URL (for local development connecting to Railway)
-# 2. DATABASE_URL if it's public or we're in Railway
-# 3. Fallback to local database settings
+# 2. DATABASE_URL (Railway automatically sets this)
+# 3. Fallback to individual environment variables for local development
 if DATABASE_PUBLIC_URL:
     # Use Railway's public database URL (works from local machine)
     DATABASES = {
-        'default': dj_database_url.parse(DATABASE_PUBLIC_URL, conn_max_age=600)
+        'default': dj_database_url.parse(DATABASE_PUBLIC_URL, conn_max_age=600, ssl_require=True)
     }
-elif DATABASE_URL and (not is_railway_internal or is_railway):
-    # Use DATABASE_URL if it's public or we're running in Railway
+elif DATABASE_URL:
+    # Use DATABASE_URL (Railway sets this automatically)
     DATABASES = {
-        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True
+        )
     }
 else:
     # Fallback to individual environment variables for local development
@@ -168,12 +169,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# WhiteNoise configuration for serving static files (only in production)
-if not DEBUG:
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# WhiteNoise configuration for serving static files (compression and caching)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
