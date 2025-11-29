@@ -1,7 +1,7 @@
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { cn } from '@/lib/utils';
 import React from 'react';
-import { Pressable, PressableProps, Text, View } from 'react-native';
+import { Pressable, PressableProps, Text, View, ViewStyle } from 'react-native';
 
 type Variant = 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
 type Size = 'default' | 'sm' | 'lg' | 'icon';
@@ -38,22 +38,22 @@ export const Button = React.forwardRef<View, ButtonProps>(
     const borderColor = useThemeColor({}, 'border');
     const accent = useThemeColor({}, 'accent');
 
-    const variantStyles: Record<Variant, string> = {
-      default: `bg-[${bgPrimary}]`,
-      destructive: `bg-[${bgDestructive}]`,
-      outline: `border border-[${borderColor}] bg-transparent`,
-      secondary: `bg-[${bgSecondary}]`,
+    const variantClassNames: Record<Variant, string> = {
+      default: '',
+      destructive: '',
+      outline: 'border',
+      secondary: '',
       ghost: 'bg-transparent',
       link: 'bg-transparent',
     };
 
-    const textStyles: Record<Variant, string> = {
-      default: `text-[${textPrimary}]`,
-      destructive: `text-[${textPrimary}]`,
-      outline: `text-[${textOnDark}]`,
-      secondary: `text-[${textOnDark}]`,
-      ghost: `text-[${accent}]`,
-      link: `text-[${accent}] underline`,
+    const variantStyleMap: Record<Variant, ViewStyle> = {
+      default: { backgroundColor: bgPrimary },
+      destructive: { backgroundColor: bgDestructive },
+      outline: { backgroundColor: 'transparent', borderColor, borderWidth: 1 },
+      secondary: { backgroundColor: bgSecondary },
+      ghost: { backgroundColor: 'transparent' },
+      link: { backgroundColor: 'transparent' },
     };
 
     const textColorMap: Record<Variant, string> = {
@@ -79,7 +79,11 @@ export const Button = React.forwardRef<View, ButtonProps>(
         if (typeof child === 'string' || typeof child === 'number') {
           return (
             <Text
-              className={cn('font-medium text-base', textStyles[variant], textClassName)}
+              className={cn(
+                'font-medium text-base',
+                variant === 'link' && 'underline',
+                textClassName,
+              )}
               style={[{ color: textColorMap[variant] }]}
             >
               {child}
@@ -97,11 +101,12 @@ export const Button = React.forwardRef<View, ButtonProps>(
         disabled={disabled}
         className={cn(
           'flex-row items-center justify-center gap-2 active:opacity-80',
-          variantStyles[variant],
+          variantClassNames[variant],
           sizeStyles[size],
           disabled && 'opacity-50',
           className,
         )}
+        style={[variantStyleMap[variant]]}
         {...props}
       >
         {renderChildren()}

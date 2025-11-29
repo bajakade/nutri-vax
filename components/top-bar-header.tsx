@@ -1,14 +1,41 @@
+import { useThemeColor } from '@/hooks/use-theme-color';
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 export default function TopBarHeader() {
+  const background = useThemeColor({}, 'background');
+  const border = useThemeColor({}, 'border');
+  const primary = useThemeColor({}, 'primary');
+  const primaryForeground = useThemeColor({}, 'primaryForeground');
+
   return (
-    <View className="h-14 flex-row items-center justify-start gap-2 bg-background border-b border-border px-4">
-      <View className="w-7 h-7 bg-primary rounded-full justify-center items-center">
-        <Text className="text-primary-foreground text-sm font-bold">NV</Text>
+    <View
+      style={{
+        height: 56,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        gap: 8,
+        backgroundColor: background,
+        borderBottomWidth: 1,
+        borderBottomColor: border,
+        paddingHorizontal: 16,
+      }}
+    >
+      <View
+        style={{
+          width: 28,
+          height: 28,
+          backgroundColor: primary,
+          borderRadius: 14,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Text style={{ color: primaryForeground, fontSize: 14, fontWeight: '700' }}>NV</Text>
       </View>
 
-      <Text className="text-primary text-base font-semibold ">NutriVax</Text>
+      <Text style={{ color: primary, fontSize: 16, fontWeight: '600' }}>NutriVax</Text>
     </View>
   );
 }

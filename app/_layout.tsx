@@ -7,15 +7,15 @@ import * as SplashScreen from 'expo-splash-screen';
 
 import { useEffect, useState } from 'react';
 
-import CustomSplashScreen from '@/app/screens/splash-screen';
 import { Provider as DatabaseProvider } from '@/database';
 import { Provider as StoreProvider } from '@/store';
 import { Ionicons } from '@expo/vector-icons';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { install } from 'react-native-quick-crypto';
+import LoginScreen from '../screens/login';
+import CustomSplashScreen from '../screens/splash-screen';
 import ThemeProvider from './providers/theme';
-import LoginScreen from './screens/login';
 
 export const unstable_settings = {
   initialRouteName: 'splash',
