@@ -1,5 +1,6 @@
 import 'react-native-get-random-values'; // polyfill for uuid
 import 'react-native-reanimated';
+import '../shim';
 import './global.css';
 
 import * as Font from 'expo-font';

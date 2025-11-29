@@ -8,7 +8,17 @@ module.exports = function (api) {
     ],
     plugins: [
       'react-native-reanimated/plugin', // Essential for reanimated
-      'react-native-quick-crypto',
+      [
+        'module-resolver',
+        {
+          alias: {
+            crypto: 'react-native-quick-crypto',
+            stream: 'stream-browserify',
+            buffer: '@craftzdog/react-native-buffer',
+            events: 'events',
+          },
+        },
+      ],
     ],
   };
 };
