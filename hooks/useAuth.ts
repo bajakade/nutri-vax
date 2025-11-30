@@ -57,7 +57,7 @@ export default function useAuth(): AuthRef {
         return { ok: false, error: (res as AuthError).error };
       }
     },
-    [database, dispatch, backendFetch],
+    [database, dispatch],
   );
 
   return { processing, login, logout };
