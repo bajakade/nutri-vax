@@ -1,3 +1,5 @@
+import { User } from '@/types';
+
 export const mockChildren = [
   {
     id: '001',
@@ -34,5 +36,18 @@ export const mockChildren = [
     lastVisit: '2025-11-10',
     sachetsIssued: 308,
     vaccineStatus: 'updated-today',
+  },
+];
+
+export const authDb: Array<User> = [
+  {
+    id: 'UUID-1',
+    username: 'bajakade',
+    email: 'bashhau@gmail.com',
+    token: '1234567890',
+    facility: {
+      id: 'FACILITY-UUID',
+      name: 'Afunori PHCC',
+    },
   },
 ];

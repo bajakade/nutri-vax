@@ -1,9 +1,7 @@
-import { zodResolver } from '@hookform/resolvers/zod';
+import { MAX_AGE_MONTHS, MIN_AGE_MONTHS } from '@/constants/assessment';
+import { calculateAgeInMonths, generateNutriVaxBarcode } from '@/helpers';
 import { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker';
-import { useCameraPermissions } from 'expo-camera';
-import { useRouter } from 'expo-router';
 import React, { FC, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { Alert, Platform, Text, TouchableOpacity, View } from 'react-native';
 import Animated, {
   SlideInLeft,
@@ -11,20 +9,6 @@ import Animated, {
   SlideOutLeft,
   SlideOutRight,
 } from 'react-native-reanimated';
-
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { MAX_AGE_MONTHS, MIN_AGE_MONTHS } from '@/constants/assessment';
-import { calculateAgeInMonths } from '@/helpers/age';
-import { generateNutriVaxBarcode } from '@/helpers/barcode';
-import { useColor } from '@/hooks/use-color';
-import { Eligibility } from '@/types/enum';
-
-import { AssessmentStep } from './components/assessment-step';
-import { BarcodeScannerModal } from './components/barcode-scanner-modal';
-import { ChildInformationStep } from './components/child-information-step';
-import { DobPickerModal } from './components/dob-picker-modal';
-import { EligibilitySummary } from './components/eligibility-summary';
-import { StepProgress } from './components/step-progress';
 import {
   ChildFormValues,
   DobPickerState,
@@ -37,6 +21,20 @@ import {
   startOfDay,
   subtractMonths,
 } from './helpers';
+
+import ParallaxScrollView from '@/components/parallax-scroll-view';
+import { useColor } from '@/hooks/use-color';
+import { Eligibility } from '@/types/enum';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useCameraPermissions } from 'expo-camera';
+import { useRouter } from 'expo-router';
+import { useForm } from 'react-hook-form';
+import { AssessmentStep } from './components/assessment-step';
+import { BarcodeScannerModal } from './components/barcode-scanner-modal';
+import { ChildInformationStep } from './components/child-information-step';
+import { DobPickerModal } from './components/dob-picker-modal';
+import { EligibilitySummary } from './components/eligibility-summary';
+import { StepProgress } from './components/step-progress';
 
 const EnrollChild: FC = () => {
   const router = useRouter();

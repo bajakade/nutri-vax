@@ -14,7 +14,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { install } from 'react-native-quick-crypto';
-import LoginScreen from '../screens/login';
 import CustomSplashScreen from '../screens/splash-screen';
 import ThemeProvider from './providers/theme';
 
@@ -27,7 +26,6 @@ install();
 
 export default function RootLayout() {
   const [isReady, setIsReady] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     async function prepare() {
@@ -54,22 +52,12 @@ export default function RootLayout() {
     return <CustomSplashScreen />;
   }
 
-  if (!isLoggedIn) {
-    return (
-      <ThemeProvider>
-        <LoginScreen onLogin={() => setIsLoggedIn(true)} />
-        <StatusBar style="auto" />
-      </ThemeProvider>
-    );
-  }
-
   return (
     <ThemeProvider>
       <DatabaseProvider>
         <StoreProvider>
           <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="modal" options={{ presentation: 'modal', headerShown: false }} />
+            <Stack.Screen name="(protected)" options={{ headerShown: false }} />
           </Stack>
           <StatusBar style="auto" />
         </StoreProvider>
