@@ -269,7 +269,7 @@ const EnrollChild: FC = () => {
           </Animated.View>
         )}
 
-        <View className="flow-row justify-between mb-4">
+        <View className="flex-row justify-between mb-4">
           {step > 1 && (
             <TouchableOpacity
               onPress={handleBack}
