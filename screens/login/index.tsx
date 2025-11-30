@@ -28,7 +28,9 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
           <Text className="text-white text-3xl font-bold">NV</Text>
         </View>
 
-        <Text className="text-center text-lg font-medium text-gray-900 dark:text-white">Welcome Back</Text>
+        <Text className="text-center text-lg font-medium text-gray-900 dark:text-white">
+          Welcome Back
+        </Text>
         <Text className="text-center text-sm text-gray-500 mt-1 mb-8">Sign in to continue</Text>
 
         <Input

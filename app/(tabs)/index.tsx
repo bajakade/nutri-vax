@@ -1,94 +1,176 @@
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { Button } from '@/components/ui/button';
+import { useTheme } from '@/hooks/use-theme';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import { ScrollView, Text, View } from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default function Dashboard({ user }: { user?: any }) {
   const router = useRouter();
-  const today = new Date().toLocaleDateString('en-GB', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
+  const { colors } = useTheme();
 
-  const background = useThemeColor({}, 'background');
-  const foreground = useThemeColor({}, 'foreground');
-  const mutedFg = useThemeColor({}, 'mutedForeground');
-  const primary = useThemeColor({}, 'primary');
-  const primaryFg = useThemeColor({}, 'primaryForeground');
-  const accent = useThemeColor({}, 'accent');
-  const accentFg = useThemeColor({}, 'accentForeground');
-  const cardBg = useThemeColor({}, 'card');
-  const borderColor = useThemeColor({}, 'border');
+  // Mock data - replace with actual data later
+  const stats = {
+    todaysChildren: 12,
+    totalEnrolled: 150,
+    sachetsInStock: 89,
+    pendingReferrals: 3,
+  };
 
   return (
-    <ParallaxScrollView>
-      <View className="items-center py-3" style={{ backgroundColor: background }}>
-        <View className="flex-row items-center mb-3" style={{ backgroundColor: background }}>
-          <Icon name="calendar-alt" size={16} color={mutedFg} />
-          <Text style={{ color: mutedFg }} className="ml-2 text-base">
-            {today}
-          </Text>
-        </View>
+    <View className="flex-1" style={{ backgroundColor: colors.background }}>
+      <ScrollView className="flex-1">
+        <View className="p-4">
+          {/* Statistics Cards Grid */}
+          <View className="flex-row flex-wrap gap-3 mb-5">
+            {/* Today's children */}
+            <View
+              className="w-[48%] p-4 rounded-2xl border shadow-sm"
+              style={{
+                backgroundColor: colors.card,
+                borderColor: colors.border,
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 1 },
+                shadowOpacity: 0.1,
+                shadowRadius: 2,
+                elevation: 2,
+              }}
+            >
+              <View
+                className="items-center justify-center mb-3 rounded-full w-14 h-14"
+                style={{ backgroundColor: '#E8F5E9' }}
+              >
+                <Icon name="emoji-emotions" size={28} color="#4CAF50" />
+              </View>
+              <Text className="mb-2 text-sm leading-5" style={{ color: colors.mutedForeground }}>
+                Today&apos;s children
+              </Text>
+              <Text className="text-4xl font-semibold" style={{ color: colors.foreground }}>
+                {stats.todaysChildren}
+              </Text>
+            </View>
 
-        <View className="flex-row items-center mb-2" style={{ backgroundColor: background }}>
-          <Icon name="map-marker-alt" size={22} color={primary} />
-          <Text style={{ color: primary }} className="ml-2 text-lg font-semibold">
-            {user?.facility || 'Afunori PHCC'}
-          </Text>
-        </View>
+            {/* Total enrolled */}
+            <View
+              className="w-[48%] p-4 rounded-2xl border shadow-sm"
+              style={{
+                backgroundColor: colors.card,
+                borderColor: colors.border,
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 1 },
+                shadowOpacity: 0.1,
+                shadowRadius: 2,
+                elevation: 2,
+              }}
+            >
+              <View
+                className="items-center justify-center mb-3 rounded-full w-14 h-14"
+                style={{ backgroundColor: '#E8F5E9' }}
+              >
+                <Icon name="groups" size={28} color="#4CAF50" />
+              </View>
+              <Text className="mb-2 text-sm leading-5" style={{ color: colors.mutedForeground }}>
+                Total enrolled
+              </Text>
+              <Text className="text-4xl font-semibold" style={{ color: colors.foreground }}>
+                {stats.totalEnrolled}
+              </Text>
+            </View>
 
-        <Text style={{ color: mutedFg }} className="text-base">
-          {user?.lga || 'Nguru'} LGA, Yobe State
-        </Text>
-      </View>
+            {/* Sachets in stock */}
+            <View
+              className="w-[48%] p-4 rounded-2xl border-2 shadow-sm"
+              style={{
+                backgroundColor: colors.card,
+                borderColor: colors.warning,
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 1 },
+                shadowOpacity: 0.1,
+                shadowRadius: 2,
+                elevation: 2,
+              }}
+            >
+              <View
+                className="items-center justify-center mb-3 rounded-full w-14 h-14"
+                style={{ backgroundColor: '#FFF9C4' }}
+              >
+                <MaterialCommunityIcons
+                  name="package-variant-closed"
+                  size={28}
+                  color={colors.warning}
+                />
+              </View>
+              <Text className="mb-2 text-sm leading-5" style={{ color: colors.warning }}>
+                Sachets in stock
+              </Text>
+              <Text className="text-4xl font-semibold" style={{ color: colors.warning }}>
+                {stats.sachetsInStock}
+              </Text>
+            </View>
 
-      <View className="max-w-md px-5 mx-auto" style={{ backgroundColor: background }}>
-        {/* Enrol New Child */}
-        <TouchableOpacity
-          onPress={() => router.push('/(tabs)/enroll')}
-          activeOpacity={0.9}
-          className="items-center px-10 py-8 mb-6 shadow-xl rounded-3xl shadow-black/20"
-          style={{ backgroundColor: primary, shadowColor: borderColor }}
-        >
-          <View className="p-6 mb-4 rounded-full" style={{ backgroundColor: primaryFg }}>
-            <Icon name="user-plus" size={36} color={primary} />
+            {/* Pending referrals */}
+            <View
+              className="w-[48%] p-4 rounded-2xl border shadow-sm"
+              style={{
+                backgroundColor: colors.card,
+                borderColor: colors.border,
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 1 },
+                shadowOpacity: 0.1,
+                shadowRadius: 2,
+                elevation: 2,
+              }}
+            >
+              <View
+                className="items-center justify-center mb-3 rounded-full w-14 h-14"
+                style={{ backgroundColor: '#FFE6E6' }}
+              >
+                <Icon name="event-note" size={28} color={colors.destructive} />
+              </View>
+              <Text className="mb-2 text-sm leading-5" style={{ color: colors.mutedForeground }}>
+                Pending referrals
+              </Text>
+              <Text className="text-4xl font-semibold" style={{ color: colors.foreground }}>
+                {stats.pendingReferrals}
+              </Text>
+            </View>
           </View>
-          <Text style={{ color: primaryFg }} className="px-8 text-xl font-semibold text-center">
-            Scan to Enrol New Child
-          </Text>
-          <Text style={{ color: primaryFg, opacity: 0.8 }} className="mt-2 text-sm">
-            Register new beneficiary
-          </Text>
-        </TouchableOpacity>
 
-        {/* Monthly Visit */}
-        <TouchableOpacity
+          {/* Online Status Banner */}
+          <View
+            className="flex-row items-center justify-center gap-2 p-2 mb-5 rounded-xl"
+            style={{ backgroundColor: colors.success + '40' }}
+          >
+            <Icon name="wifi" size={20} color={colors.success} />
+            <Text className="text-[11px] font-medium" style={{ color: colors.success }}>
+              You are online. Data is syncing.
+            </Text>
+          </View>
+        </View>
+      </ScrollView>
+
+      {/* Action Buttons - Fixed at bottom */}
+      <View className="gap-3 p-4" style={{ backgroundColor: colors.background }}>
+        <Button onPress={() => router.push('/(tabs)/enroll')} size="lg" className="gap-2">
+          <Icon name="add-circle" size={24} color={colors.primaryForeground} />
+          <Text className="text-lg font-semibold" style={{ color: colors.primaryForeground }}>
+            Enrol Child
+          </Text>
+        </Button>
+
+        <Button
           onPress={() => router.push('/(tabs)/visit')}
-          activeOpacity={0.9}
-          className="items-center px-16 py-8 shadow-xl rounded-3xl shadow-black/20"
-          style={{ backgroundColor: accent, shadowColor: borderColor }}
+          variant="outline"
+          size="lg"
+          className="gap-2"
         >
-          <View className="p-6 mb-4 rounded-full" style={{ backgroundColor: cardBg }}>
-            <Icon name="barcode" size={40} color={primary} />
-          </View>
-          <Text style={{ color: accentFg }} className="px-8 text-xl font-semibold text-center">
-            Scan for Monthly Visit
+          <MaterialCommunityIcons name="qrcode-scan" size={24} color={colors.foreground} />
+          <Text className="text-base font-medium" style={{ color: colors.foreground }}>
+            Scan QR for Attendance
           </Text>
-          <Text style={{ color: accentFg, opacity: 0.8 }} className="mt-2 text-sm">
-            Record attendance & distribute
-          </Text>
-        </TouchableOpacity>
+        </Button>
       </View>
-
-      <View className="items-center my-5" style={{ backgroundColor: background }}>
-        <Text style={{ color: foreground }} className="text-base">
-          Health Worker: {user?.name || 'Amina Musa'}
-        </Text>
-      </View>
-    </ParallaxScrollView>
+    </View>
   );
 }
