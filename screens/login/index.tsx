@@ -60,7 +60,7 @@ export default function LoginScreen() {
           placeholder="username or Phone"
           value={username}
           onChangeText={(val: string) => handleOnChangeText('username', val)}
-          keyboardType="username-address"
+          keyboardType="default"
           autoCapitalize="none"
           className="mb-4"
           {...getErrorProps('username')}
