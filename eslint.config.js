@@ -2,18 +2,18 @@
 const { defineConfig } = require('eslint/config');
 const expoConfig = require('eslint-config-expo/flat');
 const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommended');
-const importPlugin = require('eslint-plugin-import');
+const simpleImportSortPlugin = require('eslint-plugin-simple-import-sort');
 
 module.exports = defineConfig([
   expoConfig,
   eslintPluginPrettierRecommended,
   {
-    ignores: ['dist/*'],
+    ignores: ['dist/*', 'nativewind-env*'],
   },
   {
     files: ['**/*.ts', '**/*./tsx'],
     plugins: {
-      import: importPlugin,
+      'simple-import-sort': simpleImportSortPlugin,
     },
     rules: {
       'no-undef': 'error',
@@ -27,7 +27,8 @@ module.exports = defineConfig([
       ],
       semi: 'warn',
       quotes: ['error', 'single'],
-      'import/order': ['error'],
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
     },
   },
 ]);

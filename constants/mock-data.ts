@@ -39,7 +39,7 @@ export const mockChildren = [
   },
 ];
 
-export const authDb: Array<User> = [
+export const authDb: User[] = [
   {
     id: 'UUID-1',
     username: 'bajakade',

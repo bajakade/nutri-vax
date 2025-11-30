@@ -1,9 +1,10 @@
-import { LoginForm, Response, User } from '@/types';
+import React from 'react';
 
 import { authDb } from '@/constants/mock-data';
 import { AuthError } from '@/services/auth';
 import { authActions } from '@/store/auth';
-import React from 'react';
+import { LoginForm, Response, User } from '@/types';
+
 import useBackend from './useBackend';
 import useDatabase from './useDatabase';
 import useDispatch from './useDispatch';

@@ -1,7 +1,8 @@
 import { useCallback, useState } from 'react';
-import { FormBase, FormError, Schema } from '../types/form';
 
 import { validateForm } from '@/helpers';
+
+import { FormBase, FormError, Schema } from '../types/form';
 
 export default function useFormValidator<T extends FormBase>(schema: Schema) {
   const [errors, setErrors] = useState<FormError[]>();

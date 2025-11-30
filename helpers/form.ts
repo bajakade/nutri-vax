@@ -1,7 +1,8 @@
-import { FormError, Schema, ValidationResult } from '../types/form';
+import { ValidationError } from 'yup';
 
 import { DictOf } from '@/types';
-import { ValidationError } from 'yup';
+
+import { FormError, Schema, ValidationResult } from '../types/form';
 
 function formatError(errors: ValidationError[]): FormError[] {
   return errors.map((e) => ({

@@ -1,5 +1,4 @@
 import { Gender, ReferralType, VaccinationStatus, YoN } from './enum';
-
 import { ItemType } from './form';
 
 export interface User {

@@ -1,6 +1,5 @@
-import { LoginForm, User } from '@/types';
-
 import { FetchFn } from '@/helpers/request';
+import { LoginForm, User } from '@/types';
 
 export interface AuthError {
   ok: boolean;

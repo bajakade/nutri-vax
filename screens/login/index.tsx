@@ -13,7 +13,7 @@ import Entypo from '@expo/vector-icons/Entypo';
 export default function LoginScreen() {
   const { login } = useAuth();
   const { colors } = useTheme();
-  const { validate, getErrorProps, errors, clearErrors } = useFormValidator<LoginForm>(loginSchema);
+  const { validate, getErrorProps, clearErrors } = useFormValidator<LoginForm>(loginSchema);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

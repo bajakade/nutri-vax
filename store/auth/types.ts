@@ -1,5 +1,6 @@
-import { User } from '@/types';
 import React from 'react';
+
+import { User } from '@/types';
 
 export enum AuthTypes {
   LOGIN = '@nutrivax/auth/LOGIN',
