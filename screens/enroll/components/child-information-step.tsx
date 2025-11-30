@@ -57,7 +57,7 @@ export function ChildInformationStep({
             onBlur={field.onBlur}
             placeholder="Enter child's full name"
             placeholderTextColor={placeholderColor}
-            className="h-12 border rouded-xl px-3 mb-1"
+            className="h-12 border rounded-xl px-3 mb-1"
             style={{
               borderColor: errors.name ? destructive : borderColor,
               color: foreground,
