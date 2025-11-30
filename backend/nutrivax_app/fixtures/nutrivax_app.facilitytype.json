@@ -1,0 +1,21 @@
+[
+  {
+    "model": "nutrivax_app.facilitytype",
+    "pk": "decf1188-896f-11ef-b1cb-acde48001122",
+    "fields": {
+      "is_active": true,
+      "name": "Private",
+      "details": "",
+      "order": 1
+    }
+  }, {
+    "model": "nutrivax_app.facilitytype",
+    "pk": "e92704b0-896f-11ef-b1cb-acde48001122",
+    "fields": {
+      "is_active": true,
+      "name": "Public",
+      "details": "",
+      "order": 2
+    }
+  }
+]
