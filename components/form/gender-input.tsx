@@ -29,7 +29,7 @@ export default function GenderInput({ formData, onUpdate, successColor, successS
               }}
             >
               {formData.sex === sex && (
-                <View className="w-2 h-2 roundef-full" style={{ backgroundColor: successColor }} />
+                <View className="w-2 h-2 rounded-full" style={{ backgroundColor: successColor }} />
               )}
             </View>
             <Text style={{ color: foreground }}>{sex === Gender.Male ? 'Male' : 'Female'}</Text>
