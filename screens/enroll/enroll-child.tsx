@@ -3,12 +3,7 @@ import { calculateAgeInMonths, generateNutriVaxBarcode } from '@/helpers';
 import { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import React, { FC, useMemo, useState } from 'react';
 import { Alert, Platform, Text, TouchableOpacity, View } from 'react-native';
-import Animated, {
-  SlideInLeft,
-  SlideInRight,
-  SlideOutLeft,
-  SlideOutRight,
-} from 'react-native-reanimated';
+import Animated, { SlideInRight, SlideOutLeft } from 'react-native-reanimated';
 import {
   ChildFormValues,
   DobPickerState,
@@ -36,6 +31,8 @@ import { DobPickerModal } from './components/dob-picker-modal';
 import { EligibilitySummary } from './components/eligibility-summary';
 import { StepProgress } from './components/step-progress';
 
+type StepFields = keyof ChildFormValues;
+
 const EnrollChild: FC = () => {
   const router = useRouter();
   const [step, setStep] = useState(1);
@@ -57,16 +54,6 @@ const EnrollChild: FC = () => {
     visible: false,
     date: maxSelectableDob,
   });
-  const [transitionDirection, setTransitionDirection] = useState<'forward' | 'backward'>('forward');
-
-  const enteringAnimation =
-    transitionDirection === 'forward'
-      ? SlideInRight.springify().damping(18).stiffness(140)
-      : SlideInLeft.springify().damping(18).stiffness(140);
-  const exitingAnimation =
-    transitionDirection === 'forward'
-      ? SlideOutLeft.springify().damping(18).stiffness(140)
-      : SlideOutRight.springify().damping(18).stiffness(140);
 
   const {
     control,
@@ -158,8 +145,8 @@ const EnrollChild: FC = () => {
   };
 
   const handleNext = async () => {
-    const stepOneFields: (keyof ChildFormValues)[] = ['name', 'sex', 'dob', 'immunizationNumber'];
-    const stepTwoFields: (keyof ChildFormValues)[] = ['muac', 'oedema', 'zScore'];
+    const stepOneFields: StepFields[] = ['name', 'sex', 'dob', 'immunizationNumber'];
+    const stepTwoFields: StepFields[] = ['muac', 'oedema', 'zScore'];
     const fieldsToValidate = step === 1 ? stepOneFields : step === 2 ? stepTwoFields : [];
 
     if (fieldsToValidate.length) {
@@ -174,7 +161,6 @@ const EnrollChild: FC = () => {
     }
 
     if (step < 3) {
-      setTransitionDirection('forward');
       setStep((prev) => prev + 1);
     }
   };
@@ -184,7 +170,6 @@ const EnrollChild: FC = () => {
       if (step === 3) {
         setEligibility(null);
       }
-      setTransitionDirection('backward');
       setStep((prev) => prev - 1);
     }
   };
@@ -192,7 +177,6 @@ const EnrollChild: FC = () => {
   const resetFormToStart = () => {
     reset({ ...defaultFormValues });
     setEligibility(null);
-    setTransitionDirection('backward');
     setStep(1);
     setShowScanner(false);
     setDobPickerState({
@@ -215,16 +199,15 @@ const EnrollChild: FC = () => {
 
   return (
     <ParallaxScrollView>
-      <View style={{ paddingHorizontal: 16, paddingTop: 24, backgroundColor: background }}>
-        <View style={{ alignItems: 'center', marginBottom: 16 }}>
-          <Text style={{ fontSize: 24, fontWeight: '700', color: primary, marginBottom: 4 }}>
+      <View className="px-4 pt-6" style={{ backgroundColor: background }}>
+        <View className="items-center mb-4">
+          <Text className="mb-1 text-2xl font-bold" style={{ color: primary }}>
             Enroll Child
           </Text>
           <Text
+            className="text-sm text-center"
             style={{
-              fontSize: 14,
               color: mutedForeground,
-              textAlign: 'center',
             }}
           >
             Scan immunization card to register new beneficiary
@@ -236,8 +219,8 @@ const EnrollChild: FC = () => {
         {step === 1 && (
           <Animated.View
             key="step-1"
-            entering={enteringAnimation}
-            exiting={exitingAnimation}
+            entering={SlideInRight}
+            exiting={SlideOutLeft}
             style={{ marginBottom: 24 }}
           >
             <ChildInformationStep
@@ -256,14 +239,11 @@ const EnrollChild: FC = () => {
         {step === 2 && (
           <Animated.View
             key="step-2"
-            entering={enteringAnimation}
-            exiting={exitingAnimation}
+            entering={SlideInRight}
+            exiting={SlideOutLeft}
+            className="mb-6 p-4 rounded-xl shadow-md"
             style={{
-              marginBottom: 24,
-              padding: 16,
               backgroundColor: assessmentCardBackground,
-              borderRadius: 16,
-              elevation: 4,
               shadowColor: borderColor,
               shadowOpacity: 0.1,
               shadowRadius: 8,
@@ -276,32 +256,27 @@ const EnrollChild: FC = () => {
         {step === 3 && eligibility && (
           <Animated.View
             key="step-3"
-            entering={enteringAnimation}
-            exiting={exitingAnimation}
+            entering={SlideInRight}
+            exiting={SlideOutLeft}
             style={{ marginBottom: 24 }}
           >
             <EligibilitySummary
               eligibility={eligibility}
               childName={formValues.name}
               onGenerateCard={handleGenerateCard}
-              onRefer={() => router.push('/(tabs)/refer')}
+              onRefer={() => router.push('/(protected)/(tabs)/refer')}
             />
           </Animated.View>
         )}
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 16 }}>
+        <View className="flow-row justify-between mb-4">
           {step > 1 && (
             <TouchableOpacity
               onPress={handleBack}
+              className="flex-1 mr-2 border-2 py-3 rounded-xl items-center"
               style={{
-                flex: 1,
-                marginRight: 8,
                 backgroundColor: card,
-                borderWidth: 2,
                 borderColor: primary,
-                paddingVertical: 12,
-                borderRadius: 12,
-                alignItems: 'center',
               }}
             >
               <Text style={{ color: primary, fontWeight: '700' }}>Back</Text>
@@ -310,13 +285,10 @@ const EnrollChild: FC = () => {
           {step < 3 && (
             <TouchableOpacity
               onPress={handleNext}
+              className="flex-1 py-3 rounded-xl items-center"
               style={{
-                flex: 1,
                 marginLeft: step > 1 ? 8 : 0,
                 backgroundColor: primary,
-                paddingVertical: 12,
-                borderRadius: 12,
-                alignItems: 'center',
               }}
             >
               <Text style={{ color: primaryForeground, fontWeight: '700' }}>Next</Text>

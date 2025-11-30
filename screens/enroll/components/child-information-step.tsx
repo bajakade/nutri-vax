@@ -1,11 +1,10 @@
-import React from 'react';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
 import { Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { useColor } from '@/hooks/use-color';
 import { Gender } from '@/types/enum';
-
+import React from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import type { ChildFormValues } from '../helpers';
 
 type ChildInformationStepProps = {
@@ -45,7 +44,9 @@ export function ChildInformationStep({
 
   return (
     <View>
-      <Text style={{ marginBottom: 4, color: foreground }}>Child Name *</Text>
+      <Text className="mb-1" style={{ color: foreground }}>
+        Child Name *
+      </Text>
       <Controller
         control={control}
         name="name"
@@ -56,13 +57,9 @@ export function ChildInformationStep({
             onBlur={field.onBlur}
             placeholder="Enter child's full name"
             placeholderTextColor={placeholderColor}
+            className="h-12 border rouded-xl px-3 mb-1"
             style={{
-              height: 48,
-              borderWidth: 1,
               borderColor: errors.name ? destructive : borderColor,
-              borderRadius: 12,
-              paddingHorizontal: 12,
-              marginBottom: 4,
               color: foreground,
               backgroundColor: card,
             }}
@@ -71,12 +68,14 @@ export function ChildInformationStep({
       />
       {errors.name ? <Text style={errorTextStyle}>{errors.name.message}</Text> : null}
 
-      <Text style={{ marginBottom: 4, color: foreground }}>Sex *</Text>
+      <Text className="mb-1" style={{ color: foreground }}>
+        Sex *
+      </Text>
       <Controller
         control={control}
         name="sex"
         render={({ field }) => (
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 }}>
+          <View className="flex-row justify-between mb-1">
             {[Gender.Male, Gender.Female].map((sexOption) => (
               <TouchableOpacity
                 key={sexOption}
@@ -84,21 +83,16 @@ export function ChildInformationStep({
                   field.onChange(sexOption);
                   field.onBlur();
                 }}
+                className="flex-1 mx-1 py-3 rounded-xl border-2 items-center"
                 style={{
-                  flex: 1,
-                  marginHorizontal: 4,
-                  paddingVertical: 12,
-                  borderRadius: 12,
-                  borderWidth: 2,
                   borderColor: field.value === sexOption ? primary : borderColor,
                   backgroundColor:
                     field.value === sexOption ? selectionActiveBg : selectionInactiveBg,
-                  alignItems: 'center',
                 }}
               >
                 <Text
+                  className="font-semibold"
                   style={{
-                    fontWeight: '600',
                     color: field.value === sexOption ? primaryForeground : foreground,
                   }}
                 >
@@ -111,7 +105,9 @@ export function ChildInformationStep({
       />
       {errors.sex ? <Text style={errorTextStyle}>{errors.sex.message}</Text> : null}
 
-      <Text style={{ marginBottom: 4, color: foreground }}>Date of Birth *</Text>
+      <Text className="mb-1" style={{ color: foreground }}>
+        Date of Birth *
+      </Text>
       <Controller
         control={control}
         name="dob"
@@ -124,22 +120,15 @@ export function ChildInformationStep({
                 onBlur: field.onBlur,
               })
             }
+            className="h-12 border rounded-xl px-3 justify-center mb-1"
             style={{
-              height: 48,
-              borderWidth: 1,
               borderColor: errors.dob ? destructive : borderColor,
-              borderRadius: 12,
-              paddingHorizontal: 12,
-              justifyContent: 'center',
-              marginBottom: 4,
               backgroundColor: card,
             }}
           >
             <Text
-              style={{
-                color: field.value ? foreground : placeholderColor,
-                fontSize: 16,
-              }}
+              className="text-sm"
+              style={{ color: field.value ? foreground : placeholderColor }}
             >
               {field.value ? formatDobDisplay(field.value) : 'Select date of birth'}
             </Text>
@@ -148,13 +137,15 @@ export function ChildInformationStep({
       />
       {errors.dob ? <Text style={errorTextStyle}>{errors.dob.message}</Text> : null}
       {showAge ? (
-        <Text style={{ marginBottom: 12, color: primary }}>
+        <Text className="mb-3" style={{ color: primary }}>
           Age: {Math.max(0, Math.round(ageInMonths))} months
         </Text>
       ) : null}
 
-      <Text style={{ marginBottom: 4, color: foreground }}>Immunization # *</Text>
-      <View style={{ flexDirection: 'row', marginBottom: 12 }}>
+      <Text className="mb-1" style={{ color: foreground }}>
+        Immunization # *
+      </Text>
+      <View className="flex-row mb-3">
         <Controller
           control={control}
           name="immunizationNumber"
@@ -165,13 +156,9 @@ export function ChildInformationStep({
               onBlur={field.onBlur}
               placeholder="Scan or enter number"
               placeholderTextColor={placeholderColor}
+              className="flex-1 h-12 border rounded-xl px-3"
               style={{
-                flex: 1,
-                height: 48,
-                borderWidth: 1,
                 borderColor: errors.immunizationNumber ? destructive : borderColor,
-                borderRadius: 12,
-                paddingHorizontal: 12,
                 color: foreground,
                 backgroundColor: card,
               }}
@@ -180,15 +167,8 @@ export function ChildInformationStep({
         />
         <TouchableOpacity
           onPress={onOpenScanner}
-          style={{
-            width: 48,
-            height: 48,
-            backgroundColor: selectionActiveBg,
-            marginLeft: 8,
-            borderRadius: 12,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
+          className="w-12 h-12 ml-2 rounded-xl justify-center items-center"
+          style={{ backgroundColor: selectionActiveBg }}
         >
           <Icon name="barcode" size={20} color={primary} />
         </TouchableOpacity>

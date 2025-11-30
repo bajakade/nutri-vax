@@ -1,12 +1,11 @@
-import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, View } from 'react-native';
 
+import GenderInput from '@/components/form/gender-input';
 import ReferralInput from '@/components/form/referral-input';
 import { Input } from '@/components/ui/input';
 import { useColor } from '@/hooks/use-color';
 import { ReferralFormData } from '@/types';
-import { Gender } from '@/types/enum';
-
+import React from 'react';
 import { UpdateReferralForm } from '../helpers';
 import { SectionCard } from './section-card';
 
@@ -57,49 +56,15 @@ export const ChildInformationSection = ({
         handleOnChange={onUpdate}
       />
 
-      <View>
-        <Text style={{ marginBottom: 8, fontSize: 14, fontWeight: '500', color: foreground }}>
-          Sex *
-        </Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 24 }}>
-          {([Gender.Male, Gender.Female] as const).map((sex) => (
-            <TouchableOpacity
-              key={sex}
-              onPress={() => onUpdate('sex', sex)}
-              style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}
-              activeOpacity={0.85}
-            >
-              <View
-                style={{
-                  width: 24,
-                  height: 24,
-                  borderRadius: 12,
-                  borderWidth: 2,
-                  borderColor: formData.sex === sex ? successColor : mutedForeground,
-                  backgroundColor: formData.sex === sex ? successSurface : 'transparent',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                {formData.sex === sex && (
-                  <View
-                    style={{
-                      width: 10,
-                      height: 10,
-                      borderRadius: 5,
-                      backgroundColor: successColor,
-                    }}
-                  />
-                )}
-              </View>
-              <Text style={{ color: foreground }}>{sex === Gender.Male ? 'Male' : 'Female'}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
+      <GenderInput
+        formData={formData}
+        onUpdate={onUpdate}
+        successColor={successColor}
+        successSurface={successSurface}
+      />
 
       <View>
-        <Text style={{ marginBottom: 8, fontSize: 14, fontWeight: '500', color: foreground }}>
+        <Text className="mb-2 text-sm font-medium" style={{ color: foreground }}>
           MUAC (mm) *
         </Text>
         <Input
