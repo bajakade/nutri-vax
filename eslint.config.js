@@ -10,7 +10,7 @@ module.exports = defineConfig([
     ignores: ['dist/*'],
   },
   {
-    files: ['**/*.ts'],
+    files: ['**/*.ts', '**/*./tsx'],
     rules: {
       'no-undef': 'error',
       'no-unused-vars': 'warn',

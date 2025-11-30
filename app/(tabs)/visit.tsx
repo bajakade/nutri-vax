@@ -1,3 +1,3 @@
-import AttendanceScreen from '@/screens/visit/visit';
+import AttendanceScreen from '../../screens/visit';
 
 export default AttendanceScreen;

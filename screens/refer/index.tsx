@@ -1,17 +1,16 @@
-import { REFERRAL_TYPE } from '@/constants/referral';
-import { useColor } from '@/hooks/use-color';
-import { ReferralFormData } from '@/types';
-import { Gender } from '@/types/enum';
-import { useRouter } from 'expo-router';
+import { UpdateReferralForm, withOpacity } from '@/screens/refer/helpers';
+import { Gender, ReferralType } from '@/types/enum';
 import React, { FC, useState } from 'react';
 import { Alert, ScrollView, Text } from 'react-native';
 
+import { useColor } from '@/hooks/use-color';
 import { AuthorizationSection } from '@/screens/refer/components/authorization-section';
 import { ChildInformationSection } from '@/screens/refer/components/child-information-section';
 import { ReferralDetailsSection } from '@/screens/refer/components/referral-details-section';
 import { SubmissionActions } from '@/screens/refer/components/submission-actions';
 import { SubmissionSuccess } from '@/screens/refer/components/submission-success';
-import { UpdateReferralForm, withOpacity } from '@/screens/refer/helpers';
+import { ReferralFormData } from '@/types';
+import { useRouter } from 'expo-router';
 
 const ReferralFormScreen: FC = () => {
   const router = useRouter();
@@ -24,7 +23,7 @@ const ReferralFormScreen: FC = () => {
     settlement: '',
     fromFacility: '',
     toFacility: '',
-    referralType: REFERRAL_TYPE.SAM,
+    referralType: ReferralType.SAM,
     reason: '',
     signature: '',
   });
