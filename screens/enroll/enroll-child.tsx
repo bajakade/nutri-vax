@@ -221,7 +221,7 @@ const EnrollChild: FC = () => {
             key="step-1"
             entering={SlideInRight}
             exiting={SlideOutLeft}
-            style={{ marginBottom: 24 }}
+            className='mb-6'
           >
             <ChildInformationStep
               control={control}
@@ -279,7 +279,7 @@ const EnrollChild: FC = () => {
                 borderColor: primary,
               }}
             >
-              <Text style={{ color: primary, fontWeight: '700' }}>Back</Text>
+              <Text className='font-bold' style={{ color: primary }}>Back</Text>
             </TouchableOpacity>
           )}
           {step < 3 && (
@@ -291,7 +291,7 @@ const EnrollChild: FC = () => {
                 backgroundColor: primary,
               }}
             >
-              <Text style={{ color: primaryForeground, fontWeight: '700' }}>Next</Text>
+              <Text className='font-bold' style={{ color: primaryForeground }}>Next</Text>
             </TouchableOpacity>
           )}
         </View>
