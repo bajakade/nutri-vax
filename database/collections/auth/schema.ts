@@ -41,6 +41,7 @@ const schema: RxJsonSchema<User> = {
 };
 
 const migrationStrategies: MigrationStrategies = {
+  // 30 Nov 2025 - update facility type
   1: (doc) => doc,
 };
 
