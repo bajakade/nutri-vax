@@ -25,7 +25,7 @@ export default function useAuth(): AuthRef {
     );
 
     if (!authUser) {
-      return { ok: false, error: Error('Invalid user') };
+      return { ok: false, error: new Error('Invalid user') };
     }
 
     return { user: authUser };
