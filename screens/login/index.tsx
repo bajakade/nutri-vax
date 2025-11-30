@@ -57,10 +57,10 @@ export default function LoginScreen() {
         <Text className="text-center text-sm text-gray-500 mt-1 mb-8">Sign in to continue</Text>
 
         <Input
-          placeholder="username or Phone"
+          placeholder="Username or Phone"
           value={username}
           onChangeText={(val: string) => handleOnChangeText('username', val)}
-          keyboardType="username-address"
+          keyboardType="default"
           autoCapitalize="none"
           className="mb-4"
           {...getErrorProps('username')}
