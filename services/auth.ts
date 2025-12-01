@@ -1,8 +1,8 @@
 import { FetchFn } from '@/helpers/request';
-import { User } from '@/types';
-import type { LoginForm } from '../types/interface';
+import { LoginForm, User } from '@/types';
 
-interface AuthError {
+export interface AuthError {
+  ok: boolean;
   error?: Error;
 }
 
@@ -23,7 +23,7 @@ export const authenticate = async (
     const result = await backendFetch({ url: '/rest-auth/token/', options });
 
     if (!result) {
-      return { error: new Error('Network connection error') };
+      return { ok: false, error: new Error('Network connection error') };
     }
 
     if (result && 'token' in result) {
@@ -31,13 +31,14 @@ export const authenticate = async (
 
       authUser.username = formData.rememberUsername ? result.username : undefined;
 
-      return authUser;
+      return authUser as User;
     }
 
     return {
+      ok: false,
       error: new Error('Authentication error'),
     };
   } catch (error) {
-    return { error: error as Error };
+    return { ok: false, error: error as Error };
   }
 };

@@ -1,10 +1,11 @@
 import { Gender, ReferralType, VaccinationStatus, YoN } from './enum';
+import { ItemType } from './form';
 
 export interface User {
   id: string;
   username: string;
   email: string;
-  facility: string;
+  facility: ItemType;
   token: string;
 }
 
@@ -30,12 +31,6 @@ export interface Child {
   lastVisit: string;
   vaccineStatus: VaccinationStatus;
 }
-export interface Vaccine {
-  id: string;
-  name: string;
-  dueAgeMonths: number;
-  status: VaccinationStatus;
-}
 
 export interface ReferralFormData {
   childName: string;
@@ -57,10 +52,3 @@ export interface Response {
 }
 
 export type DictOf<T> = Record<string, T>;
-
-export interface LoginForm {
-  email?: string;
-  username?: string;
-  password: string;
-  rememberUsername?: boolean;
-}

@@ -11,6 +11,7 @@ export type FetchFn = (args: FetchArgs) => FetchResult;
 
 export type Method = 'DELETE' | 'GET' | 'PATCH' | 'POST' | 'PUT';
 
+// eslint-disable-next-line
 export type RequestOptions = RequestInit & {
   multipart?: boolean;
   params?: DictOf<any>;
@@ -110,6 +111,7 @@ export function request(
   { headers, multipart, params, data, responseType = 'json', ...rest }: RequestOptions,
 ): Promise<FetchResponse> {
   return new Promise((resolve: PromiseResolver, reject: PromiseRejector) => {
+    // eslint-disable-next-line
     const options: RequestInit = { ...rest, method, headers: headers || {} };
     if (data) {
       if (multipart) {

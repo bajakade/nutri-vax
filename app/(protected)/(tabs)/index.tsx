@@ -1,12 +1,15 @@
+import { Text, TouchableOpacity, View } from 'react-native';
+
 import ParallaxScrollView from '@/components/parallax-scroll-view';
+import { useSelector } from '@/hooks';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-export default function Dashboard({ user }: { user?: any }) {
+export default function Dashboard() {
   const router = useRouter();
+  const { user } = useSelector((store) => store.auth);
   const today = new Date().toLocaleDateString('en-GB', {
     weekday: 'long',
     day: 'numeric',
@@ -37,19 +40,19 @@ export default function Dashboard({ user }: { user?: any }) {
         <View className="flex-row items-center mb-2" style={{ backgroundColor: background }}>
           <Icon name="map-marker-alt" size={22} color={primary} />
           <Text style={{ color: primary }} className="ml-2 text-lg font-semibold">
-            {user?.facility || 'Afunori PHCC'}
+            {user?.facility.name}
           </Text>
         </View>
 
         <Text style={{ color: mutedFg }} className="text-base">
-          {user?.lga || 'Nguru'} LGA, Yobe State
+          Nguru LGA, Yobe State
         </Text>
       </View>
 
       <View className="max-w-md px-5 mx-auto" style={{ backgroundColor: background }}>
         {/* Enrol New Child */}
         <TouchableOpacity
-          onPress={() => router.push('/(tabs)/enroll')}
+          onPress={() => router.push('/(protected)/(tabs)/enroll')}
           activeOpacity={0.9}
           className="items-center px-10 py-8 mb-6 shadow-xl rounded-3xl shadow-black/20"
           style={{ backgroundColor: primary, shadowColor: borderColor }}
@@ -67,7 +70,7 @@ export default function Dashboard({ user }: { user?: any }) {
 
         {/* Monthly Visit */}
         <TouchableOpacity
-          onPress={() => router.push('/(tabs)/visit')}
+          onPress={() => router.push('/(protected)/(tabs)/visit')}
           activeOpacity={0.9}
           className="items-center px-16 py-8 shadow-xl rounded-3xl shadow-black/20"
           style={{ backgroundColor: accent, shadowColor: borderColor }}
@@ -86,7 +89,7 @@ export default function Dashboard({ user }: { user?: any }) {
 
       <View className="items-center my-5" style={{ backgroundColor: background }}>
         <Text style={{ color: foreground }} className="text-base">
-          Health Worker: {user?.name || 'Amina Musa'}
+          Health Worker: {user?.username}
         </Text>
       </View>
     </ParallaxScrollView>

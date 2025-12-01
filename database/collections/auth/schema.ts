@@ -1,8 +1,9 @@
+import { MigrationStrategies, RxJsonSchema } from 'rxdb';
+
 import { User } from '@/types/interface';
-import { RxJsonSchema } from 'rxdb';
 
 const schema: RxJsonSchema<User> = {
-  version: 0,
+  version: 1,
   primaryKey: 'id',
   type: 'object',
   properties: {
@@ -20,7 +21,17 @@ const schema: RxJsonSchema<User> = {
       format: 'email',
     },
     facility: {
-      type: 'string',
+      type: 'object',
+      properties: {
+        id: {
+          type: 'string',
+          maxLength: 255,
+        },
+        name: {
+          type: 'string',
+          maxLength: 100,
+        },
+      },
     },
     token: {
       type: 'string',
@@ -29,4 +40,9 @@ const schema: RxJsonSchema<User> = {
   required: ['username', 'email', 'token'],
 };
 
-export default { schema };
+const migrationStrategies: MigrationStrategies = {
+  // 30 Nov 2025 - update facility type
+  1: (doc) => doc,
+};
+
+export default { schema, migrationStrategies };

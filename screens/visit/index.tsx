@@ -1,13 +1,13 @@
-import { mockChildren } from '@/constants/data';
-import { SACHETS } from '@/constants/distribution';
-import { ChildCard } from '@/screens/visit/components/child-card';
-import { DistributionDialog } from '@/screens/visit/components/distribution-dialog';
-import { SearchBar } from '@/screens/visit/components/search-bar';
 import { ChildRecord, filterChildrenByQuery } from '@/screens/visit/helpers';
 import React, { FC, useMemo, useState } from 'react';
 import { Alert, ScrollView, Text, View } from 'react-native';
 
+import { SACHETS } from '@/constants/distribution';
 import { useColor } from '@/hooks/use-color';
+import { ChildCard } from '@/screens/visit/components/child-card';
+import { DistributionDialog } from '@/screens/visit/components/distribution-dialog';
+import { SearchBar } from '@/screens/visit/components/search-bar';
+import { mockChildren } from '../../constants/mock-data';
 
 const AttendanceScreen: FC = () => {
   const [searchQuery, setSearchQuery] = useState('');

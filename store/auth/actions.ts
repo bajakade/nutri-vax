@@ -1,4 +1,5 @@
 import { User } from '@/types';
+
 import { AuthTypes } from './types';
 
 const login = (user?: Omit<User, 'id'>, token?: string, persistedUsername?: string) => ({

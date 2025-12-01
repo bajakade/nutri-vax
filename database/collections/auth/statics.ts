@@ -1,6 +1,6 @@
-import type { AuthCollection, AuthStatics } from './types';
-
 import { User } from '@/types/interface';
+
+import type { AuthCollection, AuthStatics } from './types';
 
 const ID = '@nutri-vax/authData';
 
