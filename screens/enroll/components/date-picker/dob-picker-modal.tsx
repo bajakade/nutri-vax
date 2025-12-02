@@ -31,7 +31,7 @@ export function DobPickerModal({
     <Modal transparent animationType="slide" visible={visible} onRequestClose={onClose}>
       <View className="flex flex-col justify-end bg-black/40 h-full w-full">
         <View className="px-4 pt-4 pb-6 rounded-t-[16px]" style={{ backgroundColor: card }}>
-          <Text className="text-center text-base font-semibold mb-2 text-[foreground]">
+          <Text className="text-center text-base font-semibold mb-2 text-foreground dark:text-muted">
             Select Date of Birth
           </Text>
           <DateTimePicker
