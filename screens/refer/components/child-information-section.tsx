@@ -23,7 +23,6 @@ export const ChildInformationSection = ({
   successColor,
 }: ChildInformationSectionProps) => {
   const foreground = useColor('foreground');
-  const mutedForeground = useColor('mutedForeground');
 
   return (
     <SectionCard

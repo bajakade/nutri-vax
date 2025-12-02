@@ -3,8 +3,12 @@ import { Text, TouchableOpacity, View } from 'react-native';
 
 import { useColor } from '@/hooks/use-color';
 
-
-export default function GenderInput({ formData, onUpdate, successColor, successSurface }: ChildInformationSectionProps) {
+export default function GenderInput({
+  formData,
+  onUpdate,
+  successColor,
+  successSurface,
+}: ChildInformationSectionProps) {
   const foreground = useColor('foreground');
   const mutedForeground = useColor('mutedForeground');
 
