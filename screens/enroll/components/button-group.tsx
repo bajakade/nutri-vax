@@ -28,7 +28,7 @@ export function ButtonGroup({ value, options, onChange, onBlur }: ButtonGroupPro
               onChange(key);
               onBlur?.();
             }}
-            className="flex-1 mx-1 mb-2 items-center rounded-lg border-2 py-3"
+            className="flex-1 mx-1 items-center rounded-lg border-2 py-3"
             style={{
               borderColor: isSelected ? primary : borderColor,
               backgroundColor: isSelected ? selectionActiveBg : selectionInactiveBg,
