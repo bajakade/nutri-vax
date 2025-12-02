@@ -89,13 +89,6 @@ const EnrollChild: FC = () => {
     setEligibility(null);
     setStep(1);
     setShowScanner(false);
-    // todo: fix me
-    // setDobPickerState({
-    //   visible: false,
-    //   date: maxSelectableDob,
-    //   onChange: undefined,
-    //   onBlur: undefined,
-    // });
   };
 
   const handleGenerateCard = () => {
