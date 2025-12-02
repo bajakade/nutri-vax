@@ -29,7 +29,7 @@ module.exports = {
         'primary-foreground': '#ffffff',
 
         secondary: '#f0f0f0',
-        'secondary-foreground': '#000000',
+        'secondary-dark': 'rgba(240, 240, 240, 0.1)',
 
         muted: '#f5f5f5',
         'muted-foreground': '#666666',

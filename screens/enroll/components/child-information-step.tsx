@@ -37,9 +37,7 @@ export function ChildInformationStep({
 
   return (
     <View>
-      <Text className="mb-1" style={{ color: foreground }}>
-        Child Name *
-      </Text>
+      <Text className="mb-1 text-foreground dark:text-background">Child Name *</Text>
       <Controller
         control={control}
         name="name"

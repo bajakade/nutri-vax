@@ -1,8 +1,7 @@
-import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import { useColor } from '@/hooks/use-color';
 import { Eligibility } from '@/types/enum';
+import React from 'react';
 
 type EligibilitySummaryProps = {
   eligibility: Eligibility;
@@ -17,74 +16,31 @@ export function EligibilitySummary({
   onGenerateCard,
   onRefer,
 }: EligibilitySummaryProps) {
-  const primary = useColor('primary');
-  const primaryForeground = useColor('primaryForeground');
-  const successContainerBg = useColor('secondary');
-  const referContainerBg = useColor('muted');
-  const warning = useColor('warning');
-  const warningForeground = useColor('warningForeground');
-  const foreground = useColor('foreground');
-
   if (eligibility === Eligibility.Eligible) {
     return (
-      <View
-        style={{
-          backgroundColor: successContainerBg,
-          padding: 16,
-          borderRadius: 12,
-          marginBottom: 16,
-        }}
-      >
-        <Text style={{ fontWeight: '700', fontSize: 18, color: primary, marginBottom: 8 }}>
-          Child is Eligible!
-        </Text>
-        <Text style={{ color: foreground }}>
+      <View className="px-4 pt-8 pb-12 rounded-lg mt-4 bg-secondary dark:bg-secondary-dark">
+        <Text className="font-bold text-xl text-primary mb-2">Child is Eligible!</Text>
+        <Text className="text-foreground dark:text-background">
           {childName} meets all criteria for SQ-LNS supplementation.
         </Text>
         <TouchableOpacity
           onPress={onGenerateCard}
-          style={{
-            marginTop: 16,
-            backgroundColor: primary,
-            paddingVertical: 12,
-            borderRadius: 12,
-            alignItems: 'center',
-          }}
+          className="mt-4 bg-primary py-3 rounded-lg items-center"
         >
-          <Text style={{ color: primaryForeground, fontWeight: '700' }}>
-            Enrol & Generate NutriVax Barcode
-          </Text>
+          <Text className="font-bold text-background">Enrol & Scan Barcode</Text>
         </TouchableOpacity>
       </View>
     );
   }
 
   return (
-    <View
-      style={{
-        backgroundColor: referContainerBg,
-        padding: 16,
-        borderRadius: 12,
-        marginBottom: 16,
-      }}
-    >
-      <Text style={{ fontWeight: '700', fontSize: 18, color: warning, marginBottom: 8 }}>
-        Refer to CMAM
-      </Text>
-      <Text style={{ color: foreground }}>
+    <View className="p-4 rounded-lg mb-4 bg-muted dark:bg-secondary-dark">
+      <Text className="font-bold text-lg mb-2 text-warning">Refer to CMAM</Text>
+      <Text className="text-foreground dark:text-background">
         {childName || 'This child'} does not meet SQ-LNS criteria.
       </Text>
-      <TouchableOpacity
-        onPress={onRefer}
-        style={{
-          marginTop: 16,
-          backgroundColor: warning,
-          paddingVertical: 12,
-          borderRadius: 12,
-          alignItems: 'center',
-        }}
-      >
-        <Text style={{ color: warningForeground, fontWeight: '700' }}>Generate Referral Form</Text>
+      <TouchableOpacity onPress={onRefer} className="mt-4 py-3 rounded-lg items-center bg-warning">
+        <Text className="font-bold text-warning-foreground">Generate Referral Form</Text>
       </TouchableOpacity>
     </View>
   );
