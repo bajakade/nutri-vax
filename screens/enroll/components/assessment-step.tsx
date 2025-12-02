@@ -35,7 +35,7 @@ export function AssessmentStep({ control, errors, errorClass }: AssessmentStepPr
             placeholder="Enter MUAC measurement"
             keyboardType="numeric"
             placeholderTextColor={placeholderColor}
-            className="h-[50px] rounded-lg border px-3 mb-4 text-sm text-foreground dark:text-background bg-card bg-border"
+            className="h-[50px] rounded-lg border px-3 mb-4 text-sm text-foreground dark:text-background bg-card"
             style={{
               borderColor: errors.muac ? destructive : borderColor,
             }}
