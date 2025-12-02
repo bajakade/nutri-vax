@@ -1,3 +1,7 @@
+import { UpdateReferralForm } from '@/screens/refer/helpers';
+
+import { ReferralFormData } from './interface';
+
 export interface FormBase {}
 
 export interface LoginForm extends FormBase {
@@ -39,4 +43,11 @@ export type ItemType = {
   id?: string;
   key?: string;
   name: string;
+};
+
+export type ChildInformationSectionProps = {
+  formData: ReferralFormData;
+  onUpdate: UpdateReferralForm;
+  successSurface: string;
+  successColor: string;
 };

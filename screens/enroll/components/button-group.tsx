@@ -1,45 +1,41 @@
-import React from 'react';
+import { IFormValue, IOption } from '@/types';
 import { Text, TouchableOpacity, View } from 'react-native';
 
 import { useColor } from '@/hooks/use-color';
-import { YoN } from '@/types/enum';
+import React from 'react';
 
-export type YesNoButtonGroupProps = {
-  value: YoN;
-  onChange: (value: YoN) => void;
+export type ButtonGroupProps = {
+  value: string;
+  options: IOption[];
+  onChange: (value: IFormValue) => void;
   onBlur?: () => void;
 };
 
-export function YesNoButtonGroup({ value, onChange, onBlur }: YesNoButtonGroupProps) {
+export function ButtonGroup({ value, options, onChange, onBlur }: ButtonGroupProps) {
   const primary = useColor('primary');
-  const primaryForeground = useColor('primaryForeground');
   const borderColor = useColor('border');
-  const foreground = useColor('foreground');
   const selectionActiveBg = useColor('secondary');
   const selectionInactiveBg = useColor('card');
 
   return (
     <View className="mb-2 flex-row justify-between">
-      {Object.values(YoN).map((option) => {
-        const isSelected = value === option;
+      {options.map(({ label, value: key }) => {
+        const isSelected = value === key;
         return (
           <TouchableOpacity
-            key={option}
+            key={label}
             onPress={() => {
-              onChange(option);
+              onChange(key);
               onBlur?.();
             }}
-            className="mx-1 flex-1 items-center rounded-xl border-2 py-3.5"
+            className="flex-1 mx-1 items-center rounded-lg border-2 py-3"
             style={{
               borderColor: isSelected ? primary : borderColor,
               backgroundColor: isSelected ? selectionActiveBg : selectionInactiveBg,
             }}
           >
-            <Text
-              className="text-base font-medium"
-              style={{ color: isSelected ? primaryForeground : foreground }}
-            >
-              {option === YoN.Yes ? 'Yes' : 'No'}
+            <Text className="text-base font-medium text-foreground dark:text-background">
+              {label}
             </Text>
           </TouchableOpacity>
         );
