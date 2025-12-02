@@ -2,7 +2,7 @@
 import { z } from 'zod';
 
 import { MAX_AGE_MONTHS, MIN_AGE_MONTHS, MIN_MUAC_MM } from '@/constants/assessment';
-import { calculateAgeInMonths } from '@/helpers/age';
+import { calculateAgeInMonths } from '@/helpers';
 import { Eligibility, Gender, YoN } from '@/types/enum';
 
 export const childEnrollmentSchema = z

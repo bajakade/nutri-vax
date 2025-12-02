@@ -1,0 +1,45 @@
+[
+  {
+    "model": "nutrivax_app.adminlevel",
+    "pk": "2cdf83fe-a50e-4de7-b72b-238ac8bdbc40",
+    "fields": {
+      "is_active": true,
+      "name": "Country",
+      "details": "",
+      "parent": null,
+      "order": 0
+    }
+  },
+
+  {
+    "model": "nutrivax_app.adminlevel",
+    "pk": "b4661d8d-0196-44a9-b45e-5ba9a2b21c27",
+    "fields": {
+      "is_active": true,
+      "name": "State",
+      "details": "",
+      "parent": "2cdf83fe-a50e-4de7-b72b-238ac8bdbc40",
+      "order": 1
+    }
+  }, {
+    "model": "nutrivax_app.adminlevel",
+    "pk": "58702693-cbfc-484f-9a85-b691a49a7107",
+    "fields": {
+      "is_active": true,
+      "name": "LGA",
+      "details": "Local Government Area",
+      "parent": "b4661d8d-0196-44a9-b45e-5ba9a2b21c27",
+      "order": 2
+    }
+  }, {
+    "model": "nutrivax_app.adminlevel",
+    "pk": "5afedce8-8363-47a1-a377-087359d97acf",
+    "fields": {
+      "is_active": true,
+      "name": "Ward",
+      "details": "",
+      "parent": "58702693-cbfc-484f-9a85-b691a49a7107",
+      "order": 3
+    }
+  }
+]

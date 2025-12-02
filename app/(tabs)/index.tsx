@@ -152,7 +152,7 @@ export default function Dashboard({ user }: { user?: any }) {
 
       {/* Action Buttons - Fixed at bottom */}
       <View className="gap-3 p-4" style={{ backgroundColor: colors.background }}>
-        <Button onPress={() => router.push('/(tabs)/enroll')} size="lg" className="gap-2">
+        <Button onPress={() => router.push('/(protected)/(tabs)/enroll')} size="lg" className="gap-2">
           <Icon name="add-circle" size={24} color={colors.primaryForeground} />
           <Text className="text-lg font-semibold" style={{ color: colors.primaryForeground }}>
             Enrol Child
@@ -160,7 +160,7 @@ export default function Dashboard({ user }: { user?: any }) {
         </Button>
 
         <Button
-          onPress={() => router.push('/(tabs)/visit')}
+          onPress={() => router.push('/(protected)/(tabs)/visit')}
           variant="outline"
           size="lg"
           className="gap-2"

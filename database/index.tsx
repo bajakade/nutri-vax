@@ -1,0 +1,129 @@
+import * as ExpoSQLite from 'expo-sqlite';
+
+import { Context, createContext, useEffect, useState } from 'react';
+import { Text, View, ViewProps } from 'react-native';
+import { RxDatabase, addRxPlugin, createRxDatabase, removeRxDatabase } from 'rxdb';
+import {
+  getRxStorageSQLiteTrial,
+  getSQLiteBasicsExpoSQLiteAsync,
+} from 'rxdb/plugins/storage-sqlite';
+import { NutriVaxCollection, collections } from './collections';
+
+import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode';
+import { RxDBMigrationPlugin } from 'rxdb/plugins/migration-schema';
+import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder';
+import { RxDBUpdatePlugin } from 'rxdb/plugins/update';
+import { wrappedValidateAjvStorage } from 'rxdb/plugins/validate-ajv';
+
+/**
+ * Represents the NutriVax RxDatabase-based type.
+ */
+export type NutriDatabase = RxDatabase<NutriVaxCollection>;
+
+export interface DbRef {
+  database?: NutriDatabase;
+  error?: Error;
+}
+
+const DB_NAME = 'nutri_vax';
+
+const prepareRxDB = () => {
+  addRxPlugin(RxDBDevModePlugin);
+  addRxPlugin(RxDBMigrationPlugin);
+  addRxPlugin(RxDBQueryBuilderPlugin);
+  addRxPlugin(RxDBUpdatePlugin);
+};
+
+const getStorage = () =>
+  wrappedValidateAjvStorage({
+    storage: getRxStorageSQLiteTrial({
+      sqliteBasics: getSQLiteBasicsExpoSQLiteAsync(ExpoSQLite.openDatabaseSync),
+    }),
+  });
+
+export const destroyDB = async (): Promise<void> => {
+  await removeRxDatabase(DB_NAME, getStorage());
+  console.info('DB dropped');
+};
+
+export const initializeDB = async (): Promise<DbRef> => {
+  const storage = getStorage();
+  try {
+    prepareRxDB();
+    const database = await createRxDatabase<NutriVaxCollection>({
+      name: DB_NAME,
+      storage: storage,
+      ignoreDuplicate: true,
+      multiInstance: false,
+      eventReduce: true,
+    });
+
+    try {
+      await database.addCollections({ ...collections });
+      console.debug('Added collections');
+
+      // create auth entry
+      await database.auth.init();
+      console.debug('Added auth entry');
+    } catch (error: any) {
+      console.error('Error while adding collections');
+      console.error(error);
+
+      return { error };
+    }
+    return { database };
+  } catch (error) {
+    console.debug('Database is not connected');
+    console.error('Error while creating database');
+    console.error(error);
+
+    return { error };
+  }
+};
+
+/**
+ * NutriVax application database context.
+ */
+export const DbContext: Context<DbRef> = createContext({} as DbRef);
+
+export function Provider({ children }: ViewProps) {
+  const [database, setDatabase] = useState<NutriDatabase>();
+  const [error, setError] = useState<any>();
+
+  // initialize database
+  const initDB = async () => {
+    setDatabase(undefined);
+    setError(undefined);
+
+    const result = await initializeDB();
+
+    setDatabase(result.database);
+    setError(result.error);
+  };
+
+  useEffect(() => {
+    initDB();
+
+    return () => {
+      setDatabase(undefined);
+      setError(undefined);
+    };
+  }, []);
+
+  if (error) {
+    return (
+      <View className="flex flex-col item-center justify-center h-screen">
+        <Text>Error initializing database </Text>
+      </View>
+    );
+  }
+
+  if (database) {
+    return (
+      <DbContext.Provider value={{ database }}>
+        {/* prettier-ignore */}
+        {children}
+      </DbContext.Provider>
+    );
+  }
+}

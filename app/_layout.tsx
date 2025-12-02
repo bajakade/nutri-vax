@@ -1,24 +1,31 @@
+import 'react-native-get-random-values'; // polyfill for uuid
+import 'react-native-reanimated';
+import '../shim';
 import './global.css';
 
-import { Ionicons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
-import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
-import 'react-native-reanimated';
 
-import CustomSplashScreen from '@/screens/splash-screen';
-import LoginScreen from '../screens/login';
+import { useEffect, useState } from 'react';
+
+import { Provider as DatabaseProvider } from '@/database';
+import { Provider as StoreProvider } from '@/store';
+import { Ionicons } from '@expo/vector-icons';
+import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import { install } from 'react-native-quick-crypto';
+import CustomSplashScreen from '../screens/splash-screen';
 import ThemeProvider from './providers/theme';
 
 export const unstable_settings = {
   initialRouteName: 'splash',
 };
 
+// override global.Buffer and global.crypto
+install();
+
 export default function RootLayout() {
   const [isReady, setIsReady] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     async function prepare() {
@@ -45,22 +52,16 @@ export default function RootLayout() {
     return <CustomSplashScreen />;
   }
 
-  if (!isLoggedIn) {
-    return (
-      <ThemeProvider>
-        <LoginScreen onLogin={() => setIsLoggedIn(true)} />
-        <StatusBar style="auto" />
-      </ThemeProvider>
-    );
-  }
-
   return (
     <ThemeProvider>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', headerShown: false }} />
-      </Stack>
-      <StatusBar style="auto" />
+      <DatabaseProvider>
+        <StoreProvider>
+          <Stack>
+            <Stack.Screen name="(protected)" options={{ headerShown: false }} />
+          </Stack>
+          <StatusBar style="auto" />
+        </StoreProvider>
+      </DatabaseProvider>
     </ThemeProvider>
   );
 }

@@ -23,3 +23,10 @@ export enum VaccinationStatus {
   UpToDate = 'up-to-date',
   UpdatedToday = 'updated-today',
 }
+
+export enum ReferralType {
+  SAM = 'SAM',
+  MAM = 'MAM',
+  OTP = 'OTP',
+  SC = 'SC',
+}

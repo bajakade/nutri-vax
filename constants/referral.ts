@@ -1,9 +1,4 @@
-export enum REFERRAL_TYPE {
-  SAM = 'SAM',
-  MAM = 'MAM',
-  OTP = 'OTP',
-  SC = 'SC',
-}
+import { ReferralType } from '@/types';
 
 export const FACILITIES = [
   { value: 'nguru-cmam', label: 'Nguru CMAM Center' },
@@ -13,8 +8,8 @@ export const FACILITIES = [
 ] as const;
 
 export const REFERRAL_TYPE_OPTIONS = [
-  { value: REFERRAL_TYPE.SAM, label: 'SAM', desc: 'Severe Acute' },
-  { value: REFERRAL_TYPE.MAM, label: 'MAM', desc: 'Moderate Acute' },
-  { value: REFERRAL_TYPE.OTP, label: 'OTP', desc: 'Outpatient' },
-  { value: REFERRAL_TYPE.SC, label: 'SC', desc: 'Stabilization' },
+  { value: ReferralType.SAM, label: 'SAM', desc: 'Severe Acute' },
+  { value: ReferralType.MAM, label: 'MAM', desc: 'Moderate Acute' },
+  { value: ReferralType.OTP, label: 'OTP', desc: 'Outpatient' },
+  { value: ReferralType.SC, label: 'SC', desc: 'Stabilization' },
 ];
