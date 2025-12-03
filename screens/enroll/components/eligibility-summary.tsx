@@ -27,7 +27,7 @@ export function EligibilitySummary({
           onPress={onGenerateCard}
           className="mt-4 bg-primary py-3 rounded-lg items-center"
         >
-          <Text className="font-bold text-background">Enrol & Scan Barcode</Text>
+          <Text className="font-bold text-background">Enroll & Scan Barcode</Text>
         </TouchableOpacity>
       </View>
     );
