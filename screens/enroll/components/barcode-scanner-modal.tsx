@@ -25,7 +25,7 @@ export function BarcodeScannerModal({ visible, onClose }: BarcodeScannerModalPro
             ref={camera}
             className="flex-1"
             facing="back"
-            onBarcodeScanned={({ type, data }) => {
+            onBarcodeScanned={({ data }) => {
               CameraView.dismissScanner();
               onClose(data);
             }}
