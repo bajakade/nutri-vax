@@ -234,7 +234,7 @@ export const DistributionDialog = ({
                   </TouchableOpacity>
 
                   <View
-                    className="flex-row gap-3 rounded-[18px] border p-4"
+                    className="flex-row gap-3 mb-4 rounded-[18px] border p-4"
                     style={{ borderColor: borderStrong, backgroundColor: elevated }}
                   >
                     <View
@@ -243,7 +243,7 @@ export const DistributionDialog = ({
                     >
                       <AlertTriangle size={18} color={accentInverse} />
                     </View>
-                    <View className="flex-1 mb-2">
+                    <View className="flex-1 mb-">
                       <Text className="text-sm font-semibold" style={{ color: foreground }}>
                         Counseling Points
                       </Text>
