@@ -1,13 +1,12 @@
+import { ReferralFormData, UpdateReferralForm } from '@/types';
 import { Text, View } from 'react-native';
 
 import GenderInput from '@/components/form/gender-input';
-import ReferralInput from '@/components/form/referral-input';
 import { Input } from '@/components/ui/input';
-import { useColor } from '@/hooks/use-color';
-import { ReferralFormData } from '@/types';
 import React from 'react';
-import { UpdateReferralForm } from '../helpers';
+import ReferralInput from '@/components/form/referral-input';
 import { SectionCard } from './section-card';
+import { useColor } from '@/hooks/use-color';
 
 type ChildInformationSectionProps = {
   formData: ReferralFormData;

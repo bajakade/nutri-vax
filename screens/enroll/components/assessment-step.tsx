@@ -1,11 +1,11 @@
 import { Control, Controller, FieldErrors } from 'react-hook-form';
 import { Text, TextInput, View } from 'react-native';
 
+import { ButtonGroup } from './button-group';
+import type { ChildFormValues } from '../helpers';
+import React from 'react';
 import { YoNOptions } from '@/constants/assessment';
 import { useColor } from '@/hooks/use-color';
-import React from 'react';
-import type { ChildFormValues } from '../helpers';
-import { ButtonGroup } from './button-group';
 
 type AssessmentStepProps = {
   control: Control<ChildFormValues>;
@@ -14,7 +14,6 @@ type AssessmentStepProps = {
 };
 
 export function AssessmentStep({ control, errors, errorClass }: AssessmentStepProps) {
-  const foreground = useColor('foreground');
   const destructive = useColor('destructive');
   const borderColor = useColor('border');
   const placeholderColor = useColor('mutedForeground');

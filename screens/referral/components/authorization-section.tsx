@@ -1,12 +1,10 @@
-import React from 'react';
+import { ReferralFormData, UpdateReferralForm } from '@/types';
 import { Text, View } from 'react-native';
 
 import { Input } from '@/components/ui/input';
-import { useColor } from '@/hooks/use-color';
-import { ReferralFormData } from '@/types';
-
-import { UpdateReferralForm } from '../helpers';
+import React from 'react';
 import { SectionCard } from './section-card';
+import { useColor } from '@/hooks/use-color';
 
 type AuthorizationSectionProps = {
   formData: ReferralFormData;

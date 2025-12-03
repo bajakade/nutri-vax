@@ -1,5 +1,3 @@
-import { UpdateReferralForm } from '@/screens/refer/helpers';
-
 import { ReferralFormData } from './interface';
 
 export interface FormBase {}
@@ -44,6 +42,11 @@ export type ItemType = {
   key?: string;
   name: string;
 };
+
+export type UpdateReferralForm = <K extends keyof ReferralFormData>(
+  key: K,
+  value: ReferralFormData[K],
+) => void;
 
 export type ChildInformationSectionProps = {
   formData: ReferralFormData;
