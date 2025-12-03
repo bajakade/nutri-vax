@@ -46,7 +46,7 @@ export function ChildInformationStep({
       setQr(qr);
     } else {
       // allow camera to hide
-      setTimeout(() => Alert.alert('Error', 'Unable to scan barcode'), 2000);
+      setTimeout(() => Alert.alert('Error', 'No barcode detected. Please try again.'), 2000);
     }
   };
 
