@@ -4,8 +4,8 @@ import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { GenderOptions } from '@/constants/assessment';
 import { useColor } from '@/hooks/use-color';
 import { cn } from '@/lib/utils';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import React from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import type { ChildFormValues } from '../helpers';
 import { ButtonGroup } from './button-group';
 import { DatePicker } from './date-picker';
@@ -99,7 +99,7 @@ export function ChildInformationStep({
           onPress={onOpenScanner}
           className="ml-2 h-12 w-12 items-center justify-center rounded-xl bg-secondary"
         >
-          <Icon name="barcode" size={20} color={primary} />
+          <FontAwesome5 name="barcode" size={20} color={primary} />
         </TouchableOpacity>
       </View>
       {errors.immunizationNumber ? (

@@ -1,3 +1,4 @@
+import '@/i18n';
 import 'react-native-get-random-values'; // polyfill for uuid
 import 'react-native-reanimated';
 import '../shim';
@@ -11,6 +12,9 @@ import { useEffect, useState } from 'react';
 import { Provider as DatabaseProvider } from '@/database';
 import { Provider as StoreProvider } from '@/store';
 import { Ionicons } from '@expo/vector-icons';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { install } from 'react-native-quick-crypto';
@@ -32,7 +36,12 @@ export default function RootLayout() {
       try {
         await SplashScreen.preventAutoHideAsync();
 
-        await Font.loadAsync(Ionicons.font);
+        await Font.loadAsync({
+          ...Ionicons.font,
+          ...MaterialIcons.font,
+          ...MaterialCommunityIcons.font,
+          ...FontAwesome5.font,
+        });
         await new Promise((resolve) => setTimeout(resolve, 2000));
       } catch (e) {
         console.warn(e);

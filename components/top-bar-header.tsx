@@ -1,7 +1,7 @@
 import { useTheme } from '@/hooks/use-theme';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import React, { useState } from 'react';
 import { Modal, Text, TouchableOpacity, View } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default function TopBarHeader() {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -15,7 +15,7 @@ export default function TopBarHeader() {
     <View className="flex-row items-center justify-between h-14 border-b border-border bg-background px-4">
       {/* Menu Button */}
       <TouchableOpacity onPress={toggleMenu} className="p-1">
-        <Icon name="menu" size={28} color={colors.foreground} />
+        <MaterialIcons name="menu" size={28} color={colors.foreground} />
       </TouchableOpacity>
 
       {/* Title and Subtitle */}
@@ -46,7 +46,7 @@ export default function TopBarHeader() {
                 // Navigate to profile
               }}
             >
-              <Icon name="person" size={24} color={colors.foreground} />
+              <MaterialIcons name="person" size={24} color={colors.foreground} />
               <Text className="text-base font-medium text-foreground">Profile</Text>
             </TouchableOpacity>
 
@@ -59,7 +59,7 @@ export default function TopBarHeader() {
                 // Navigate to settings
               }}
             >
-              <Icon name="settings" size={24} color={colors.foreground} />
+              <MaterialIcons name="settings" size={24} color={colors.foreground} />
               <Text className="text-base font-medium text-foreground">Settings</Text>
             </TouchableOpacity>
           </View>

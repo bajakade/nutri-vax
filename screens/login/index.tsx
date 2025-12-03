@@ -2,7 +2,7 @@ import { LoginForm, loginSchema } from '@/types';
 import React, { useState } from 'react';
 import { Alert, Text, TouchableOpacity, View } from 'react-native';
 
-import { Button } from '@/components/ui/button'; // ← your awesome Button
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/hooks';
 import { useTheme } from '@/hooks/use-theme';
@@ -41,17 +41,17 @@ export default function LoginScreen() {
   };
 
   return (
-    <View className="flex-1 justify-center px-5 bg-background">
-      <View className="rounded-3xl bg-secondary p-8 shadow-2xl shadow-black/10">
+    <View className="justify-center flex-1 px-5 bg-background">
+      <View className="p-8 shadow-2xl rounded-3xl bg-secondary shadow-black/10">
         {/* Logo */}
-        <View className="w-16 h-16 bg-primary rounded-2xl justify-center items-center self-center mb-6">
-          <Text className="text-white text-3xl font-bold">NV</Text>
+        <View className="items-center self-center justify-center w-16 h-16 mb-6 bg-primary rounded-2xl">
+          <Text className="text-3xl font-bold text-white">NV</Text>
         </View>
 
-        <Text className="text-center text-lg font-medium text-primary-900 dark:text-white">
+        <Text className="text-lg font-medium text-center text-primary-900 dark:text-white">
           Welcome Back
         </Text>
-        <Text className="text-center text-sm text-gray-500 mt-1 mb-8">Sign in to continue</Text>
+        <Text className="mt-1 mb-8 text-sm text-center text-gray-500">Sign in to continue</Text>
 
         <Input
           placeholder="Username or Phone"
@@ -84,10 +84,10 @@ export default function LoginScreen() {
           Sign In
         </Button>
 
-        <View className="flex-row justify-between items-center mt-6">
+        <View className="flex-row items-center justify-between mt-6">
           <TouchableOpacity className="flex-row items-center gap-2">
             <Entypo name="fingerprint" size={19} color={colors.text} />
-            <Text className="text-muted-foreground font-medium">Biometric Login</Text>
+            <Text className="font-medium text-muted-foreground">Biometric Login</Text>
           </TouchableOpacity>
 
           <TouchableOpacity>

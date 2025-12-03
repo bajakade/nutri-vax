@@ -3,6 +3,11 @@ export enum YoN {
   No = 'N',
 }
 
+export enum NetworkStatus {
+  Online = 'online',
+  Offline = 'offline',
+}
+
 export enum Eligibility {
   Eligible = 'eligible',
   Refer = 'refer',
