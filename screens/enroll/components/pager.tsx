@@ -11,7 +11,7 @@ export function Pager({ step, handleBack, handleNext }: Props) {
       {step > 1 && (
         <TouchableOpacity
           onPress={handleBack}
-          className="flex-1 mr-2 border-2 py-3 rounded-lg items-center bg-card bg-secondary-dark border-primary"
+          className="flex-1 mr-2 border-2 py-3 rounded-lg items-center bg-card dark:bg-secondary-dark border-primary"
         >
           <Text className="font-bold text-primary dark:text-primary-foreground">Back</Text>
         </TouchableOpacity>
