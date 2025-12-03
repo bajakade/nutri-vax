@@ -14,11 +14,9 @@ import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { useColor } from '@/hooks/use-color';
 import { Eligibility } from '@/types/enum';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useCameraPermissions } from 'expo-camera';
 import { useRouter } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { AssessmentStep } from './components/assessment-step';
-import { BarcodeScannerModal } from './components/barcode-scanner-modal';
 import { ChildInformationStep } from './components/child-information-step';
 import { EligibilitySummary } from './components/eligibility-summary';
 import { Pager } from './components/pager';
@@ -30,14 +28,13 @@ const EnrollChild: FC = () => {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [eligibility, setEligibility] = useState<Eligibility | null>(null);
-  const [showScanner, setShowScanner] = useState(false);
-  const [permission, requestPermission] = useCameraPermissions();
 
   const {
     control,
     trigger,
     watch,
     getValues,
+    setValue,
     reset,
     formState: { errors },
   } = useForm<ChildFormValues>({
@@ -88,7 +85,6 @@ const EnrollChild: FC = () => {
     reset({ ...defaultFormValues });
     setEligibility(null);
     setStep(1);
-    setShowScanner(false);
   };
 
   const handleGenerateCard = () => {
@@ -127,12 +123,12 @@ const EnrollChild: FC = () => {
           >
             <ChildInformationStep
               control={control}
+              setQr={(qr) => setValue('immunizationNumber', qr)}
               errors={errors}
               errorClass="text-destructive mb-1 text-sm"
               showAge={showAge}
               ageInMonths={ageInMonths}
               formatDobDisplay={formatDateForDisplay}
-              onOpenScanner={() => setShowScanner(true)}
             />
           </Animated.View>
         )}
@@ -171,13 +167,6 @@ const EnrollChild: FC = () => {
         )}
 
         <Pager step={step} handleBack={handleBack} handleNext={handleNext} />
-
-        <BarcodeScannerModal
-          visible={showScanner}
-          permissionGranted={Boolean(permission?.granted)}
-          onRequestPermission={() => requestPermission()}
-          onClose={() => setShowScanner(false)}
-        />
       </View>
     </ParallaxScrollView>
   );

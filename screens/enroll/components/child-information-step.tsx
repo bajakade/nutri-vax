@@ -1,31 +1,32 @@
+import React, { useState } from 'react';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
-import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { GenderOptions } from '@/constants/assessment';
 import { useColor } from '@/hooks/use-color';
-import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import type { ChildFormValues } from '../helpers';
+import { BarcodeScannerModal } from './barcode-scanner-modal';
 import { ButtonGroup } from './button-group';
 import { DatePicker } from './date-picker';
 
 type ChildInformationStepProps = {
   control: Control<ChildFormValues>;
+  setQr: (qr: string) => void;
   errors: FieldErrors<ChildFormValues>;
   errorClass: string;
   showAge: boolean;
   ageInMonths: number;
   formatDobDisplay: (value: string) => string;
-  onOpenScanner: () => void;
 };
 
 export function ChildInformationStep({
   control,
+  setQr,
   errors,
   errorClass,
   showAge,
   ageInMonths,
-  onOpenScanner,
 }: ChildInformationStepProps) {
   const foreground = useColor('foreground');
   const primary = useColor('primary');
@@ -34,6 +35,20 @@ export function ChildInformationStep({
   const destructive = useColor('destructive');
   const placeholderColor = useColor('mutedForeground');
   const selectionActiveBg = useColor('secondary');
+
+  const [showScanner, setShowScanner] = useState(false);
+
+  const onOpenScanner = () => setShowScanner(true);
+  const handleCloseScanner = (qr?: string) => {
+    setShowScanner(false);
+
+    if (qr) {
+      setQr(qr);
+    } else {
+      // allow camera to hide
+      setTimeout(() => Alert.alert('Error', 'Unable to scan barcode'), 2000);
+    }
+  };
 
   return (
     <View>
@@ -118,6 +133,8 @@ export function ChildInformationStep({
       {errors.immunizationNumber ? (
         <Text className={errorClass}>{errors.immunizationNumber.message}</Text>
       ) : null}
+
+      <BarcodeScannerModal visible={showScanner} onClose={handleCloseScanner} />
     </View>
   );
 }
