@@ -1,29 +1,16 @@
-import { MAX_AGE_MONTHS, MIN_AGE_MONTHS } from '@/constants/assessment';
 import { calculateAgeInMonths, generateNutriVaxBarcode } from '@/helpers';
-import { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import React, { FC, useMemo, useState } from 'react';
-import { Alert, Platform, Text, TouchableOpacity, View } from 'react-native';
-import Animated, {
-  SlideInLeft,
-  SlideInRight,
-  SlideOutLeft,
-  SlideOutRight,
-} from 'react-native-reanimated';
+import { Alert, Text, View } from 'react-native';
+import Animated, { SlideInRight, SlideOutLeft } from 'react-native-reanimated';
 import {
   ChildFormValues,
-  DobPickerState,
   childEnrollmentSchema,
-  clampDate,
   defaultFormValues,
   determineEligibility,
   formatDateForDisplay,
-  formatDateToISO,
-  startOfDay,
-  subtractMonths,
 } from './helpers';
 
 import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { useColor } from '@/hooks/use-color';
 import { Eligibility } from '@/types/enum';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCameraPermissions } from 'expo-camera';
@@ -32,9 +19,11 @@ import { useForm } from 'react-hook-form';
 import { AssessmentStep } from './components/assessment-step';
 import { BarcodeScannerModal } from './components/barcode-scanner-modal';
 import { ChildInformationStep } from './components/child-information-step';
-import { DobPickerModal } from './components/dob-picker-modal';
 import { EligibilitySummary } from './components/eligibility-summary';
+import { Pager } from './components/pager';
 import { StepProgress } from './components/step-progress';
+
+type StepFields = keyof ChildFormValues;
 
 const EnrollChild: FC = () => {
   const router = useRouter();
@@ -42,31 +31,6 @@ const EnrollChild: FC = () => {
   const [eligibility, setEligibility] = useState<Eligibility | null>(null);
   const [showScanner, setShowScanner] = useState(false);
   const [permission, requestPermission] = useCameraPermissions();
-
-  const today = useMemo(() => startOfDay(new Date()), []);
-  const maxSelectableDob = useMemo(
-    () => startOfDay(subtractMonths(today, MIN_AGE_MONTHS)),
-    [today],
-  );
-  const minSelectableDob = useMemo(
-    () => startOfDay(subtractMonths(today, MAX_AGE_MONTHS)),
-    [today],
-  );
-
-  const [dobPickerState, setDobPickerState] = useState<DobPickerState>({
-    visible: false,
-    date: maxSelectableDob,
-  });
-  const [transitionDirection, setTransitionDirection] = useState<'forward' | 'backward'>('forward');
-
-  const enteringAnimation =
-    transitionDirection === 'forward'
-      ? SlideInRight.springify().damping(18).stiffness(140)
-      : SlideInLeft.springify().damping(18).stiffness(140);
-  const exitingAnimation =
-    transitionDirection === 'forward'
-      ? SlideOutLeft.springify().damping(18).stiffness(140)
-      : SlideOutRight.springify().damping(18).stiffness(140);
 
   const {
     control,
@@ -86,80 +50,9 @@ const EnrollChild: FC = () => {
     [formValues.dob],
   );
   const showAge = Number.isFinite(ageInMonths);
-  const background = useColor('background');
-  const primary = useColor('primary');
-  const primaryForeground = useColor('primaryForeground');
-  const card = useColor('card');
-  const borderColor = useColor('border');
-  const destructive = useColor('destructive');
-  const mutedForeground = useColor('mutedForeground');
-  const assessmentCardBackground = useColor('secondary');
-  const errorTextStyle = { color: destructive, marginTop: 4, marginBottom: 8 } as const;
-
-  const handleRequestDobPicker = ({
-    value,
-    onChange,
-    onBlur,
-  }: {
-    value: string;
-    onChange: (val: string) => void;
-    onBlur: () => void;
-  }) => {
-    const parsed = value ? new Date(value) : null;
-    const initialDate = clampDate(parsed ?? maxSelectableDob, minSelectableDob, maxSelectableDob);
-
-    if (Platform.OS === 'android') {
-      DateTimePickerAndroid.open({
-        mode: 'date',
-        value: initialDate,
-        minimumDate: minSelectableDob,
-        maximumDate: maxSelectableDob,
-        onChange: (event: DateTimePickerEvent, selectedDate?: Date) => {
-          if (event.type === 'set' && selectedDate) {
-            const boundedDate = clampDate(selectedDate, minSelectableDob, maxSelectableDob);
-            onChange(formatDateToISO(boundedDate));
-            onBlur();
-          }
-        },
-      });
-    } else {
-      setDobPickerState({
-        visible: true,
-        date: initialDate,
-        onChange: (val) => onChange(val),
-        onBlur,
-      });
-    }
-  };
-
-  const handleDobDateChange = (_event: DateTimePickerEvent, date?: Date) => {
-    if (date) {
-      setDobPickerState((prev) => ({
-        ...prev,
-        date: clampDate(date, minSelectableDob, maxSelectableDob),
-      }));
-    }
-  };
-
-  const closeDobPicker = () => {
-    setDobPickerState((prev) => ({
-      ...prev,
-      visible: false,
-      onChange: undefined,
-      onBlur: undefined,
-    }));
-  };
-
-  const confirmDobPicker = () => {
-    const selectedISO = formatDateToISO(dobPickerState.date);
-    dobPickerState.onChange?.(selectedISO);
-    dobPickerState.onBlur?.();
-    closeDobPicker();
-  };
-
   const handleNext = async () => {
-    const stepOneFields: (keyof ChildFormValues)[] = ['name', 'sex', 'dob', 'immunizationNumber'];
-    const stepTwoFields: (keyof ChildFormValues)[] = ['muac', 'oedema', 'zScore'];
+    const stepOneFields: StepFields[] = ['name', 'sex', 'dob', 'immunizationNumber'];
+    const stepTwoFields: StepFields[] = ['muac', 'oedema', 'zScore'];
     const fieldsToValidate = step === 1 ? stepOneFields : step === 2 ? stepTwoFields : [];
 
     if (fieldsToValidate.length) {
@@ -174,7 +67,6 @@ const EnrollChild: FC = () => {
     }
 
     if (step < 3) {
-      setTransitionDirection('forward');
       setStep((prev) => prev + 1);
     }
   };
@@ -184,7 +76,6 @@ const EnrollChild: FC = () => {
       if (step === 3) {
         setEligibility(null);
       }
-      setTransitionDirection('backward');
       setStep((prev) => prev - 1);
     }
   };
@@ -192,15 +83,8 @@ const EnrollChild: FC = () => {
   const resetFormToStart = () => {
     reset({ ...defaultFormValues });
     setEligibility(null);
-    setTransitionDirection('backward');
     setStep(1);
     setShowScanner(false);
-    setDobPickerState({
-      visible: false,
-      date: maxSelectableDob,
-      onChange: undefined,
-      onBlur: undefined,
-    });
   };
 
   const handleGenerateCard = () => {
@@ -215,18 +99,10 @@ const EnrollChild: FC = () => {
 
   return (
     <ParallaxScrollView>
-      <View style={{ paddingHorizontal: 16, paddingTop: 24, backgroundColor: background }}>
-        <View style={{ alignItems: 'center', marginBottom: 16 }}>
-          <Text style={{ fontSize: 24, fontWeight: '700', color: primary, marginBottom: 4 }}>
-            Enroll Child
-          </Text>
-          <Text
-            style={{
-              fontSize: 14,
-              color: mutedForeground,
-              textAlign: 'center',
-            }}
-          >
+      <View className="bg-background px-4 pt-6">
+        <View className="items-center mb-4">
+          <Text className="mb-1 text-lg font-bold text-accent">Enroll Child</Text>
+          <Text className="text-sm text-center text-muted-foreground">
             Scan immunization card to register new beneficiary
           </Text>
         </View>
@@ -236,17 +112,16 @@ const EnrollChild: FC = () => {
         {step === 1 && (
           <Animated.View
             key="step-1"
-            entering={enteringAnimation}
-            exiting={exitingAnimation}
-            style={{ marginBottom: 24 }}
+            entering={SlideInRight}
+            exiting={SlideOutLeft}
+            className="mb-6 rounded-lg bg-secondary px-4 py-8 shadow-md shadow-black/10"
           >
             <ChildInformationStep
               control={control}
               errors={errors}
-              errorTextStyle={errorTextStyle}
+              errorClass="text-destructive mb-1 text-sm"
               showAge={showAge}
               ageInMonths={ageInMonths}
-              onRequestDobPicker={handleRequestDobPicker}
               formatDobDisplay={formatDateForDisplay}
               onOpenScanner={() => setShowScanner(true)}
             />
@@ -256,29 +131,20 @@ const EnrollChild: FC = () => {
         {step === 2 && (
           <Animated.View
             key="step-2"
-            entering={enteringAnimation}
-            exiting={exitingAnimation}
-            style={{
-              marginBottom: 24,
-              padding: 16,
-              backgroundColor: assessmentCardBackground,
-              borderRadius: 16,
-              elevation: 4,
-              shadowColor: borderColor,
-              shadowOpacity: 0.1,
-              shadowRadius: 8,
-            }}
+            entering={SlideInRight}
+            exiting={SlideOutLeft}
+            className="mb-6 rounded-lg bg-secondary p-4 shadow-lg shadow-black/10"
           >
-            <AssessmentStep control={control} errors={errors} errorTextStyle={errorTextStyle} />
+            <AssessmentStep control={control} errors={errors} errorClass="text-destructive mb-1" />
           </Animated.View>
         )}
 
         {step === 3 && eligibility && (
           <Animated.View
             key="step-3"
-            entering={enteringAnimation}
-            exiting={exitingAnimation}
-            style={{ marginBottom: 24 }}
+            entering={SlideInRight}
+            exiting={SlideOutLeft}
+            className="mb-5"
           >
             <EligibilitySummary
               eligibility={eligibility}
@@ -289,52 +155,7 @@ const EnrollChild: FC = () => {
           </Animated.View>
         )}
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 16 }}>
-          {step > 1 && (
-            <TouchableOpacity
-              onPress={handleBack}
-              style={{
-                flex: 1,
-                marginRight: 8,
-                backgroundColor: card,
-                borderWidth: 2,
-                borderColor: primary,
-                paddingVertical: 12,
-                borderRadius: 12,
-                alignItems: 'center',
-              }}
-            >
-              <Text style={{ color: primary, fontWeight: '700' }}>Back</Text>
-            </TouchableOpacity>
-          )}
-          {step < 3 && (
-            <TouchableOpacity
-              onPress={handleNext}
-              style={{
-                flex: 1,
-                marginLeft: step > 1 ? 8 : 0,
-                backgroundColor: primary,
-                paddingVertical: 12,
-                borderRadius: 12,
-                alignItems: 'center',
-              }}
-            >
-              <Text style={{ color: primaryForeground, fontWeight: '700' }}>Next</Text>
-            </TouchableOpacity>
-          )}
-        </View>
-
-        {Platform.OS === 'ios' && (
-          <DobPickerModal
-            visible={dobPickerState.visible}
-            date={dobPickerState.date}
-            minDate={minSelectableDob}
-            maxDate={maxSelectableDob}
-            onClose={closeDobPicker}
-            onConfirm={confirmDobPicker}
-            onChange={handleDobDateChange}
-          />
-        )}
+        <Pager step={step} handleBack={handleBack} handleNext={handleNext} />
 
         <BarcodeScannerModal
           visible={showScanner}

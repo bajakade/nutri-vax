@@ -1,6 +1,7 @@
 import { Text, TextInput, View } from 'react-native';
 
 import { useThemeColor } from '@/hooks/use-theme-color';
+import { cn } from '@/lib/utils';
 
 interface InputProps {
   style?: any;
@@ -9,35 +10,20 @@ interface InputProps {
 }
 
 export function Input({ style, helperText = null, ...props }: InputProps) {
-  const bg = useThemeColor({}, 'card');
-  const border = useThemeColor({}, 'border');
-  const text = useThemeColor({}, 'text');
   const placeholder = useThemeColor({}, 'mutedForeground');
-  const errorColor = useThemeColor({}, 'destructive');
-
-  const finalBorderColor = helperText ? errorColor : border;
 
   return (
     <View className="w-full">
       <TextInput
-        className="h-11 border-2 px-3 rounded-xl"
-        style={[
-          {
-            borderWidth: 2,
-            borderColor: finalBorderColor,
-            backgroundColor: bg,
-            color: text,
-          },
-          style,
-        ]}
+        className={cn(
+          'h-11 rounded-xl border-2 px-3 bg-card text-foreground',
+          helperText ? 'border-destructive' : 'border-border',
+        )}
+        style={style}
         placeholderTextColor={placeholder}
         {...props}
       />
-      {helperText && (
-        <Text className="mt-0 text-xs" style={{ color: errorColor }}>
-          {helperText}
-        </Text>
-      )}
+      {helperText && <Text className="mt-0 text-xs text-destructive">{helperText}</Text>}
     </View>
   );
 }

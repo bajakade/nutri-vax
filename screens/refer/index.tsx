@@ -1,16 +1,14 @@
-import { UpdateReferralForm, withOpacity } from '@/screens/refer/helpers';
-import { Gender, ReferralType } from '@/types/enum';
-import React, { FC, useState } from 'react';
-import { Alert, ScrollView, Text } from 'react-native';
-
-import { useColor } from '@/hooks/use-color';
 import { AuthorizationSection } from '@/screens/refer/components/authorization-section';
 import { ChildInformationSection } from '@/screens/refer/components/child-information-section';
 import { ReferralDetailsSection } from '@/screens/refer/components/referral-details-section';
 import { SubmissionActions } from '@/screens/refer/components/submission-actions';
 import { SubmissionSuccess } from '@/screens/refer/components/submission-success';
+import { UpdateReferralForm } from '@/screens/refer/helpers';
 import { ReferralFormData } from '@/types';
+import { Gender, ReferralType } from '@/types/enum';
 import { useRouter } from 'expo-router';
+import React, { FC, useState } from 'react';
+import { Alert, ScrollView, Text } from 'react-native';
 
 const ReferralFormScreen: FC = () => {
   const router = useRouter();
@@ -29,11 +27,6 @@ const ReferralFormScreen: FC = () => {
   });
 
   const [submitted, setSubmitted] = useState(false);
-  const background = useColor('background');
-  const mutedForeground = useColor('mutedForeground');
-  const success = useColor('success');
-  const successSurface = withOpacity(success, 0.12);
-
   const handleSubmit = () => {
     const required = [
       formData.childName,
@@ -77,38 +70,18 @@ const ReferralFormScreen: FC = () => {
 
   return (
     <ScrollView
-      className="flex-1"
-      style={{ backgroundColor: background }}
+      className="flex-1 bg-background"
       contentContainerStyle={{ padding: 16, paddingBottom: 32 }}
       keyboardShouldPersistTaps="handled"
     >
-      <Text className="mb-1 text-2xl font-bold" style={{ color: success }}>
-        Referral Form
-      </Text>
-      <Text className="mb-6" style={{ color: mutedForeground }}>
-        Refer child to CMAM program (OTP/PHC)
-      </Text>
+      <Text className="mb-1 text-2xl font-bold text-success">Referral Form</Text>
+      <Text className="mb-6 text-muted-foreground">Refer child to CMAM program (OTP/PHC)</Text>
 
-      <ChildInformationSection
-        formData={formData}
-        onUpdate={updateForm}
-        successColor={success}
-        successSurface={successSurface}
-      />
+      <ChildInformationSection formData={formData} onUpdate={updateForm} />
 
-      <ReferralDetailsSection
-        formData={formData}
-        onUpdate={updateForm}
-        successColor={success}
-        successSurface={successSurface}
-      />
+      <ReferralDetailsSection formData={formData} onUpdate={updateForm} />
 
-      <AuthorizationSection
-        formData={formData}
-        onUpdate={updateForm}
-        successColor={success}
-        successSurface={successSurface}
-      />
+      <AuthorizationSection formData={formData} onUpdate={updateForm} />
 
       <SubmissionActions onCancel={() => router.back()} onSubmit={handleSubmit} />
     </ScrollView>

@@ -6,11 +6,7 @@ import { Animated, View } from 'react-native';
 
 export default function SplashScreen() {
   const { colors } = useTheme();
-  const bounceValues = [
-    useRef(new Animated.Value(0)).current,
-    useRef(new Animated.Value(0)).current,
-    useRef(new Animated.Value(0)).current,
-  ];
+  const bounceValues = useRef(Array.from({ length: 3 }, () => new Animated.Value(0))).current;
 
   useEffect(() => {
     const animations = bounceValues.map((value, index) =>
@@ -23,10 +19,10 @@ export default function SplashScreen() {
       ),
     );
     Animated.stagger(150, animations).start();
-  }, []);
+  }, [bounceValues]);
 
   return (
-    <LinearGradient colors={[colors?.primary, colors?.accent]} style={{ flex: 1 }}>
+    <LinearGradient colors={[colors?.primary, colors?.accent]} className="flex-1">
       <View className="items-center justify-center flex-1 px-6">
         {/* Logo */}
         <View className="mb-8">

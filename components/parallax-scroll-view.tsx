@@ -24,7 +24,6 @@ export default function ParallaxScrollView({
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollOffset(scrollRef);
   const insets = useSafeAreaInsets();
-  const background = useThemeColor({}, 'background');
   // Use headerBackgroundColor prop if provided, else fallback to theme 'card'
   const headerBg = useThemeColor(headerBackgroundColor ?? {}, 'card');
 
@@ -44,7 +43,7 @@ export default function ParallaxScrollView({
   }));
 
   return (
-    <View className="flex-1" style={{ backgroundColor: background }}>
+    <View className="flex-1 bg-background">
       <Animated.ScrollView
         ref={scrollRef}
         scrollEventThrottle={16}
@@ -52,8 +51,7 @@ export default function ParallaxScrollView({
         contentContainerStyle={{
           paddingBottom: insets.bottom + 24,
         }}
-        className="flex-1"
-        style={{ backgroundColor: background }}
+        className="flex-1 bg-background"
       >
         {/* Parallax Header Image */}
         {headerImage && (

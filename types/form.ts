@@ -1,4 +1,8 @@
-export interface FormBase {}
+import { UpdateReferralForm } from '@/screens/refer/helpers';
+
+import { ReferralFormData } from './interface';
+
+export type FormBase = Record<string, unknown>;
 
 export interface LoginForm extends FormBase {
   email?: string;
@@ -39,4 +43,9 @@ export type ItemType = {
   id?: string;
   key?: string;
   name: string;
+};
+
+export type ChildInformationSectionProps = {
+  formData: ReferralFormData;
+  onUpdate: UpdateReferralForm;
 };

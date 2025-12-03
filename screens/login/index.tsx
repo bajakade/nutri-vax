@@ -41,17 +41,14 @@ export default function LoginScreen() {
   };
 
   return (
-    <View className="flex-1 justify-center px-5" style={{ backgroundColor: colors.background }}>
-      <View
-        className="rounded-3xl p-8 shadow-2xl shadow-black/10"
-        style={{ backgroundColor: colors.secondary }}
-      >
+    <View className="flex-1 justify-center px-5 bg-background">
+      <View className="rounded-3xl bg-secondary p-8 shadow-2xl shadow-black/10">
         {/* Logo */}
         <View className="w-16 h-16 bg-primary rounded-2xl justify-center items-center self-center mb-6">
           <Text className="text-white text-3xl font-bold">NV</Text>
         </View>
 
-        <Text className="text-center text-lg font-medium text-gray-900 dark:text-white">
+        <Text className="text-center text-lg font-medium text-primary-900 dark:text-white">
           Welcome Back
         </Text>
         <Text className="text-center text-sm text-gray-500 mt-1 mb-8">Sign in to continue</Text>

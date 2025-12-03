@@ -17,22 +17,17 @@ export function BarcodeScannerModal({
 }: BarcodeScannerModalProps) {
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onClose}>
-      <View style={{ flex: 1, backgroundColor: '#000' }}>
+      <View className="flex-1 bg-black">
         {permissionGranted ? (
-          <CameraView style={{ flex: 1 }} facing="back" />
+          <CameraView className="flex-1" facing="back" />
         ) : (
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ color: '#fff', fontSize: 18 }}>Camera permission required</Text>
+          <View className="flex-1 items-center justify-center">
+            <Text className="text-lg text-white">Camera permission required</Text>
             <TouchableOpacity
               onPress={onRequestPermission}
-              style={{
-                marginTop: 20,
-                padding: 12,
-                backgroundColor: '#006600',
-                borderRadius: 8,
-              }}
+              className="mt-5 rounded-lg bg-primary px-5 py-3"
             >
-              <Text style={{ color: '#fff' }}>Grant Permission</Text>
+              <Text className="text-primary-foreground">Grant Permission</Text>
             </TouchableOpacity>
           </View>
         )}

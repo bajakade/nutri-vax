@@ -11,10 +11,6 @@ interface DialogProps {
 }
 
 export function Dialog({ open, onOpenChange, children }: DialogProps) {
-  const card = useThemeColor({}, 'neutralCard');
-  const border = useThemeColor({}, 'neutralBorderStrong');
-  const overlay = useThemeColor({}, 'overlay');
-
   return (
     <Modal
       visible={open}
@@ -25,14 +21,12 @@ export function Dialog({ open, onOpenChange, children }: DialogProps) {
     >
       {/* Backdrop */}
       <Pressable
-        className="items-center justify-center flex-1 px-4"
-        style={{ backgroundColor: overlay }}
+        className="items-center justify-center flex-1 px-4 bg-black/50"
         onPress={() => onOpenChange(false)}
       >
         <Pressable
           onStartShouldSetResponder={() => true}
-          className="w-full max-w-md shadow-2xl"
-          style={{ backgroundColor: card, borderColor: border, borderWidth: 1, borderRadius: 32 }}
+          className="w-full max-w-md rounded-[32px] border border-border bg-card shadow-2xl"
         >
           {children}
         </Pressable>
@@ -50,34 +44,21 @@ export function DialogHeader({ children }: { children: React.ReactNode }) {
 }
 
 export function DialogTitle({ children }: { children: React.ReactNode }) {
-  const titleColor = useThemeColor({}, 'foreground');
-  return (
-    <Text className="text-xl font-semibold" style={{ color: titleColor }}>
-      {children}
-    </Text>
-  );
+  return <Text className="text-xl font-semibold text-foreground">{children}</Text>;
 }
 
 export function DialogFooter({ children }: { children: React.ReactNode }) {
-  const border = useThemeColor({}, 'border');
   return (
-    <View
-      className="flex-row justify-end gap-4 pt-4 mt-8"
-      style={{ borderTopWidth: 1, borderColor: border }}
-    >
-      {children}
-    </View>
+    <View className="flex-row justify-end gap-4 pt-4 mt-8 border-t border-border">{children}</View>
   );
 }
 
 export function DialogClose({ onPress }: { onPress: () => void }) {
-  const muted = useThemeColor({}, 'neutralElevated');
   const mutedForeground = useThemeColor({}, 'neutralAccent');
   return (
     <TouchableOpacity
       onPress={onPress}
-      className="absolute z-10 p-2 rounded-full top-4 right-4"
-      style={{ backgroundColor: `${muted}80` }}
+      className="absolute z-10 p-2 rounded-full top-4 right-4 bg-muted/80"
       activeOpacity={0.7}
     >
       <X size={22} color={mutedForeground} />

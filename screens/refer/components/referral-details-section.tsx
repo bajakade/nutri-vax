@@ -5,92 +5,45 @@ import { ChevronDown } from 'lucide-react-native';
 
 import { Input } from '@/components/ui/input';
 import { FACILITIES, REFERRAL_TYPE_OPTIONS } from '@/constants/referral';
-import { useColor } from '@/hooks/use-color';
+import { cn } from '@/lib/utils';
 import { ReferralFormData } from '@/types';
 
-import { UpdateReferralForm, withOpacity } from '../helpers';
+import { UpdateReferralForm } from '../helpers';
 import { SectionCard } from './section-card';
 
 type ReferralDetailsSectionProps = {
   formData: ReferralFormData;
   onUpdate: UpdateReferralForm;
-  successColor: string;
-  successSurface: string;
 };
 
-export const ReferralDetailsSection = ({
-  formData,
-  onUpdate,
-  successColor,
-  successSurface,
-}: ReferralDetailsSectionProps) => {
+export const ReferralDetailsSection = ({ formData, onUpdate }: ReferralDetailsSectionProps) => {
   const [showToFacility, setShowToFacility] = useState(false);
-  const foreground = useColor('foreground');
-  const mutedForeground = useColor('mutedForeground');
-  const borderColor = useColor('border');
-  const card = useColor('card');
-  const muted = useColor('muted');
-  const mutedSurface = withOpacity(muted, 0.5);
 
   return (
-    <SectionCard
-      title="Referral Details"
-      accentColor={successColor}
-      accentSurface={successSurface}
-      contentStyle={{ minHeight: 520 }}
-    >
-      <View style={{ flexDirection: 'row', gap: 16 }}>
-        <View style={{ flex: 1 }}>
-          <Text style={{ marginBottom: 8, fontSize: 14, fontWeight: '500', color: foreground }}>
-            From Facility *
-          </Text>
+    <SectionCard title="Referral Details" contentClassName="min-h-[520px]">
+      <View className="flex-row gap-4">
+        <View className="flex-1">
+          <Text className="mb-2 text-sm font-medium text-foreground">From Facility *</Text>
           <Input value={formData.fromFacility} editable={false} />
         </View>
 
-        <View style={{ flex: 1, position: 'relative' }}>
-          <Text style={{ marginBottom: 8, fontSize: 14, fontWeight: '500', color: foreground }}>
-            To Facility *
-          </Text>
+        <View className="relative flex-1">
+          <Text className="mb-2 text-sm font-medium text-foreground">To Facility *</Text>
           <TouchableOpacity
             onPress={() => setShowToFacility(true)}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingHorizontal: 16,
-              paddingVertical: 12,
-              borderRadius: 18,
-              borderWidth: 1,
-              borderColor,
-              backgroundColor: mutedSurface,
-            }}
+            className="flex-row items-center justify-between rounded-2xl border border-border bg-muted/60 px-4 py-3"
             activeOpacity={0.85}
           >
-            <Text style={{ color: formData.toFacility ? foreground : mutedForeground }}>
+            <Text
+              className={cn('text-foreground', !formData.toFacility && 'text-muted-foreground')}
+            >
               {FACILITIES.find((f) => f.value === formData.toFacility)?.label || 'Select facility'}
             </Text>
-            <ChevronDown size={20} color={mutedForeground} />
+            <ChevronDown size={20} color="#64748B" />
           </TouchableOpacity>
 
           {showToFacility && (
-            <View
-              style={{
-                position: 'absolute',
-                left: 0,
-                right: 0,
-                top: 72,
-                borderRadius: 18,
-                borderWidth: 1,
-                borderColor,
-                backgroundColor: card,
-                shadowColor: '#000',
-                shadowOpacity: 0.18,
-                shadowRadius: 12,
-                shadowOffset: { width: 0, height: 8 },
-                elevation: 6,
-                overflow: 'hidden',
-              }}
-            >
+            <View className="absolute left-0 right-0 top-[72px] overflow-hidden rounded-2xl border border-border bg-card shadow-2xl shadow-black/20">
               {FACILITIES.map((f, index) => (
                 <TouchableOpacity
                   key={f.value}
@@ -98,29 +51,21 @@ export const ReferralDetailsSection = ({
                     onUpdate('toFacility', f.value);
                     setShowToFacility(false);
                   }}
-                  style={{
-                    paddingHorizontal: 20,
-                    paddingVertical: 16,
-                    borderBottomWidth: index === FACILITIES.length - 1 ? 0 : 1,
-                    borderColor,
-                  }}
+                  className={cn(
+                    'px-5 py-4 border-b border-border',
+                    index === FACILITIES.length - 1 && 'border-b-0',
+                  )}
                   activeOpacity={0.85}
                 >
-                  <Text style={{ color: foreground }}>{f.label}</Text>
+                  <Text className="text-foreground">{f.label}</Text>
                 </TouchableOpacity>
               ))}
               <TouchableOpacity
                 onPress={() => setShowToFacility(false)}
-                style={{
-                  paddingHorizontal: 20,
-                  paddingVertical: 16,
-                  backgroundColor: mutedSurface,
-                }}
+                className="bg-muted/40 px-5 py-4"
                 activeOpacity={0.85}
               >
-                <Text style={{ textAlign: 'center', fontWeight: '600', color: foreground }}>
-                  Cancel
-                </Text>
+                <Text className="text-center font-semibold text-foreground">Cancel</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -128,53 +73,34 @@ export const ReferralDetailsSection = ({
       </View>
 
       <View>
-        <Text style={{ marginBottom: 12, fontSize: 14, fontWeight: '500', color: foreground }}>
-          Referral Type *
-        </Text>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
+        <Text className="mb-3 text-sm font-medium text-foreground">Referral Type *</Text>
+        <View className="flex-row flex-wrap gap-3">
           {REFERRAL_TYPE_OPTIONS.map((type) => {
             const isSelected = formData.referralType === type.value;
             return (
               <TouchableOpacity
                 key={type.value}
                 onPress={() => onUpdate('referralType', type.value)}
-                style={{
-                  flexBasis: '48%',
-                  borderWidth: 1,
-                  borderColor: isSelected ? successColor : borderColor,
-                  backgroundColor: isSelected ? successSurface : card,
-                  borderRadius: 20,
-                  padding: 16,
-                }}
+                className={cn(
+                  'w-[48%] rounded-2xl border px-4 py-4',
+                  isSelected ? 'border-success bg-success/10' : 'border-border bg-card',
+                )}
                 activeOpacity={0.85}
               >
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                <View className="flex-row items-center gap-3">
                   <View
-                    style={{
-                      width: 24,
-                      height: 24,
-                      borderRadius: 12,
-                      borderWidth: 2,
-                      borderColor: isSelected ? successColor : mutedForeground,
-                      backgroundColor: isSelected ? successSurface : 'transparent',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    {isSelected && (
-                      <View
-                        style={{
-                          width: 10,
-                          height: 10,
-                          borderRadius: 5,
-                          backgroundColor: successColor,
-                        }}
-                      />
+                    className={cn(
+                      'h-6 w-6 items-center justify-center rounded-full border-2',
+                      isSelected
+                        ? 'border-success bg-success/10'
+                        : 'border-muted-foreground/40 bg-transparent',
                     )}
+                  >
+                    {isSelected && <View className="h-2.5 w-2.5 rounded-full bg-success" />}
                   </View>
-                  <View style={{ flex: 1 }}>
-                    <Text style={{ fontWeight: '600', color: foreground }}>{type.label}</Text>
-                    <Text style={{ fontSize: 12, color: mutedForeground }}>{type.desc}</Text>
+                  <View className="flex-1">
+                    <Text className="font-semibold text-foreground">{type.label}</Text>
+                    <Text className="text-xs text-muted-foreground">{type.desc}</Text>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -184,20 +110,14 @@ export const ReferralDetailsSection = ({
       </View>
 
       <View>
-        <Text style={{ marginBottom: 12, fontSize: 14, fontWeight: '500', color: foreground }}>
-          Reason for Referral *
-        </Text>
+        <Text className="mb-3 text-sm font-medium text-foreground">Reason for Referral *</Text>
         <Input
           multiline
           numberOfLines={4}
           placeholder="Describe the reason for referral..."
           value={formData.reason}
           onChangeText={(text: string) => onUpdate('reason', text)}
-          style={{
-            paddingVertical: 12,
-            minHeight: 96,
-            borderRadius: 16,
-          }}
+          className="min-h-[96px] rounded-2xl py-3"
         />
       </View>
     </SectionCard>

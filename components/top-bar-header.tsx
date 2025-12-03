@@ -12,13 +12,7 @@ export default function TopBarHeader() {
   };
 
   return (
-    <View
-      className="flex-row items-center justify-between px-4 border-b h-14"
-      style={{
-        backgroundColor: colors.background,
-        borderBottomColor: colors.border,
-      }}
-    >
+    <View className="flex-row items-center justify-between h-14 border-b border-border bg-background px-4">
       {/* Menu Button */}
       <TouchableOpacity onPress={toggleMenu} className="p-1">
         <Icon name="menu" size={28} color={colors.foreground} />
@@ -26,12 +20,8 @@ export default function TopBarHeader() {
 
       {/* Title and Subtitle */}
       <View className="flex-row items-center flex-1 gap-3">
-        <Text className="text-lg font-semibold" style={{ color: colors.foreground }}>
-          Garin Alkali PHCC
-        </Text>
-        <Text className="text-sm" style={{ color: colors.mutedForeground }}>
-          Nguru
-        </Text>
+        <Text className="text-lg font-semibold text-foreground">Garin Alkali PHCC</Text>
+        <Text className="text-sm text-muted-foreground">Nguru</Text>
       </View>
 
       {/* Placeholder for balance */}
@@ -44,23 +34,9 @@ export default function TopBarHeader() {
         animationType="fade"
         onRequestClose={toggleMenu}
       >
-        <TouchableOpacity
-          className="flex-1"
-          style={{ backgroundColor: colors.overlay }}
-          activeOpacity={1}
-          onPress={toggleMenu}
-        >
+        <TouchableOpacity className="flex-1 bg-black/50" activeOpacity={1} onPress={toggleMenu}>
           <View
-            className="absolute top-[60px] left-4 rounded-lg border shadow-lg min-w-[180px]"
-            style={{
-              backgroundColor: colors.card,
-              borderColor: colors.border,
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.25,
-              shadowRadius: 4,
-              elevation: 5,
-            }}
+            className="absolute left-4 top-[60px] min-w-[180px] rounded-lg border border-border bg-card shadow-lg shadow-black/20"
             onStartShouldSetResponder={() => true}
           >
             <TouchableOpacity
@@ -71,12 +47,10 @@ export default function TopBarHeader() {
               }}
             >
               <Icon name="person" size={24} color={colors.foreground} />
-              <Text className="text-base font-medium" style={{ color: colors.foreground }}>
-                Profile
-              </Text>
+              <Text className="text-base font-medium text-foreground">Profile</Text>
             </TouchableOpacity>
 
-            <View className="h-[1px]" style={{ backgroundColor: colors.border }} />
+            <View className="h-px bg-border" />
 
             <TouchableOpacity
               className="flex-row items-center gap-3 p-4"
@@ -86,9 +60,7 @@ export default function TopBarHeader() {
               }}
             >
               <Icon name="settings" size={24} color={colors.foreground} />
-              <Text className="text-base font-medium" style={{ color: colors.foreground }}>
-                Settings
-              </Text>
+              <Text className="text-base font-medium text-foreground">Settings</Text>
             </TouchableOpacity>
           </View>
         </TouchableOpacity>

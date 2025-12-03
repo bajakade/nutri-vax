@@ -1,50 +1,21 @@
 import React, { PropsWithChildren } from 'react';
-import { StyleProp, Text, View, ViewStyle } from 'react-native';
+import { Text, View } from 'react-native';
 
-import { useColor } from '@/hooks/use-color';
+import { cn } from '@/lib/utils';
 
 type SectionCardProps = PropsWithChildren<{
   title: string;
-  accentColor?: string;
-  accentSurface?: string;
-  contentStyle?: StyleProp<ViewStyle>;
+  contentClassName?: string;
 }>;
 
-export const SectionCard = ({
-  title,
-  children,
-  accentColor,
-  accentSurface,
-  contentStyle,
-}: SectionCardProps) => {
-  const card = useColor('card');
-  const borderColor = useColor('border');
-  const success = useColor('success');
-  const secondarySurface = useColor('secondary');
-  const headerColor = accentColor ?? success;
-  const surface = accentSurface ?? secondarySurface;
-
+export const SectionCard = ({ title, children, contentClassName }: SectionCardProps) => {
   return (
-    <View
-      className="mb-6 overflow-hidden rounded-3xl border"
-      style={{
-        borderColor,
-        backgroundColor: card,
-      }}
-    >
-      <View
-        className="border-b px-6 py-4"
-        style={{
-          borderColor,
-          backgroundColor: surface,
-        }}
-      >
-        <Text className="text-lg font-semibold" style={{ color: headerColor }}>
-          {title}
-        </Text>
+    <View className="mb-6 overflow-hidden rounded-3xl border border-border bg-card">
+      <View className="border-b border-border bg-success/10 px-6 py-4">
+        <Text className="text-lg font-semibold text-success">{title}</Text>
       </View>
 
-      <View style={[{ padding: 24, gap: 20 }, contentStyle]}>{children}</View>
+      <View className={cn('gap-5 p-6', contentClassName)}>{children}</View>
     </View>
   );
 };

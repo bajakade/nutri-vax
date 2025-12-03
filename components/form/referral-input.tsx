@@ -1,5 +1,4 @@
 import { Input } from '@/components/ui/input';
-import { useThemeColor } from '@/hooks/use-theme-color';
 import { ReferralFormData } from '@/types';
 import React from 'react';
 import { Text, View } from 'react-native';
@@ -27,13 +26,9 @@ export default function ReferralInput({
   editable = true,
   handleOnChange,
 }: Props) {
-  const foreground = useThemeColor({}, 'foreground');
-  const background = useThemeColor({}, 'background');
   return (
-    <View style={{ flex: 1, backgroundColor: background }}>
-      <Text style={{ marginBottom: 8, fontSize: 14, fontWeight: '500', color: foreground }}>
-        {label}
-      </Text>
+    <View className="flex-1 bg-background">
+      <Text className="mb-2 text-sm font-medium text-foreground">{label}</Text>
       <Input
         placeholder={placeholder}
         value={value}

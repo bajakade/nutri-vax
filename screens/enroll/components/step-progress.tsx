@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-import { useColor } from '@/hooks/use-color';
+import { cn } from '@/lib/utils';
 
 type StepProgressProps = {
   currentStep: number;
@@ -10,38 +10,32 @@ type StepProgressProps = {
 const STEP_LABELS = ['Scan', 'Verify', 'Issue'];
 
 export function StepProgress({ currentStep }: StepProgressProps) {
-  const primary = useColor('primary');
-  const primaryForeground = useColor('primaryForeground');
-  const card = useColor('card');
-  const borderColor = useColor('border');
-  const mutedForeground = useColor('mutedForeground');
-
   return (
     <>
       <View className="mb-4 flex-row justify-center">
         {[1, 2, 3].map((step) => (
           <View key={step} className="flex-row items-center">
             <View
-              className="mx-1 h-9 w-9 items-center justify-center rounded-full"
-              style={{
-                backgroundColor: currentStep >= step ? primary : card,
-                borderWidth: currentStep >= step ? 0 : 2,
-                borderColor,
-              }}
+              className={cn(
+                'mx-1 h-9 w-9 items-center justify-center rounded-full border-2 border-border bg-card',
+                currentStep >= step && 'border-0 bg-primary',
+              )}
             >
               <Text
-                className="font-bold"
-                style={{ color: currentStep >= step ? primaryForeground : mutedForeground }}
+                className={cn(
+                  'font-bold text-muted-foreground',
+                  currentStep >= step && 'text-primary-foreground',
+                )}
               >
                 {step}
               </Text>
             </View>
             {step < 3 && (
               <View
-                className="h-0.5 w-6"
-                style={{
-                  backgroundColor: currentStep > step ? primary : borderColor,
-                }}
+                className={cn(
+                  'h-0.5 w-6 rounded-full bg-border',
+                  currentStep > step && 'bg-primary',
+                )}
               />
             )}
           </View>
@@ -52,10 +46,10 @@ export function StepProgress({ currentStep }: StepProgressProps) {
         {STEP_LABELS.map((label, index) => (
           <Text
             key={label}
-            style={{
-              color: currentStep === index + 1 ? primary : mutedForeground,
-              fontWeight: currentStep === index + 1 ? '700' : '400',
-            }}
+            className={cn(
+              'font-normal text-muted-foreground',
+              currentStep === index + 1 && 'font-bold text-primary',
+            )}
           >
             {label}
           </Text>

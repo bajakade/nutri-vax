@@ -5,9 +5,13 @@ import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { createContext } from 'react';
 
+export type ThemeLightColor = typeof Colors.light;
+export type ThemeDarkColor = typeof Colors.dark;
+
 type TTheme = {
-  colors: typeof Colors.light & Theme;
+  colors: ThemeLightColor & Theme;
 };
+
 export const ThemeContext = createContext<TTheme>({} as TTheme);
 
 const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
