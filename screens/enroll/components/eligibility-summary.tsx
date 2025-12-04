@@ -18,30 +18,28 @@ export function EligibilitySummary({
 }: EligibilitySummaryProps) {
   if (eligibility === Eligibility.Eligible) {
     return (
-      <View className="p-4 mb-4 rounded-xl bg-secondary">
-        <Text className="mb-2 text-lg font-bold text-primary">Child is Eligible!</Text>
-        <Text className="text-foreground">
+      <View className="px-4 pt-8 pb-12 mt-4 rounded-lg bg-secondary dark:bg-secondary-dark">
+        <Text className="mb-2 text-xl font-bold text-primary">Child is Eligible!</Text>
+        <Text className="text-foreground dark:text-background">
           {childName} meets all criteria for SQ-LNS supplementation.
         </Text>
         <TouchableOpacity
           onPress={onGenerateCard}
-          className="items-center py-3 mt-4 rounded-xl bg-primary"
+          className="items-center py-3 mt-4 rounded-lg bg-primary"
         >
-          <Text className="font-bold text-primary-foreground">
-            Enrol & Generate NutriVax Barcode
-          </Text>
+          <Text className="font-bold text-background">Enroll & Scan Barcode</Text>
         </TouchableOpacity>
       </View>
     );
   }
 
   return (
-    <View className="p-4 mb-4 rounded-xl bg-muted">
+    <View className="p-4 mb-4 rounded-lg bg-muted dark:bg-secondary-dark">
       <Text className="mb-2 text-lg font-bold text-warning">Refer to CMAM</Text>
-      <Text className="text-foreground">
+      <Text className="text-foreground dark:text-background">
         {childName || 'This child'} does not meet SQ-LNS criteria.
       </Text>
-      <TouchableOpacity onPress={onRefer} className="items-center py-3 mt-4 rounded-xl bg-warning">
+      <TouchableOpacity onPress={onRefer} className="items-center py-3 mt-4 rounded-lg bg-warning">
         <Text className="font-bold text-warning-foreground">Generate Referral Form</Text>
       </TouchableOpacity>
     </View>

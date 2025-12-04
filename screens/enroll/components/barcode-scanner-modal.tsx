@@ -32,12 +32,12 @@ export function BarcodeScannerModal({ visible, onClose }: BarcodeScannerModalPro
           />
         ) : (
           <View className="items-center justify-center flex-1">
-            <Text className="text-lg text-card">Camera permission required</Text>
+            <Text className="text-lg text-white">Camera permission required</Text>
             <TouchableOpacity
               onPress={requestPermission}
-              className="p-3 mt-5 rounded-sm bg-primary"
+              className="px-5 py-3 mt-5 rounded-lg bg-primary"
             >
-              <Text className="text-card">Grant Permission</Text>
+              <Text className="text-primary-foreground">Grant Permission</Text>
             </TouchableOpacity>
           </View>
         )}

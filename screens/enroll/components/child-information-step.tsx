@@ -5,7 +5,6 @@ import { GenderOptions } from '@/constants/assessment';
 import { useColor } from '@/hooks/use-color';
 import { cn } from '@/lib/utils';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import React from 'react';
 import type { ChildFormValues } from '../helpers';
 import { ButtonGroup } from './button-group';
 import { DatePicker } from './date-picker';
@@ -33,7 +32,7 @@ export function ChildInformationStep({
 
   return (
     <View>
-      <Text className="mb-1 text-foreground">Child Name *</Text>
+      <Text className="mb-1 text-foreground dark:text-background">Child Name *</Text>
       <Controller
         control={control}
         name="name"
