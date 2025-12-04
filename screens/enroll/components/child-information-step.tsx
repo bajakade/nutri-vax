@@ -77,7 +77,7 @@ export function ChildInformationStep({
       ) : null}
 
       <Text className="mb-1 text-foreground">Immunization # *</Text>
-      <View className="mb-3 flex-row">
+      <View className="flex-row mb-3">
         <Controller
           control={control}
           name="immunizationNumber"
@@ -97,7 +97,7 @@ export function ChildInformationStep({
         />
         <TouchableOpacity
           onPress={onOpenScanner}
-          className="ml-2 h-12 w-12 items-center justify-center rounded-xl bg-secondary"
+          className="items-center justify-center w-12 h-12 ml-2 rounded-xl bg-secondary"
         >
           <FontAwesome5 name="barcode" size={20} color={primary} />
         </TouchableOpacity>

@@ -35,7 +35,7 @@ export function AssessmentStep({ control, errors, errorClass }: AssessmentStepPr
             placeholder="Enter MUAC measurement"
             keyboardType="numeric"
             placeholderTextColor={placeholderColor}
-            className="h-[50px] rounded-lg border px-3 mb-4 text-sm text-foreground dark:text-background bg-card"
+            className="h-[50px] rounded-lg border px-3 mb-4 text-sm text-foreground dark:text-background bg-card dark:bg-foreground"
             style={{
               borderColor: errors.muac ? destructive : borderColor,
             }}
@@ -44,7 +44,7 @@ export function AssessmentStep({ control, errors, errorClass }: AssessmentStepPr
       />
       {errors.muac ? <Text className={errorClass}>{errors.muac.message}</Text> : null}
 
-      <Text className="mb-2 text-base font-medium" style={{ color: foreground }}>
+      <Text className="mb-2 text-base font-medium text-foreground dark:text-background">
         Oedema *
       </Text>
       <Controller
@@ -54,7 +54,7 @@ export function AssessmentStep({ control, errors, errorClass }: AssessmentStepPr
       />
       {errors.oedema ? <Text className={errorClass}>{errors.oedema.message}</Text> : null}
 
-      <Text className="mb-2 text-base font-medium" style={{ color: foreground }}>
+      <Text className="mb-2 text-base font-medium text-foreground dark:text-background">
         Z-score {'>'} -2 *
       </Text>
       <Controller

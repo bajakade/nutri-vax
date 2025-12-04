@@ -1,7 +1,7 @@
-import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
 import { Eligibility } from '@/types/enum';
+import React from 'react';
 
 type EligibilitySummaryProps = {
   eligibility: Eligibility;
@@ -18,14 +18,14 @@ export function EligibilitySummary({
 }: EligibilitySummaryProps) {
   if (eligibility === Eligibility.Eligible) {
     return (
-      <View className="mb-4 rounded-xl bg-secondary p-4">
+      <View className="p-4 mb-4 rounded-xl bg-secondary">
         <Text className="mb-2 text-lg font-bold text-primary">Child is Eligible!</Text>
         <Text className="text-foreground">
           {childName} meets all criteria for SQ-LNS supplementation.
         </Text>
         <TouchableOpacity
           onPress={onGenerateCard}
-          className="mt-4 items-center rounded-xl bg-primary py-3"
+          className="items-center py-3 mt-4 rounded-xl bg-primary"
         >
           <Text className="font-bold text-primary-foreground">
             Enrol & Generate NutriVax Barcode
@@ -36,12 +36,12 @@ export function EligibilitySummary({
   }
 
   return (
-    <View className="mb-4 rounded-xl bg-muted p-4">
+    <View className="p-4 mb-4 rounded-xl bg-muted">
       <Text className="mb-2 text-lg font-bold text-warning">Refer to CMAM</Text>
       <Text className="text-foreground">
         {childName || 'This child'} does not meet SQ-LNS criteria.
       </Text>
-      <TouchableOpacity onPress={onRefer} className="mt-4 items-center rounded-xl bg-warning py-3">
+      <TouchableOpacity onPress={onRefer} className="items-center py-3 mt-4 rounded-xl bg-warning">
         <Text className="font-bold text-warning-foreground">Generate Referral Form</Text>
       </TouchableOpacity>
     </View>
