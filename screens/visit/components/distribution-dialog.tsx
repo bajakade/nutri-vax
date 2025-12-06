@@ -1,15 +1,12 @@
-import React from 'react';
+import { AlertTriangle, CheckCircle } from 'lucide-react-native';
+import { ChildRecord, MUACColorToken, getMUACColorToken } from '../helpers';
+import { Dialog, DialogClose, DialogContent, Input } from '@/components/ui';
+import { SACHETS, TOTAL_VISITS } from '@/constants/distribution';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
-import { AlertTriangle, CheckCircle } from 'lucide-react-native';
-
-import { Dialog, DialogClose, DialogContent } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { SACHETS, TOTAL_VISITS } from '@/constants/distribution';
 import { Colors } from '@/constants/theme';
+import React from 'react';
 import { useColor } from '@/hooks/use-color';
-
-import { ChildRecord, MUACColorToken, getMUACColorToken } from '../helpers';
 
 type DistributionDialogProps = {
   open: boolean;

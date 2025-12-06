@@ -7,7 +7,7 @@ import { EnrollmentSchema } from './types';
 const { YES_NO_ENUM, INTEGER, STRING, STRING_INDEX } = dbPropTypes;
 
 const schema: EnrollmentSchema = {
-  version: 0,
+  version: 1,
 
   title: 'Enrollment Registry',
   description: 'Stores enrollment records locally',
@@ -32,13 +32,13 @@ const schema: EnrollmentSchema = {
     immunizationNumber: STRING_INDEX,
   },
 
-  keyCompression: true,
-
   required: [],
   // add "sort by" fields as indexes
   indexes: ['created', 'lastUpdated', 'refNumber', 'immunizationNumber'],
 };
 
-const migrationStrategies: MigrationStrategies = {};
+const migrationStrategies: MigrationStrategies = {
+  1: (doc) => doc,
+};
 
 export default { schema, migrationStrategies };

@@ -4,7 +4,7 @@ import { ReferralFormData, UpdateReferralForm } from '@/types';
 import { Text, TouchableOpacity, View } from 'react-native';
 
 import { ChevronDown } from 'lucide-react-native';
-import { Input } from '@/components/ui/input';
+import { Input } from '@/components/ui';
 import { SectionCard } from './section-card';
 import { useColor } from '@/hooks/use-color';
 import { withOpacity } from '../helpers';

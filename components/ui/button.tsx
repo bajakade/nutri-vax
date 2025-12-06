@@ -1,10 +1,11 @@
-import { useThemeColor } from '@/hooks/use-theme-color';
-import { cn } from '@/lib/utils';
-import React from 'react';
 import { Pressable, PressableProps, Text, View, ViewStyle } from 'react-native';
 
-type Variant = 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
-type Size = 'default' | 'sm' | 'lg' | 'icon';
+import React from 'react';
+import { cn } from '@/lib/utils';
+import { useThemeColor } from '@/hooks/use-theme-color';
+
+export type Variant = 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+export type Size = 'default' | 'sm' | 'lg' | 'icon';
 
 interface ButtonProps extends Omit<PressableProps, 'style'> {
   variant?: Variant;

@@ -1,11 +1,10 @@
 import { Alert, Text, TouchableOpacity, View } from 'react-native';
+import { Button, Input } from '@/components/ui';
 import { LoginForm, loginSchema } from '@/types';
 import React, { useState } from 'react';
 
-import { Button } from '@/components/ui/button'; // ← your awesome Button
 import Entypo from '@expo/vector-icons/Entypo';
 import { FontAwesome } from '@expo/vector-icons';
-import { Input } from '@/components/ui/input';
 import { useAuth } from '@/hooks';
 import useFormValidator from '@/hooks/useFormValidator';
 import { useTheme } from '@/hooks/use-theme';

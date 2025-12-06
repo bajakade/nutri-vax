@@ -20,7 +20,7 @@ const DATE: JsonSchema = { type: ['string', 'null'], format: 'date', maxLength: 
 const DATE_INDEX: JsonSchema = { ...DATE, type: 'string' };
 
 /** Date-time type */
-const DATE_TIME: JsonSchema = { type: ['string', 'null'], format: 'datetime', maxLength: 50 };
+const DATE_TIME: JsonSchema = { type: ['string', 'null'], format: 'date-time', maxLength: 50 };
 
 /** Date-time type (not-null) */
 const DATE_TIME_INDEX: JsonSchema = { ...DATE_TIME, type: 'string' };

@@ -30,11 +30,12 @@ export interface ValidationResult {
   errors?: FormError[];
 }
 
-export type IFormValue = string | boolean | undefined;
+export type IFormValue = string | boolean | undefined | number;
 
 export type IOption = {
   label: string;
   value: IFormValue;
+  icon?: any;
 };
 
 export type ItemType = {
@@ -51,6 +52,4 @@ export type UpdateReferralForm = <K extends keyof ReferralFormData>(
 export type ChildInformationSectionProps = {
   formData: ReferralFormData;
   onUpdate: UpdateReferralForm;
-  successSurface: string;
-  successColor: string;
 };

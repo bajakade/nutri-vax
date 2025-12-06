@@ -15,9 +15,10 @@ import { ChildInfo } from './components/child-info';
 import { Eligibility } from '@/types/enum';
 import { EligibilitySummary } from './components/eligibility-summary';
 import { Pager } from './components/pager';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
+import { ParallaxScrollView } from '@/components/ui';
 import { StepProgress } from './components/step-progress';
 import { useColor } from '@/hooks/use-color';
+import { useDatabase } from '@/hooks';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'expo-router';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -26,6 +27,7 @@ type StepFields = keyof ChildFormValues;
 
 const EnrollChild: FC = () => {
   const router = useRouter();
+  const { database } = useDatabase();
   const [step, setStep] = useState(1);
   const [eligibility, setEligibility] = useState<Eligibility | null>(null);
 

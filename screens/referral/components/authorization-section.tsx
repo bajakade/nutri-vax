@@ -1,7 +1,7 @@
 import { ReferralFormData, UpdateReferralForm } from '@/types';
 import { Text, View } from 'react-native';
 
-import { Input } from '@/components/ui/input';
+import { Input } from '@/components/ui';
 import React from 'react';
 import { SectionCard } from './section-card';
 import { useColor } from '@/hooks/use-color';

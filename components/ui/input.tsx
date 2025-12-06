@@ -20,7 +20,7 @@ export function Input({ style, helperText = null, ...props }: InputProps) {
   return (
     <View className="w-full">
       <TextInput
-        className="h-11 border-2 px-3 rounded-xl"
+        className="h-11 border-2 px-3 rounded-lg"
         style={[
           {
             borderWidth: 2,
