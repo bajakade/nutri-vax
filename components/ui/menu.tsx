@@ -19,7 +19,6 @@ interface MenuProps {
 
 const MenuItem = ({ label, value, icon, handlePress }: MenuItemProps) => {
   const { colors } = useTheme();
-  console.log('icon', icon);
   return (
     <TouchableOpacity
       className="flex-row items-center gap-3 p-4"
