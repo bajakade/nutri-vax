@@ -9,7 +9,9 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "format": "prettier --write '**/*.{js,jsx,ts,tsx}'"
+    "format": "prettier --write '**/*.{js,jsx,ts,tsx}'",
+    "build:dev": "eas build:dev",
+    "build:production": "eas build"
   },
   "dependencies": {
     "@craftzdog/react-native-buffer": "^6.1.1",
