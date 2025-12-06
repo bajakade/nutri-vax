@@ -40,7 +40,7 @@ export const ActionButtons = () => {
   const { colors } = useTheme();
   const actions = [
     {
-      title: 'Enrol Child',
+      title: 'Enroll Child',
       description: 'Register new beneficiary',
       href: '/(protected)/(tabs)/enroll' as RelativePathString,
       color: colors.primaryForeground,
