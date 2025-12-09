@@ -1,19 +1,13 @@
 import Feather from '@expo/vector-icons/Feather';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import {
-    Modal,
-    Pressable,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { Modal, Pressable, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import IconBadge, { type IconBadgeProps } from '@/components/icon-badge';
 import SurfaceCard from '@/components/surface-card';
 import { useThemeColor } from '@/hooks/use-theme-color';
+import { cn } from '@/lib/utils';
 
 const HEADER_HEIGHT = 56;
 
@@ -65,39 +59,24 @@ export default function TopBarHeader() {
   return (
     <React.Fragment>
       <View
-        style={{
-          height: HEADER_HEIGHT,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-          gap: 8,
-          backgroundColor: background,
-          borderBottomWidth: 1,
-          borderBottomColor: border,
-          paddingHorizontal: 16,
-        }}
+        className="h-14 flex-row items-center gap-2 border-b border-border bg-background px-4"
+        style={{ backgroundColor: background, borderBottomColor: border }}
       >
         <View
-          style={{
-            width: 28,
-            height: 28,
-            backgroundColor: primary,
-            borderRadius: 14,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
+          className="h-7 w-7 items-center justify-center rounded-full"
+          style={{ backgroundColor: primary }}
         >
           <Text style={{ color: primaryForeground, fontSize: 14, fontWeight: '700' }}>NV</Text>
         </View>
 
         <Text style={{ color: primary, fontSize: 16, fontWeight: '600' }}>NutriVax</Text>
 
-        <View style={{ flex: 1 }} />
+        <View className="flex-1" />
 
         <TouchableOpacity
           onPress={() => setMenuVisible((prev) => !prev)}
           activeOpacity={0.7}
-          style={{ padding: 8 }}
+          className="p-2"
           accessibilityRole="button"
           accessibilityLabel="Open user menu"
         >
@@ -105,23 +84,17 @@ export default function TopBarHeader() {
         </TouchableOpacity>
       </View>
 
-      <Modal
-        visible={menuVisible}
-        animationType="fade"
-        transparent
-        onRequestClose={closeMenu}
-      >
-        <View style={styles.modalRoot} pointerEvents="box-none">
+      <Modal visible={menuVisible} animationType="fade" transparent onRequestClose={closeMenu}>
+        <View className="flex-1" pointerEvents="box-none">
           <Pressable
-            style={[StyleSheet.absoluteFillObject, { backgroundColor: overlay }]}
+            className="absolute inset-0"
+            style={{ backgroundColor: overlay }}
             onPress={closeMenu}
           />
 
           <View
-            style={[
-              styles.menuWrapper,
-              { paddingTop: insets.top + HEADER_HEIGHT + 8, paddingRight: 16 },
-            ]}
+            className="flex-1 items-end"
+            style={{ paddingTop: insets.top + HEADER_HEIGHT + 8, paddingRight: 16 }}
             pointerEvents="box-none"
           >
             <SurfaceCard padded={false} className="w-64">
@@ -130,17 +103,13 @@ export default function TopBarHeader() {
                   key={item.key}
                   onPress={() => navigateTo(item.route)}
                   activeOpacity={0.8}
-                  className="flex-row"
-                  style={[
-                    styles.menuRow,
-                    index < menuItems.length - 1 && {
-                      borderBottomWidth: StyleSheet.hairlineWidth,
-                      borderBottomColor: border,
-                    },
-                  ]}
+                  className={cn(
+                    'flex-row items-center px-4 py-3.5',
+                    index < menuItems.length - 1 && 'border-b border-border',
+                  )}
                 >
                   <IconBadge name={item.icon} />
-                  <View style={{ flex: 1, marginLeft: 12 }}>
+                  <View className="ml-3 flex-1">
                     <Text style={{ color: foreground, fontSize: 16, fontWeight: '600' }}>
                       {item.title}
                     </Text>
@@ -158,18 +127,3 @@ export default function TopBarHeader() {
     </React.Fragment>
   );
 }
-
-const styles = StyleSheet.create({
-  modalRoot: {
-    flex: 1,
-  },
-  menuWrapper: {
-    flex: 1,
-    alignItems: 'flex-end',
-  },
-  menuRow: {
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    alignItems: 'center',
-  },
-});

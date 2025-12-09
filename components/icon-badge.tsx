@@ -3,7 +3,6 @@ import React, { ComponentProps } from 'react';
 import { View } from 'react-native';
 
 import { useThemeColor } from '@/hooks/use-theme-color';
-import { withOpacity } from '@/lib/color';
 import { cn } from '@/lib/utils';
 
 type FeatherName = ComponentProps<typeof Feather>['name'];
@@ -23,6 +22,12 @@ const toneMap: Record<NonNullable<IconBadgeProps['tone']>, ThemeColor> = {
   muted: 'mutedForeground',
 };
 
+const toneBgClasses: Record<NonNullable<IconBadgeProps['tone']>, string> = {
+  primary: 'bg-primary/10',
+  accent: 'bg-accent/10',
+  muted: 'bg-muted-foreground/10',
+};
+
 const IconBadge = ({
   tone = 'accent',
   size = 20,
@@ -31,14 +36,14 @@ const IconBadge = ({
   name,
 }: IconBadgeProps) => {
   const tint = useThemeColor({}, toneMap[tone]);
-  const surface = useThemeColor({}, 'neutralSurface');
-  const bg = backgroundColor ?? withOpacity(tint, 0.15) ?? surface;
+  const containerClass = cn(
+    'h-12 w-12 items-center justify-center rounded-2xl',
+    toneBgClasses[tone],
+    className,
+  );
 
   return (
-    <View
-      className={cn('h-12 w-12 items-center justify-center rounded-2xl', className)}
-      style={{ backgroundColor: bg }}
-    >
+    <View className={containerClass} style={backgroundColor ? { backgroundColor } : undefined}>
       <Feather name={name} size={size} color={tint} />
     </View>
   );

@@ -1,7 +1,7 @@
 import Feather from '@expo/vector-icons/Feather';
 import { useRouter } from 'expo-router';
 import React, { useMemo, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Switch, TouchableOpacity, View } from 'react-native';
+import { Alert, ScrollView, Switch, TouchableOpacity, View } from 'react-native';
 
 import IconBadge, { type IconBadgeProps } from '@/components/icon-badge';
 import SurfaceCard from '@/components/surface-card';
@@ -9,6 +9,7 @@ import { ThemedText } from '@/components/themed-text';
 import { useDispatch } from '@/hooks';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { withOpacity } from '@/lib/color';
+import { cn } from '@/lib/utils';
 import { authActions } from '@/store/auth';
 
 type SettingAction = {
@@ -33,21 +34,15 @@ type ToggleConfig = {
 };
 
 const SectionHeading = ({ label }: { label: string }) => (
-  <ThemedText
-    className="text-xs font-semibold uppercase text-muted-foreground"
-    style={{ letterSpacing: 2 }}
-  >
+  <ThemedText className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
     {label}
   </ThemedText>
 );
-
-const LOGOUT_SURFACE_FALLBACK = '#fef2f2';
 
 export default function SettingsScreen() {
   const { dispatch } = useDispatch();
   const router = useRouter();
 
-  const borderColor = useThemeColor({}, 'border');
   const foreground = useThemeColor({}, 'foreground');
   const mutedForeground = useThemeColor({}, 'mutedForeground');
   const accent = useThemeColor({}, 'accent');
@@ -149,23 +144,13 @@ export default function SettingsScreen() {
     },
   ];
 
-  const logoutBackground = useMemo(
-    () => withOpacity(destructive, 0.12) ?? LOGOUT_SURFACE_FALLBACK,
-    [destructive],
-  );
-
   const renderActionRow = (action: SettingAction, isLast: boolean) => (
     <TouchableOpacity
       key={action.key}
       activeOpacity={action.onPress ? 0.7 : 1}
       onPress={action.onPress}
       disabled={!action.onPress}
-      className="flex-row items-center py-4"
-      style={
-        !isLast
-          ? { borderBottomColor: borderColor, borderBottomWidth: StyleSheet.hairlineWidth }
-          : undefined
-      }
+      className={cn('flex-row items-center py-4', !isLast && 'border-b border-border')}
     >
       <IconBadge name={action.icon} tone={action.tone ?? 'accent'} />
       <View className="flex-1 ml-4">
@@ -187,20 +172,17 @@ export default function SettingsScreen() {
   const renderToggle = (toggle: ToggleConfig, isLast: boolean) => (
     <View
       key={toggle.key}
-      className="flex-row items-center py-4"
-      style={
-        !isLast
-          ? { borderBottomColor: borderColor, borderBottomWidth: StyleSheet.hairlineWidth }
-          : undefined
-      }
+      className={cn('flex-row items-center py-4', !isLast && 'border-b border-border')}
     >
       <IconBadge name={toggle.icon} tone={toggle.tone ?? 'accent'} />
       <View className="flex-1 ml-4">
         <ThemedText className="text-lg text-foreground">{toggle.title}</ThemedText>
         {toggle.subtitle ? (
           <ThemedText
-            className="mt-0.5 text-sm"
-            style={{ color: toggle.subtitleTone === 'accent' ? accent : mutedForeground }}
+            className={cn(
+              'mt-0.5 text-sm',
+              toggle.subtitleTone === 'accent' ? 'text-accent' : 'text-muted-foreground',
+            )}
           >
             {toggle.subtitle}
           </ThemedText>
@@ -225,77 +207,69 @@ export default function SettingsScreen() {
   };
 
   return (
-    <ScrollView
-      className="flex-1 bg-background"
-      contentContainerStyle={{ padding: 20, paddingBottom: 32 }}
-    >
-      <View className="flex-row items-center mb-5">
+    <ScrollView className="flex-1 bg-background">
+      <View className="px-5 pt-12 pb-8">
+        <View className="flex-row items-center mb-5">
+          <TouchableOpacity
+            onPress={goBack}
+            activeOpacity={0.7}
+            className="p-2 mr-3 border rounded-full border-border"
+          >
+            <Feather name="chevron-left" size={20} color={foreground} />
+          </TouchableOpacity>
+          <ThemedText className="text-2xl font-semibold text-foreground">Settings</ThemedText>
+        </View>
+
+        <SurfaceCard className="mb-6">
+          <SectionHeading label="Preferences" />
+          <View className="mt-2">
+            {preferenceActions.map((action, index) =>
+              renderActionRow(action, index === preferenceActions.length - 1),
+            )}
+          </View>
+          <View className="mt-2 border-t border-border">
+            {preferenceToggles.map((toggle) => renderToggle(toggle, true))}
+          </View>
+        </SurfaceCard>
+
+        <SurfaceCard className="mb-6">
+          <SectionHeading label="Notifications" />
+          <View className="mt-2">
+            {notificationToggles.map((toggle, index) =>
+              renderToggle(toggle, index === notificationToggles.length - 1),
+            )}
+          </View>
+        </SurfaceCard>
+
+        <SurfaceCard className="mb-6">
+          <SectionHeading label="Account" />
+          <View className="mt-2">
+            {accountActions.map((action, index) =>
+              renderActionRow(action, index === accountActions.length - 1),
+            )}
+          </View>
+        </SurfaceCard>
+
+        <SurfaceCard>
+          <SectionHeading label="Support" />
+          <View className="mt-2">
+            {supportActions.map((action, index) =>
+              renderActionRow(action, index === supportActions.length - 1),
+            )}
+          </View>
+        </SurfaceCard>
+
         <TouchableOpacity
-          onPress={goBack}
-          activeOpacity={0.7}
-          className="p-2 mr-3 border rounded-full"
-          style={{ borderColor }}
+          activeOpacity={0.85}
+          onPress={() => dispatch(authActions.logout())}
+          className="mt-8 border rounded-3xl border-destructive bg-destructive/10"
         >
-          <Feather name="chevron-left" size={20} color={foreground} />
+          <View className="flex-row items-center justify-center gap-2 py-4">
+            <Feather name="log-out" size={18} color={destructive} />
+            <ThemedText className="text-lg font-semibold text-destructive">Logout</ThemedText>
+          </View>
         </TouchableOpacity>
-        <ThemedText className="text-2xl font-semibold text-foreground">Settings</ThemedText>
       </View>
-
-      <SurfaceCard className="mb-6">
-        <SectionHeading label="Preferences" />
-        <View className="mt-2">
-          {preferenceActions.map((action, index) =>
-            renderActionRow(action, index === preferenceActions.length - 1),
-          )}
-        </View>
-        <View
-          className="mt-2"
-          style={{ borderTopColor: borderColor, borderTopWidth: StyleSheet.hairlineWidth }}
-        >
-          {preferenceToggles.map((toggle) => renderToggle(toggle, true))}
-        </View>
-      </SurfaceCard>
-
-      <SurfaceCard className="mb-6">
-        <SectionHeading label="Notifications" />
-        <View className="mt-2">
-          {notificationToggles.map((toggle, index) =>
-            renderToggle(toggle, index === notificationToggles.length - 1),
-          )}
-        </View>
-      </SurfaceCard>
-
-      <SurfaceCard className="mb-6">
-        <SectionHeading label="Account" />
-        <View className="mt-2">
-          {accountActions.map((action, index) =>
-            renderActionRow(action, index === accountActions.length - 1),
-          )}
-        </View>
-      </SurfaceCard>
-
-      <SurfaceCard>
-        <SectionHeading label="Support" />
-        <View className="mt-2">
-          {supportActions.map((action, index) =>
-            renderActionRow(action, index === supportActions.length - 1),
-          )}
-        </View>
-      </SurfaceCard>
-
-      <TouchableOpacity
-        activeOpacity={0.85}
-        onPress={() => dispatch(authActions.logout())}
-        className="mt-8 border rounded-3xl"
-        style={{ borderColor: destructive, backgroundColor: logoutBackground }}
-      >
-        <View className="flex-row items-center justify-center gap-2 py-4">
-          <Feather name="log-out" size={18} color={destructive} />
-          <ThemedText className="text-lg font-semibold" style={{ color: destructive }}>
-            Logout
-          </ThemedText>
-        </View>
-      </TouchableOpacity>
     </ScrollView>
   );
 }
