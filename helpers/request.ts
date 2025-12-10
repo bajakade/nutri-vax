@@ -1,23 +1,7 @@
-import { DictOf } from '@/types';
+import { DictOf, FetchResponse, Method, RequestOptions, ResponseType } from '@/types';
 
-type ResponseType = 'json' | 'text' | 'blob';
-export type FetchResponse = DictOf<any> | void;
 type PromiseRejector = (reason?: { error: Error; status?: number }) => void;
 type PromiseResolver = (value: FetchResponse) => void;
-
-export type FetchArgs = { url: string; options?: RequestOptions };
-export type FetchResult = Promise<FetchResponse> | PromiseLike<FetchResponse>;
-export type FetchFn = (args: FetchArgs) => FetchResult;
-
-export type Method = 'DELETE' | 'GET' | 'PATCH' | 'POST' | 'PUT';
-
-// eslint-disable-next-line
-export type RequestOptions = RequestInit & {
-  multipart?: boolean;
-  params?: DictOf<any>;
-  data?: DictOf<any>;
-  responseType?: ResponseType;
-};
 
 // https://stackoverflow.com/questions/18650168/convert-blob-to-base64
 function blobToBase64(blob: Blob): Promise<string> {

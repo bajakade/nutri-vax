@@ -1,3 +1,3 @@
-import ReferralFormScreen from '../../../screens/refer';
+import ReferralFormScreen from '@/screens/referral';
 
 export default ReferralFormScreen;

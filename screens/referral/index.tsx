@@ -1,16 +1,16 @@
-import { UpdateReferralForm, withOpacity } from '@/screens/refer/helpers';
+import { Alert, ScrollView, Text } from 'react-native';
 import { Gender, ReferralType } from '@/types/enum';
 import React, { FC, useState } from 'react';
-import { Alert, ScrollView, Text } from 'react-native';
+import { ReferralFormData, UpdateReferralForm } from '@/types';
 
+import { AuthorizationSection } from '@/screens/referral/components/authorization-section';
+import { ChildInformationSection } from '@/screens/referral/components/child-information-section';
+import { ReferralDetailsSection } from '@/screens/referral/components/referral-details-section';
+import { SubmissionActions } from '@/screens/referral/components/submission-actions';
+import { SubmissionSuccess } from '@/screens/referral/components/submission-success';
 import { useColor } from '@/hooks/use-color';
-import { AuthorizationSection } from '@/screens/refer/components/authorization-section';
-import { ChildInformationSection } from '@/screens/refer/components/child-information-section';
-import { ReferralDetailsSection } from '@/screens/refer/components/referral-details-section';
-import { SubmissionActions } from '@/screens/refer/components/submission-actions';
-import { SubmissionSuccess } from '@/screens/refer/components/submission-success';
-import { ReferralFormData } from '@/types';
 import { useRouter } from 'expo-router';
+import { withOpacity } from '@/screens/referral/helpers';
 
 const ReferralFormScreen: FC = () => {
   const router = useRouter();

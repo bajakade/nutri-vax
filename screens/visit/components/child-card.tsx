@@ -1,14 +1,11 @@
-import React from 'react';
+import { Award, CheckCircle } from 'lucide-react-native';
+import { Badge, Button } from '@/components/ui';
+import { ChildRecord, getMUACColorToken, withOpacity } from '../helpers';
 import { Text, View } from 'react-native';
 
-import { Award, CheckCircle } from 'lucide-react-native';
-
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import React from 'react';
 import { TOTAL_VISITS } from '@/constants/distribution';
 import { useColor } from '@/hooks/use-color';
-
-import { ChildRecord, getMUACColorToken, withOpacity } from '../helpers';
 
 type ChildCardProps = {
   child: ChildRecord;

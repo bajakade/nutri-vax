@@ -9,10 +9,11 @@ export interface User {
   token: string;
 }
 
-export interface ChildData {
+export interface EnrollmentAttributes {
   name: string;
   sex: Gender;
-  dob: string;
+  age: string;
+  refNumber: string;
   immunizationNumber: string;
   muac: string;
   oedema: YoN;
@@ -21,7 +22,6 @@ export interface ChildData {
 }
 
 export interface Child {
-  id: string;
   name: string;
   serial: string;
   photo: string;

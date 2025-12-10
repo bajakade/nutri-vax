@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { Control, Controller, FieldErrors } from 'react-hook-form';
 import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Control, Controller, FieldErrors } from 'react-hook-form';
+import React, { useState } from 'react';
 
-import { GenderOptions } from '@/constants/assessment';
-import { useColor } from '@/hooks/use-color';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import type { ChildFormValues } from '../helpers';
 import { BarcodeScannerModal } from './barcode-scanner-modal';
 import { ButtonGroup } from './button-group';
+import type { ChildFormValues } from '../helpers';
 import { DatePicker } from './date-picker';
+import { GenderOptions } from '@/constants/assessment';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useColor } from '@/hooks/use-color';
 
-type ChildInformationStepProps = {
+type ChildInfoProps = {
   control: Control<ChildFormValues>;
   setQr: (qr: string) => void;
   errors: FieldErrors<ChildFormValues>;
@@ -20,14 +20,14 @@ type ChildInformationStepProps = {
   formatDobDisplay: (value: string) => string;
 };
 
-export function ChildInformationStep({
+export function ChildInfo({
   control,
   setQr,
   errors,
   errorClass,
   showAge,
   ageInMonths,
-}: ChildInformationStepProps) {
+}: ChildInfoProps) {
   const foreground = useColor('foreground');
   const primary = useColor('primary');
   const card = useColor('card');

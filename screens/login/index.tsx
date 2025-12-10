@@ -1,14 +1,13 @@
+import { Alert, Text, TouchableOpacity, View } from 'react-native';
+import { Button, Input } from '@/components/ui';
 import { LoginForm, loginSchema } from '@/types';
 import React, { useState } from 'react';
-import { Alert, Text, TouchableOpacity, View } from 'react-native';
 
-import { Button } from '@/components/ui/button'; // ← your awesome Button
-import { Input } from '@/components/ui/input';
-import { useAuth } from '@/hooks';
-import { useTheme } from '@/hooks/use-theme';
-import useFormValidator from '@/hooks/useFormValidator';
-import { FontAwesome } from '@expo/vector-icons';
 import Entypo from '@expo/vector-icons/Entypo';
+import { FontAwesome } from '@expo/vector-icons';
+import { useAuth } from '@/hooks';
+import useFormValidator from '@/hooks/useFormValidator';
+import { useTheme } from '@/hooks/use-theme';
 
 export default function LoginScreen() {
   const { login } = useAuth();
@@ -62,7 +61,7 @@ export default function LoginScreen() {
           onChangeText={(val: string) => handleOnChangeText('username', val)}
           keyboardType="default"
           autoCapitalize="none"
-          className="mb-4"
+          className="mb-4 rounded-lg"
           {...getErrorProps('username')}
         />
 
@@ -72,7 +71,7 @@ export default function LoginScreen() {
             value={password}
             onChangeText={(val: string) => handleOnChangeText('password', val)}
             secureTextEntry={!showPassword}
-            className="pr-12"
+            className="pr-12 rounded-lg"
             {...getErrorProps('password')}
           />
           <TouchableOpacity

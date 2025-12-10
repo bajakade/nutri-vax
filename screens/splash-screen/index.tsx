@@ -1,8 +1,9 @@
-import { ThemedText } from '@/components/themed-text';
-import { useTheme } from '@/hooks/use-theme';
-import { LinearGradient } from 'expo-linear-gradient';
-import React, { useEffect, useRef } from 'react';
 import { Animated, View } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+
+import { LinearGradient } from 'expo-linear-gradient';
+import { ThemedText } from '@/components/ui';
+import { useTheme } from '@/hooks/use-theme';
 
 export default function SplashScreen() {
   const { colors } = useTheme();
