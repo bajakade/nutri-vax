@@ -1,22 +1,12 @@
 import { ChildInformationSectionProps, Gender } from '@/types';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import { useColor } from '@/hooks/use-color';
+import { cn } from '@/lib/utils';
 
-export default function GenderInput({
-  formData,
-  onUpdate,
-  successColor,
-  successSurface,
-}: ChildInformationSectionProps) {
-  const foreground = useColor('foreground');
-  const mutedForeground = useColor('mutedForeground');
-
+export default function GenderInput({ formData, onUpdate }: ChildInformationSectionProps) {
   return (
     <View>
-      <Text className="mb-2 text-sm font-medium" style={{ color: foreground }}>
-        Sex *
-      </Text>
+      <Text className="mb-2 text-sm font-medium text-foreground dark:text-background">Sex *</Text>
       <View className="flex-row items-center gap-6">
         {([Gender.Male, Gender.Female] as const).map((sex) => (
           <TouchableOpacity
@@ -26,17 +16,18 @@ export default function GenderInput({
             activeOpacity={0.85}
           >
             <View
-              className="w-6 h-6 rounded-full border-2 items-center justify-center"
-              style={{
-                borderColor: formData.sex === sex ? successColor : mutedForeground,
-                backgroundColor: formData.sex === sex ? successSurface : 'transparent',
-              }}
-            >
-              {formData.sex === sex && (
-                <View className="w-2 h-2 rounded-full" style={{ backgroundColor: successColor }} />
+              className={cn(
+                'w-6 h-6 rounded-full border-2 items-center justify-center',
+                formData.sex === sex
+                  ? 'border-success bg-success/20'
+                  : 'border-muted-foreground/40 bg-transparent',
               )}
+            >
+              {formData.sex === sex && <View className="w-2 h-2 rounded-full bg-success" />}
             </View>
-            <Text style={{ color: foreground }}>{sex === Gender.Male ? 'Male' : 'Female'}</Text>
+            <Text className="text-foreground dark:text-muted">
+              {sex === Gender.Male ? 'Male' : 'Female'}
+            </Text>
           </TouchableOpacity>
         ))}
       </View>

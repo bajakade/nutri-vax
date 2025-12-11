@@ -9,11 +9,14 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useDatabase, useDispatch, useSelector } from '@/hooks';
 import { useEffect, useState } from 'react';
 
-import { authActions } from '@/store/auth';
-import { Ionicons } from '@expo/vector-icons';
-import { Stack } from 'expo-router';
-import { install } from 'react-native-quick-crypto';
 import CustomSplashScreen from '../../screens/splash-screen';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import { Ionicons } from '@expo/vector-icons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { Stack } from 'expo-router';
+import { authActions } from '@/store/auth';
+import { install } from 'react-native-quick-crypto';
 
 export const unstable_settings = {
   initialRouteName: 'splash',
@@ -33,7 +36,12 @@ export default function ProtectedLayout() {
     async function prepare() {
       try {
         await SplashScreen.preventAutoHideAsync();
-        await Font.loadAsync(Ionicons.font);
+        await Font.loadAsync({
+          ...Ionicons.font,
+          ...MaterialIcons.font,
+          ...MaterialCommunityIcons.font,
+          ...FontAwesome5.font,
+        });
         await new Promise((resolve) => setTimeout(resolve, 2000));
       } catch (e) {
         console.warn(e);

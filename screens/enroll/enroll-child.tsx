@@ -1,5 +1,3 @@
-import { calculateAgeInMonths, generateNutriVaxBarcode } from '@/helpers';
-import React, { FC, useMemo, useState } from 'react';
 import { Alert, Text, View } from 'react-native';
 import Animated, { SlideInRight, SlideOutLeft } from 'react-native-reanimated';
 import {
@@ -9,23 +7,27 @@ import {
   determineEligibility,
   formatDateForDisplay,
 } from './helpers';
+import React, { FC, useMemo, useState } from 'react';
+import { calculateAgeInMonths, generateNutriVaxBarcode } from '@/helpers';
 
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { useColor } from '@/hooks/use-color';
-import { Eligibility } from '@/types/enum';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'expo-router';
-import { useForm } from 'react-hook-form';
 import { AssessmentStep } from './components/assessment-step';
-import { ChildInformationStep } from './components/child-information-step';
+import { ChildInfo } from './components/child-info';
+import { Eligibility } from '@/types/enum';
 import { EligibilitySummary } from './components/eligibility-summary';
 import { Pager } from './components/pager';
+import { ParallaxScrollView } from '@/components/ui';
 import { StepProgress } from './components/step-progress';
+import { useColor } from '@/hooks/use-color';
+import { useDatabase } from '@/hooks';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'expo-router';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 type StepFields = keyof ChildFormValues;
 
 const EnrollChild: FC = () => {
   const router = useRouter();
+  const { database } = useDatabase();
   const [step, setStep] = useState(1);
   const [eligibility, setEligibility] = useState<Eligibility | null>(null);
 
@@ -121,7 +123,7 @@ const EnrollChild: FC = () => {
               shadowOpacity: 0.1,
             }}
           >
-            <ChildInformationStep
+            <ChildInfo
               control={control}
               setQr={(qr) => setValue('immunizationNumber', qr)}
               errors={errors}

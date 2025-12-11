@@ -1,15 +1,13 @@
+import { FACILITIES, REFERRAL_TYPE_OPTIONS } from '@/constants/referral';
 import React, { useState } from 'react';
+import { ReferralFormData, UpdateReferralForm } from '@/types';
 import { Text, TouchableOpacity, View } from 'react-native';
 
 import { ChevronDown } from 'lucide-react-native';
-
-import { Input } from '@/components/ui/input';
-import { FACILITIES, REFERRAL_TYPE_OPTIONS } from '@/constants/referral';
-import { useColor } from '@/hooks/use-color';
-import { ReferralFormData } from '@/types';
-
-import { UpdateReferralForm, withOpacity } from '../helpers';
+import { Input } from '@/components/ui';
 import { SectionCard } from './section-card';
+import { useColor } from '@/hooks/use-color';
+import { withOpacity } from '../helpers';
 
 type ReferralDetailsSectionProps = {
   formData: ReferralFormData;

@@ -1,8 +1,8 @@
-import { Input } from '@/components/ui/input';
-import { useThemeColor } from '@/hooks/use-theme-color';
-import { ReferralFormData } from '@/types';
-import React from 'react';
 import { Text, View } from 'react-native';
+
+import { Input } from '@/components/ui';
+import React from 'react';
+import { ReferralFormData } from '@/types';
 
 type Props = {
   name: keyof ReferralFormData;
@@ -16,7 +16,7 @@ type Props = {
   handleOnChange: <K extends keyof ReferralFormData>(key: K, value: ReferralFormData[K]) => void;
 };
 
-export default function ReferralInput({
+export default function TextInput({
   name,
   label,
   placeholder,
@@ -27,13 +27,9 @@ export default function ReferralInput({
   editable = true,
   handleOnChange,
 }: Props) {
-  const foreground = useThemeColor({}, 'foreground');
-  const background = useThemeColor({}, 'background');
   return (
-    <View style={{ flex: 1, backgroundColor: background }}>
-      <Text style={{ marginBottom: 8, fontSize: 14, fontWeight: '500', color: foreground }}>
-        {label}
-      </Text>
+    <View className="flex-1 bg-background dark:bg-input">
+      <Text className="mb-2 text-sm font-medium text-foreground dark:text-muted">{label}</Text>
       <Input
         placeholder={placeholder}
         value={value}

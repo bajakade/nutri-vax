@@ -1,3 +1,5 @@
+import uuid from 'react-native-uuid';
+
 export const hasSubString = (source: string, searchText: string) => {
   return source.toLowerCase().includes(searchText.toLowerCase());
 };
@@ -18,3 +20,10 @@ export const calculateAgeInMonths = (dob: string): number => {
     (today.getDate() < birthDate.getDate() ? 1 : 0)
   );
 };
+
+/**
+ * Generates a new UUID (v4) value
+ *
+ * @returns UUID string
+ */
+export const genUUID = (): string => uuid.v4().toString();

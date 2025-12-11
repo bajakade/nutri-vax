@@ -1,5 +1,3 @@
-import { ReferralFormData } from '@/types';
-
 export const withOpacity = (hex: string, alpha: number) => {
   if (!hex || typeof hex !== 'string' || !hex.startsWith('#')) {
     return hex;
@@ -23,8 +21,3 @@ export const withOpacity = (hex: string, alpha: number) => {
 
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
-
-export type UpdateReferralForm = <K extends keyof ReferralFormData>(
-  key: K,
-  value: ReferralFormData[K],
-) => void;

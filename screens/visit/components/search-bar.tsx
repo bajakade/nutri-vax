@@ -1,9 +1,7 @@
+import { Input } from '@/components/ui';
 import React from 'react';
-import { View } from 'react-native';
-
 import { Search } from 'lucide-react-native';
-
-import { Input } from '@/components/ui/input';
+import { View } from 'react-native';
 import { useColor } from '@/hooks/use-color';
 
 type SearchBarProps = {
