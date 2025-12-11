@@ -10,7 +10,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     """Serializer for Project model."""
     admin_levels_count = serializers.SerializerMethodField()
     facilities_count = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = Project
         fields = [
@@ -19,10 +19,10 @@ class ProjectSerializer(serializers.ModelSerializer):
             'created_at', 'updated_at'
         ]
         read_only_fields = ['created_at', 'updated_at']
-    
+
     def get_admin_levels_count(self, obj):
         return obj.admin_levels.count()
-    
+
     def get_facilities_count(self, obj):
         return obj.facilities.count()
 
@@ -31,7 +31,7 @@ class AdminLevelSerializer(serializers.ModelSerializer):
     """Serializer for AdminLevel model."""
     project_name = serializers.SerializerMethodField()
     divisions_count = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = AdminLevel
         fields = [
@@ -39,11 +39,11 @@ class AdminLevelSerializer(serializers.ModelSerializer):
             'divisions_count', 'created_at', 'updated_at'
         ]
         read_only_fields = ['created_at', 'updated_at']
-    
+
     def get_project_name(self, obj):
         """Return project name if project exists, otherwise None."""
         return obj.project.name if obj.project else None
-    
+
     def get_divisions_count(self, obj):
         return obj.divisions.count()
 
@@ -55,7 +55,7 @@ class AdminDivisionSerializer(serializers.ModelSerializer):
     parent_division_name = serializers.SerializerMethodField()
     children_count = serializers.SerializerMethodField()
     facilities_count = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = AdminDivision
         fields = [
@@ -64,22 +64,22 @@ class AdminDivisionSerializer(serializers.ModelSerializer):
             'children_count', 'facilities_count', 'created_at', 'updated_at'
         ]
         read_only_fields = ['created_at', 'updated_at']
-    
+
     def get_project_name(self, obj):
         """Return project name if project exists, otherwise None."""
         return obj.project.name if obj.project else None
-    
+
     def get_level_name(self, obj):
         """Return level name if level exists, otherwise None."""
         return obj.level.name if obj.level else None
-    
+
     def get_parent_division_name(self, obj):
         """Return parent division name if parent_division exists, otherwise None."""
         return obj.parent_division.name if obj.parent_division else None
-    
+
     def get_children_count(self, obj):
         return obj.children.count()
-    
+
     def get_facilities_count(self, obj):
         return obj.facilities.count()
 
@@ -88,7 +88,7 @@ class FacilityTypeSerializer(serializers.ModelSerializer):
     """Serializer for FacilityType model."""
     project_name = serializers.SerializerMethodField()
     facilities_count = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = FacilityType
         fields = [
@@ -96,11 +96,11 @@ class FacilityTypeSerializer(serializers.ModelSerializer):
             'facilities_count', 'created_at', 'updated_at'
         ]
         read_only_fields = ['created_at', 'updated_at']
-    
+
     def get_project_name(self, obj):
         """Return project name if project exists, otherwise None."""
         return obj.project.name if obj.project else None
-    
+
     def get_facilities_count(self, obj):
         return obj.facilities.count()
 
@@ -113,7 +113,7 @@ class FacilitySerializer(serializers.ModelSerializer):
     admin_division_name = serializers.SerializerMethodField()
     distribution_registers_count = serializers.SerializerMethodField()
     ration_cards_count = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = Facility
         fields = [
@@ -123,25 +123,25 @@ class FacilitySerializer(serializers.ModelSerializer):
             'created_at', 'updated_at'
         ]
         read_only_fields = ['created_at', 'updated_at']
-    
+
     def get_project_names(self, obj):
         """Return list of project names."""
         return [p.name for p in obj.projects.all()]
-    
+
     def get_facility_type_name(self, obj):
         """Return facility type name if facility_type exists, otherwise None."""
         return obj.facility_type.name if obj.facility_type else None
-    
+
     def get_admin_division_name(self, obj):
         """Return admin division name if admin_division exists, otherwise None."""
         return obj.admin_division.name if obj.admin_division else None
-    
+
     def get_distribution_registers_count(self, obj):
         return obj.distribution_registers.count()
-    
+
     def get_ration_cards_count(self, obj):
         return obj.ration_cards.count()
-    
+
     def create(self, validated_data):
         """Create facility and associate with projects."""
         projects = validated_data.pop('projects', [])
@@ -149,7 +149,7 @@ class FacilitySerializer(serializers.ModelSerializer):
         if projects:
             facility.projects.set(projects)
         return facility
-    
+
     def update(self, instance, validated_data):
         """Update facility and projects."""
         projects = validated_data.pop('projects', None)
@@ -164,7 +164,7 @@ class FacilitySerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for User model."""
     password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
-    
+
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'first_name', 'last_name', 'password', 'is_superuser']
@@ -172,7 +172,7 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'password': {'write_only': True}
         }
-    
+
     def create(self, validated_data):
         """Create a new user with hashed password."""
         password = validated_data.pop('password')
@@ -180,7 +180,7 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
-    
+
     def update(self, instance, validated_data):
         """Update user, handling password separately."""
         password = validated_data.pop('password', None)
@@ -199,7 +199,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     project_name = serializers.SerializerMethodField()
     facility_name = serializers.SerializerMethodField()
     role_display = serializers.CharField(source='get_role_display', read_only=True)
-    
+
     class Meta:
         model = UserProfile
         fields = [
@@ -208,15 +208,15 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'is_active', 'created_at', 'updated_at'
         ]
         read_only_fields = ['created_at', 'updated_at']
-    
+
     def get_project_name(self, obj):
         """Return project name if project exists, otherwise None."""
         return obj.project.name if obj.project else None
-    
+
     def get_facility_name(self, obj):
         """Return facility name if facility exists, otherwise None."""
         return obj.facility.name if obj.facility else None
-    
+
     def create(self, validated_data):
         """Create UserProfile with user association."""
         user_id = validated_data.pop('user_id', None)
@@ -230,7 +230,7 @@ class DistributionRegisterSerializer(serializers.ModelSerializer):
     project_name = serializers.SerializerMethodField()
     facility_name = serializers.SerializerMethodField()
     created_by_username = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = DistributionRegister
         fields = [
@@ -240,15 +240,15 @@ class DistributionRegisterSerializer(serializers.ModelSerializer):
             'created_at', 'updated_at'
         ]
         read_only_fields = ['created_by', 'created_at', 'updated_at']
-    
+
     def get_project_name(self, obj):
         """Return project name if project exists, otherwise None."""
         return obj.project.name if obj.project else None
-    
+
     def get_facility_name(self, obj):
         """Return facility name if facility exists, otherwise None."""
         return obj.facility.name if obj.facility else None
-    
+
     def get_created_by_username(self, obj):
         """Return created_by username if created_by exists, otherwise None."""
         return obj.created_by.username if obj.created_by else None
@@ -261,7 +261,7 @@ class RationCardSerializer(serializers.ModelSerializer):
     gender_display = serializers.CharField(source='get_gender_display', read_only=True)
     muac_status_display = serializers.CharField(source='get_muac_status_display', read_only=True)
     created_by_username = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = RationCard
         fields = [
@@ -271,15 +271,15 @@ class RationCardSerializer(serializers.ModelSerializer):
             'created_by', 'created_by_username', 'created_at', 'updated_at'
         ]
         read_only_fields = ['created_by', 'created_at', 'updated_at']
-    
+
     def get_project_name(self, obj):
         """Return project name if project exists, otherwise None."""
         return obj.project.name if obj.project else None
-    
+
     def get_facility_name(self, obj):
         """Return facility name if facility exists, otherwise None."""
         return obj.facility.name if obj.facility else None
-    
+
     def get_created_by_username(self, obj):
         """Return created_by username if created_by exists, otherwise None."""
         return obj.created_by.username if obj.created_by else None

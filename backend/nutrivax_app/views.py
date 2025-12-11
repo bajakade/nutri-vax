@@ -30,10 +30,10 @@ from .permissions import (
 class ProjectViewSet(viewsets.ModelViewSet):
     """
     ViewSet for managing Project records.
-    
+
     **Permissions:**
     - GlobalAdmin: Full CRUD access
-    
+
     **Filtering:**
     - `?country={country}` - Filter by country
     - `?is_active={true/false}` - Filter by active status
@@ -59,12 +59,12 @@ class ProjectViewSet(viewsets.ModelViewSet):
 class AdminLevelViewSet(viewsets.ModelViewSet):
     """
     ViewSet for managing AdminLevel records.
-    
+
     **Permissions:**
     - GlobalAdmin: Full CRUD access
     - ProjectManager: Full CRUD access, restricted to their assigned Project
     - Others: Read-only access, restricted to their assigned Project
-    
+
     **Filtering:**
     - `?project={id}` - Filter by project
     - `?is_active={true/false}` - Filter by active status
@@ -77,15 +77,15 @@ class AdminLevelViewSet(viewsets.ModelViewSet):
     search_fields = ['name']
     ordering_fields = ['order', 'name', 'created_at']
     ordering = ['order', 'name']
-    
+
     def get_queryset(self):
         """Filter queryset based on user's project assignment."""
         queryset = super().get_queryset()
-        
+
         # GlobalAdmin can see all
         if self.request.user.is_superuser:
             return queryset
-        
+
         # Filter by user's assigned project
         try:
             profile = self.request.user.profile
@@ -93,7 +93,7 @@ class AdminLevelViewSet(viewsets.ModelViewSet):
                 queryset = queryset.filter(project=profile.project)
         except UserProfile.DoesNotExist:
             queryset = queryset.none()
-        
+
         return queryset
 
 
@@ -108,12 +108,12 @@ class AdminLevelViewSet(viewsets.ModelViewSet):
 class AdminDivisionViewSet(viewsets.ModelViewSet):
     """
     ViewSet for managing AdminDivision records.
-    
+
     **Permissions:**
     - GlobalAdmin: Full CRUD access
     - ProjectManager: Full CRUD access, restricted to their assigned Project
     - Others: Read-only access, restricted to their assigned Project
-    
+
     **Filtering:**
     - `?project={id}` - Filter by project
     - `?level={id}` - Filter by administrative level
@@ -128,15 +128,15 @@ class AdminDivisionViewSet(viewsets.ModelViewSet):
     search_fields = ['name']
     ordering_fields = ['name', 'level__order', 'created_at']
     ordering = ['level__order', 'name']
-    
+
     def get_queryset(self):
         """Filter queryset based on user's project assignment."""
         queryset = super().get_queryset()
-        
+
         # GlobalAdmin can see all
         if self.request.user.is_superuser:
             return queryset
-        
+
         # Filter by user's assigned project
         try:
             profile = self.request.user.profile
@@ -144,9 +144,9 @@ class AdminDivisionViewSet(viewsets.ModelViewSet):
                 queryset = queryset.filter(project=profile.project)
         except UserProfile.DoesNotExist:
             queryset = queryset.none()
-        
+
         return queryset
-    
+
     @action(detail=True, methods=['get'])
     def children(self, request, pk=None):
         """Get all child divisions."""
@@ -167,12 +167,12 @@ class AdminDivisionViewSet(viewsets.ModelViewSet):
 class FacilityTypeViewSet(viewsets.ModelViewSet):
     """
     ViewSet for managing FacilityType records.
-    
+
     **Permissions:**
     - GlobalAdmin: Full CRUD access
     - ProjectManager: Full CRUD access, restricted to their assigned Project
     - Others: Read-only access, restricted to their assigned Project
-    
+
     **Filtering:**
     - `?project={id}` - Filter by project
     - `?is_active={true/false}` - Filter by active status
@@ -185,15 +185,15 @@ class FacilityTypeViewSet(viewsets.ModelViewSet):
     search_fields = ['name']
     ordering_fields = ['name', 'created_at']
     ordering = ['name']
-    
+
     def get_queryset(self):
         """Filter queryset based on user's project assignment."""
         queryset = super().get_queryset()
-        
+
         # GlobalAdmin can see all
         if self.request.user.is_superuser:
             return queryset
-        
+
         # Filter by user's assigned project
         try:
             profile = self.request.user.profile
@@ -201,9 +201,9 @@ class FacilityTypeViewSet(viewsets.ModelViewSet):
                 queryset = queryset.filter(project=profile.project)
         except UserProfile.DoesNotExist:
             queryset = queryset.none()
-        
+
         return queryset
-    
+
 
 @extend_schema_view(
     list=extend_schema(description="List all facilities. Filtered by user's project."),
@@ -216,12 +216,12 @@ class FacilityTypeViewSet(viewsets.ModelViewSet):
 class FacilityViewSet(viewsets.ModelViewSet):
     """
     ViewSet for managing Facility records.
-    
+
     **Permissions:**
     - GlobalAdmin: Full CRUD access
     - ProjectManager: Full CRUD access, restricted to their assigned Project
     - Others: Read-only access, restricted to their assigned Project
-    
+
     **Filtering:**
     - `?projects={id}` - Filter by project (many-to-many)
     - `?facility_type={id}` - Filter by facility type
@@ -236,15 +236,15 @@ class FacilityViewSet(viewsets.ModelViewSet):
     search_fields = ['name']
     ordering_fields = ['name', 'created_at']
     ordering = ['name']
-    
+
     def get_queryset(self):
         """Filter queryset based on user's project assignment."""
         queryset = super().get_queryset()
-        
+
         # GlobalAdmin can see all
         if self.request.user.is_superuser:
             return queryset
-        
+
         # Filter by user's assigned project
         try:
             profile = self.request.user.profile
@@ -252,9 +252,9 @@ class FacilityViewSet(viewsets.ModelViewSet):
                 queryset = queryset.filter(projects=profile.project)
         except UserProfile.DoesNotExist:
             queryset = queryset.none()
-        
+
         return queryset
-    
+
 
 @extend_schema_view(
     list=extend_schema(description="List all user profiles. Filtered by user's project."),
@@ -267,12 +267,12 @@ class FacilityViewSet(viewsets.ModelViewSet):
 class UserProfileViewSet(viewsets.ModelViewSet):
     """
     ViewSet for managing UserProfile records.
-    
+
     **Permissions:**
     - GlobalAdmin: Full CRUD access
     - ProjectManager: Full CRUD access, restricted to their assigned Project
     - Others: Read-only access to their own profile
-    
+
     **Filtering:**
     - `?project={id}` - Filter by project
     - `?facility={id}` - Filter by facility
@@ -287,15 +287,15 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     search_fields = ['user__username', 'user__email']
     ordering_fields = ['user__username', 'created_at']
     ordering = ['user__username']
-    
+
     def get_queryset(self):
         """Filter queryset based on user's project assignment."""
         queryset = super().get_queryset()
-        
+
         # GlobalAdmin can see all
         if self.request.user.is_superuser:
             return queryset
-        
+
         # Filter by user's assigned project
         try:
             profile = self.request.user.profile
@@ -303,9 +303,9 @@ class UserProfileViewSet(viewsets.ModelViewSet):
                 queryset = queryset.filter(project=profile.project)
         except UserProfile.DoesNotExist:
             queryset = queryset.none()
-        
+
         return queryset
-    
+
 
 @extend_schema_view(
     list=extend_schema(description="List all distribution registers. Filtered by user's project/facility."),
@@ -318,13 +318,13 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 class DistributionRegisterViewSet(viewsets.ModelViewSet):
     """
     ViewSet for managing DistributionRegister records.
-    
+
     **Permissions:**
     - GlobalAdmin: Full CRUD access
     - ProjectManager: Full CRUD access, restricted to their assigned Project
     - DataEntryStaff: Create/Update access, restricted to their assigned Facility
     - Viewer: Read-only access, restricted to their assigned Project
-    
+
     **Filtering:**
     - `?project={id}` - Filter by project
     - `?facility={id}` - Filter by facility
@@ -340,15 +340,15 @@ class DistributionRegisterViewSet(viewsets.ModelViewSet):
     search_fields = ['child_serial_number']
     ordering_fields = ['date_of_visit', 'child_serial_number', 'created_at']
     ordering = ['-date_of_visit', 'child_serial_number']
-    
+
     def get_queryset(self):
         """Filter queryset based on user's project/facility assignment."""
         queryset = super().get_queryset()
-        
+
         # GlobalAdmin can see all
         if self.request.user.is_superuser:
             return queryset
-        
+
         try:
             profile = self.request.user.profile
             if profile.role == 'PROJECT_MANAGER':
@@ -368,9 +368,9 @@ class DistributionRegisterViewSet(viewsets.ModelViewSet):
                     queryset = queryset.filter(project=profile.project)
         except UserProfile.DoesNotExist:
             queryset = queryset.none()
-        
+
         return queryset
-    
+
     def perform_create(self, serializer):
         """Automatically set created_by to current user."""
         serializer.save(created_by=self.request.user)
@@ -387,13 +387,13 @@ class DistributionRegisterViewSet(viewsets.ModelViewSet):
 class RationCardViewSet(viewsets.ModelViewSet):
     """
     ViewSet for managing RationCard records.
-    
+
     **Permissions:**
     - GlobalAdmin: Full CRUD access
     - ProjectManager: Full CRUD access, restricted to their assigned Project
     - DataEntryStaff: Create/Update access, restricted to their assigned Facility
     - Viewer: Read-only access, restricted to their assigned Project
-    
+
     **Filtering:**
     - `?project={id}` - Filter by project
     - `?facility={id}` - Filter by facility
@@ -410,15 +410,15 @@ class RationCardViewSet(viewsets.ModelViewSet):
     search_fields = ['child_serial_number']
     ordering_fields = ['admission_date', 'child_serial_number', 'created_at']
     ordering = ['-admission_date', 'child_serial_number']
-    
+
     def get_queryset(self):
         """Filter queryset based on user's project/facility assignment."""
         queryset = super().get_queryset()
-        
+
         # GlobalAdmin can see all
         if self.request.user.is_superuser:
             return queryset
-        
+
         try:
             profile = self.request.user.profile
             if profile.role == 'PROJECT_MANAGER':
@@ -438,9 +438,9 @@ class RationCardViewSet(viewsets.ModelViewSet):
                     queryset = queryset.filter(project=profile.project)
         except UserProfile.DoesNotExist:
             queryset = queryset.none()
-        
+
         return queryset
-    
+
     def perform_create(self, serializer):
         """Automatically set created_by to current user."""
         serializer.save(created_by=self.request.user)
@@ -457,10 +457,10 @@ class RationCardViewSet(viewsets.ModelViewSet):
 class UserViewSet(viewsets.ModelViewSet):
     """
     ViewSet for managing User records (Django User model).
-    
+
     **Permissions:**
     - GlobalAdmin: Full CRUD access
-    
+
     **Note:** After creating a user, create a UserProfile to assign them to a project and set their role.
     """
     queryset = User.objects.all()
