@@ -1,9 +1,9 @@
 import { HapticTab, IconSymbol, TopBarHeader } from '@/components/ui';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import React from 'react';
-import { Tabs } from 'expo-router';
 import { useThemeColor } from '@/hooks/use-theme-color';
+import { Tabs } from 'expo-router';
+import React from 'react';
 
 export default function TabLayout() {
   const insets = useSafeAreaInsets();

@@ -1,15 +1,14 @@
-import Feather from '@expo/vector-icons/Feather';
-import { useRouter } from 'expo-router';
+import { Logout, ThemedText } from '@/components/ui';
 import React, { useMemo } from 'react';
 import { Alert, ScrollView, TouchableOpacity, View } from 'react-native';
 
-import IconBadge from '@/components/icon-badge';
-import SurfaceCard from '@/components/surface-card';
-import { ThemedText } from '@/components/themed-text';
-import { useDispatch, useSelector } from '@/hooks';
+import IconBadge from '@/components/ui/icon-badge';
+import SurfaceCard from '@/components/ui/surface-card';
+import { useSelector } from '@/hooks';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { cn } from '@/lib/utils';
-import { authActions } from '@/store/auth';
+import Feather from '@expo/vector-icons/Feather';
+import { useRouter } from 'expo-router';
 
 const getInitials = (value: string) => {
   if (!value) {
@@ -29,12 +28,10 @@ const getInitials = (value: string) => {
 
 export default function ProfileScreen() {
   const { user } = useSelector((store) => store.auth);
-  const { dispatch } = useDispatch();
   const router = useRouter();
 
   const foreground = useThemeColor({}, 'foreground');
   const mutedForeground = useThemeColor({}, 'mutedForeground');
-  const destructive = useThemeColor({}, 'destructive');
 
   const displayName = user?.username ?? 'Community Health Worker';
   const facilityName = user?.facility?.name ?? 'Not assigned';
@@ -56,10 +53,12 @@ export default function ProfileScreen() {
     >
       <IconBadge name={item.icon} tone="accent" />
       <View className="flex-1 ml-4">
-        <ThemedText className="text-xs font-semibold uppercase text-muted-foreground">
+        <ThemedText className="text-xs font-semibold uppercase text-muted-foreground dark:text-background/25">
           {item.label}
         </ThemedText>
-        <ThemedText className="mt-1 text-lg text-foreground">{item.value}</ThemedText>
+        <ThemedText className="mt-1 text-sm text-foreground dark:text-background/50">
+          {item.value}
+        </ThemedText>
       </View>
     </View>
   );
@@ -73,7 +72,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <ScrollView className="flex-1 bg-background">
+    <ScrollView className="flex-1 bg-background dark:bg-foreground">
       <View className="px-5 pb-8 pt-12">
         <View className="flex-row items-center mb-5">
           <TouchableOpacity
@@ -83,7 +82,9 @@ export default function ProfileScreen() {
           >
             <Feather name="chevron-left" size={20} color={foreground} />
           </TouchableOpacity>
-          <ThemedText className="text-2xl font-semibold text-foreground">User Profile</ThemedText>
+          <ThemedText className="text-2xl font-semibold text-foreground dark:text-background/75">
+            User Profile
+          </ThemedText>
         </View>
 
         <SurfaceCard className="items-center px-4 py-8">
@@ -96,10 +97,12 @@ export default function ProfileScreen() {
           </TouchableOpacity>
 
           <View className="items-center justify-center rounded-full h-28 w-28 bg-accent/10">
-            <ThemedText className="text-4xl font-semibold text-accent">{initials}</ThemedText>
+            <ThemedText className="text-4xl font-semibold text-accent dark:text-muted">
+              {initials}
+            </ThemedText>
           </View>
 
-          <ThemedText className="mt-4 text-3xl font-semibold text-center text-foreground">
+          <ThemedText className="mt-4 text-3xl font-semibold text-center text-foreground dark:text-background/50">
             {displayName}
           </ThemedText>
           <ThemedText className="mt-1 text-base text-primary">Community Health Worker</ThemedText>
@@ -112,24 +115,14 @@ export default function ProfileScreen() {
         </SurfaceCard>
 
         <SurfaceCard className="mt-6">
-          <ThemedText className="text-xs font-semibold uppercase text-muted-foreground">
+          <ThemedText className="text-xs font-semibold uppercase text-muted-foreground dark:text-background/75">
             Account Details
           </ThemedText>
           <View className="mt-2">
             {infoRows.map((item, index) => renderInfoRow(item, index === infoRows.length - 1))}
           </View>
         </SurfaceCard>
-
-        <TouchableOpacity
-          activeOpacity={0.85}
-          onPress={() => dispatch(authActions.logout())}
-          className="mt-8 border rounded-3xl border-destructive bg-destructive/10"
-        >
-          <View className="flex-row items-center justify-center gap-2 py-4">
-            <Feather name="log-out" size={18} color={destructive} />
-            <ThemedText className="text-lg font-semibold text-destructive">Log Out</ThemedText>
-          </View>
-        </TouchableOpacity>
+        <Logout />
       </View>
     </ScrollView>
   );

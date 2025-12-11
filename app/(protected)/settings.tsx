@@ -3,14 +3,12 @@ import { useRouter } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import { Alert, ScrollView, Switch, TouchableOpacity, View } from 'react-native';
 
-import IconBadge, { type IconBadgeProps } from '@/components/icon-badge';
-import SurfaceCard from '@/components/surface-card';
-import { ThemedText } from '@/components/themed-text';
-import { useDispatch } from '@/hooks';
+import { Logout, ThemedText } from '@/components/ui';
+import IconBadge, { type IconBadgeProps } from '@/components/ui/icon-badge';
+import SurfaceCard from '@/components/ui/surface-card';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { withOpacity } from '@/lib/color';
 import { cn } from '@/lib/utils';
-import { authActions } from '@/store/auth';
 
 type SettingAction = {
   key: string;
@@ -40,13 +38,11 @@ const SectionHeading = ({ label }: { label: string }) => (
 );
 
 export default function SettingsScreen() {
-  const { dispatch } = useDispatch();
   const router = useRouter();
 
   const foreground = useThemeColor({}, 'foreground');
   const mutedForeground = useThemeColor({}, 'mutedForeground');
   const accent = useThemeColor({}, 'accent');
-  const destructive = useThemeColor({}, 'destructive');
 
   const [syncWifiOnly, setSyncWifiOnly] = useState(true);
   const [pushEnabled, setPushEnabled] = useState(true);
@@ -154,7 +150,9 @@ export default function SettingsScreen() {
     >
       <IconBadge name={action.icon} tone={action.tone ?? 'accent'} />
       <View className="flex-1 ml-4">
-        <ThemedText className="text-lg text-foreground">{action.title}</ThemedText>
+        <ThemedText className="text-md text-foreground dark:text-background/50">
+          {action.title}
+        </ThemedText>
         {action.subtitle ? (
           <ThemedText className="mt-0.5 text-sm text-muted-foreground">
             {action.subtitle}
@@ -176,14 +174,11 @@ export default function SettingsScreen() {
     >
       <IconBadge name={toggle.icon} tone={toggle.tone ?? 'accent'} />
       <View className="flex-1 ml-4">
-        <ThemedText className="text-lg text-foreground">{toggle.title}</ThemedText>
+        <ThemedText className="text-lg text-foreground dark:text-background/50">
+          {toggle.title}
+        </ThemedText>
         {toggle.subtitle ? (
-          <ThemedText
-            className={cn(
-              'mt-0.5 text-sm',
-              toggle.subtitleTone === 'accent' ? 'text-accent' : 'text-muted-foreground',
-            )}
-          >
+          <ThemedText className={cn('mt-0.5 text-sm', 'text-muted-foreground')}>
             {toggle.subtitle}
           </ThemedText>
         ) : null}
@@ -207,7 +202,7 @@ export default function SettingsScreen() {
   };
 
   return (
-    <ScrollView className="flex-1 bg-background">
+    <ScrollView className="flex-1 bg-background dark:bg-foreground">
       <View className="px-5 pt-12 pb-8">
         <View className="flex-row items-center mb-5">
           <TouchableOpacity
@@ -217,7 +212,9 @@ export default function SettingsScreen() {
           >
             <Feather name="chevron-left" size={20} color={foreground} />
           </TouchableOpacity>
-          <ThemedText className="text-2xl font-semibold text-foreground">Settings</ThemedText>
+          <ThemedText className="text-2xl font-semibold text-foreground dark:text-background/75">
+            Settings
+          </ThemedText>
         </View>
 
         <SurfaceCard className="mb-6">
@@ -259,16 +256,7 @@ export default function SettingsScreen() {
           </View>
         </SurfaceCard>
 
-        <TouchableOpacity
-          activeOpacity={0.85}
-          onPress={() => dispatch(authActions.logout())}
-          className="mt-8 border rounded-3xl border-destructive bg-destructive/10"
-        >
-          <View className="flex-row items-center justify-center gap-2 py-4">
-            <Feather name="log-out" size={18} color={destructive} />
-            <ThemedText className="text-lg font-semibold text-destructive">Logout</ThemedText>
-          </View>
-        </TouchableOpacity>
+        <Logout />
       </View>
     </ScrollView>
   );

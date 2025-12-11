@@ -12,6 +12,7 @@ export * from './haptic-tab';
 export * from './icon-symbol';
 export * from './input';
 export * from './label';
+export * from './log-out';
 export * from './themed-text';
 export * from './themed-view';
 
