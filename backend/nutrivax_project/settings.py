@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'nutrivax_project.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 # PostgreSQL configuration
-# Railway provides DATABASE_URL, but the internal URL (postgres.railway.internal) 
+# Railway provides DATABASE_URL, but the internal URL (postgres.railway.internal)
 # only works within Railway's network. For local development, use:
 # 1. DATABASE_PUBLIC_URL (Railway's public connection string - recommended for local)
 # 2. Individual env vars (DB_NAME, DB_USER, etc.) for local PostgreSQL
@@ -237,4 +237,3 @@ SPECTACULAR_SETTINGS = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
-

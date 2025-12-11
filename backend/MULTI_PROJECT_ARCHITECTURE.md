@@ -28,7 +28,7 @@ Project: "NutriVax Nigeria"
   ├── Distribution Registers (child nutrition records)
   └── Users assigned to this project
 
-Project: "NutriVax Kenya"  
+Project: "NutriVax Kenya"
   ├── Facilities (different hospitals)
   ├── Admin Divisions (different regions)
   ├── Distribution Registers (different children)
@@ -107,19 +107,19 @@ When a user requests `/api/facilities/`, here's what happens:
 # In FacilityViewSet.get_queryset()
 def get_queryset(self):
     queryset = Facility.objects.all()  # Start with ALL facilities
-    
+
     # Check user's role
     if self.request.user.is_superuser:
         return queryset  # Superuser sees ALL projects
-    
+
     # Get user's profile
     profile = self.request.user.profile
-    
+
     # Filter by project
     if profile.project:
         queryset = queryset.filter(project=profile.project)
         # Now queryset only has facilities from user's project!
-    
+
     return queryset
 ```
 
@@ -136,7 +136,7 @@ Before allowing any action, the system checks:
 # In ProjectPermission.has_object_permission()
 def has_object_permission(self, request, view, obj):
     profile = request.user.profile
-    
+
     # Can user access THIS specific facility?
     if profile.project == obj.project:
         return True  # ✅ Same project, allowed
@@ -158,7 +158,7 @@ def has_object_permission(self, request, view, obj):
 - 5 project managers, 20 data entry staff
 
 **Project 2: "NutriVax Kenya"**
-- 30 facilities in Kenya  
+- 30 facilities in Kenya
 - 5,000 children registered
 - 3 project managers, 15 data entry staff
 
@@ -214,7 +214,7 @@ POST /api/projects/
 
 POST /api/projects/
 {
-  "name": "NutriVax Kenya", 
+  "name": "NutriVax Kenya",
   "country": "Kenya",
   "is_active": true
 }
@@ -268,7 +268,7 @@ POST /api/user-profiles/
 }
 ```
 
-**Important:** 
+**Important:**
 - You must use a **real UUID** from an existing project (get it from `GET /api/projects/`)
 - The UUID format is: `550e8400-e29b-41d4-a716-446655440000` (not a placeholder string)
 - If you don't have a project yet, create one first using `POST /api/projects/`
@@ -443,4 +443,3 @@ POST /api/facilities/
 - Secure, scalable, cost-effective
 - Easy to add new projects
 - No code changes needed for new projects
-

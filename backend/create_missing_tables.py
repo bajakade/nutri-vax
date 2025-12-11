@@ -25,7 +25,7 @@ def create_missing_tables():
             );
         """)
         print("[OK] project table created")
-        
+
         # Create user_profile table
         print("Creating user_profile table...")
         cursor.execute("""
@@ -38,18 +38,18 @@ def create_missing_tables():
                 "facility_id" uuid NULL,
                 "project_id" uuid NULL,
                 "user_id" integer NOT NULL UNIQUE,
-                CONSTRAINT "user_profile_user_id_8fdce8e2_fk_auth_user_id" 
+                CONSTRAINT "user_profile_user_id_8fdce8e2_fk_auth_user_id"
                     FOREIGN KEY ("user_id") REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED,
-                CONSTRAINT "user_profile_project_id_735a53f5_fk_project_id" 
+                CONSTRAINT "user_profile_project_id_735a53f5_fk_project_id"
                     FOREIGN KEY ("project_id") REFERENCES "project" ("id") DEFERRABLE INITIALLY DEFERRED,
-                CONSTRAINT "user_profile_facility_id_94f8759c_fk_facility_id" 
+                CONSTRAINT "user_profile_facility_id_94f8759c_fk_facility_id"
                     FOREIGN KEY ("facility_id") REFERENCES "facility" ("id") DEFERRABLE INITIALLY DEFERRED
             );
         """)
         cursor.execute('CREATE INDEX IF NOT EXISTS "user_profile_facility_id_94f8759c" ON "user_profile" ("facility_id");')
         cursor.execute('CREATE INDEX IF NOT EXISTS "user_profile_project_id_735a53f5" ON "user_profile" ("project_id");')
         print("[OK] user_profile table created")
-        
+
         # Create distributionRegister table
         print("Creating distributionRegister table...")
         cursor.execute("""
@@ -66,13 +66,13 @@ def create_missing_tables():
                 "created_by_id" integer NULL,
                 "facility_id" uuid NOT NULL,
                 "project_id" uuid NOT NULL,
-                CONSTRAINT "distributionRegister_project_id_facility_id_c_3470b2f6_uniq" 
+                CONSTRAINT "distributionRegister_project_id_facility_id_c_3470b2f6_uniq"
                     UNIQUE ("project_id", "facility_id", "child_serial_number", "date_of_visit"),
-                CONSTRAINT "distributionRegister_created_by_id_a68fcd7c_fk_auth_user_id" 
+                CONSTRAINT "distributionRegister_created_by_id_a68fcd7c_fk_auth_user_id"
                     FOREIGN KEY ("created_by_id") REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED,
-                CONSTRAINT "distributionRegister_facility_id_ce873233_fk_facility_id" 
+                CONSTRAINT "distributionRegister_facility_id_ce873233_fk_facility_id"
                     FOREIGN KEY ("facility_id") REFERENCES "facility" ("id") DEFERRABLE INITIALLY DEFERRED,
-                CONSTRAINT "distributionRegister_project_id_2efa2048_fk_project_id" 
+                CONSTRAINT "distributionRegister_project_id_2efa2048_fk_project_id"
                     FOREIGN KEY ("project_id") REFERENCES "project" ("id") DEFERRABLE INITIALLY DEFERRED
             );
         """)
@@ -80,7 +80,7 @@ def create_missing_tables():
         cursor.execute('CREATE INDEX IF NOT EXISTS "distributionRegister_facility_id_ce873233" ON "distributionRegister" ("facility_id");')
         cursor.execute('CREATE INDEX IF NOT EXISTS "distributionRegister_project_id_2efa2048" ON "distributionRegister" ("project_id");')
         print("[OK] distributionRegister table created")
-        
+
         # Create rationCard table
         print("Creating rationCard table...")
         cursor.execute("""
@@ -97,13 +97,13 @@ def create_missing_tables():
                 "created_by_id" integer NULL,
                 "facility_id" uuid NOT NULL,
                 "project_id" uuid NOT NULL,
-                CONSTRAINT "rationCard_project_id_facility_id_c_ac8baca0_uniq" 
+                CONSTRAINT "rationCard_project_id_facility_id_c_ac8baca0_uniq"
                     UNIQUE ("project_id", "facility_id", "child_serial_number"),
-                CONSTRAINT "rationCard_created_by_id_0a387ace_fk_auth_user_id" 
+                CONSTRAINT "rationCard_created_by_id_0a387ace_fk_auth_user_id"
                     FOREIGN KEY ("created_by_id") REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED,
-                CONSTRAINT "rationCard_facility_id_afb22b72_fk_facility_id" 
+                CONSTRAINT "rationCard_facility_id_afb22b72_fk_facility_id"
                     FOREIGN KEY ("facility_id") REFERENCES "facility" ("id") DEFERRABLE INITIALLY DEFERRED,
-                CONSTRAINT "rationCard_project_id_05105833_fk_project_id" 
+                CONSTRAINT "rationCard_project_id_05105833_fk_project_id"
                     FOREIGN KEY ("project_id") REFERENCES "project" ("id") DEFERRABLE INITIALLY DEFERRED
             );
         """)
@@ -111,7 +111,7 @@ def create_missing_tables():
         cursor.execute('CREATE INDEX IF NOT EXISTS "rationCard_facility_id_afb22b72" ON "rationCard" ("facility_id");')
         cursor.execute('CREATE INDEX IF NOT EXISTS "rationCard_project_id_05105833" ON "rationCard" ("project_id");')
         print("[OK] rationCard table created")
-        
+
         # Mark migrations as applied
         print("\nMarking migrations as applied...")
         from django.db.migrations.recorder import MigrationRecorder
@@ -124,7 +124,7 @@ def create_missing_tables():
             name='0002_alter_userprofile_options'
         )
         print("[OK] Migrations marked as applied")
-        
+
         print("\n[SUCCESS] All missing tables created!")
 
 if __name__ == '__main__':
@@ -134,4 +134,3 @@ if __name__ == '__main__':
         print(f"\n[ERROR] Failed: {e}")
         import traceback
         traceback.print_exc()
-

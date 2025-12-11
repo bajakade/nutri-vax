@@ -16,6 +16,9 @@ const MAPPING = {
   'person.crop.circle.badge.plus': 'person-add',
   'barcode.viewfinder': 'qr-code-scanner',
   'arrowshape.turn.up.right.fill': 'open-in-new',
+  'gearshape.fill': 'settings',
+  'person.crop.circle': 'person-outline',
+  'person.crop.circle.fill': 'person',
 } as unknown as IconMapping;
 
 export function IconSymbol({

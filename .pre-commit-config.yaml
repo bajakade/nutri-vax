@@ -1,0 +1,48 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+# default_language_version:
+#   python: python3
+#   node: 18.16.1
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-added-large-files
+        args: [--maxkb=1200]
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v9.1.1
+    hooks:
+      - id: eslint
+        name: mobile-eslint
+        language: node
+        args: [--fix]
+        files: \.[jt]sx?$
+        types: [file]
+        additional_dependencies:
+          - eslint@8.57.0
+          - eslint-config-prettier
+          - eslint-plugin-eslint-comments
+          - eslint-plugin-ft-flow@3.0.3
+          - eslint-plugin-jest
+          - eslint-plugin-prettier
+          - eslint-plugin-react
+          - eslint-plugin-react-hooks
+          - eslint-plugin-react-native
+          - eslint-plugin-simple-import-sort
+          - '@react-native/eslint-config'
+          - '@react-native/eslint-plugin'
+          - '@react-native/metro-config'
+          - '@typescript-eslint/eslint-plugin'
+          - '@typescript-eslint/parser'
+          - prettier
+          - jest

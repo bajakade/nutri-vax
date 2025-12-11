@@ -168,4 +168,3 @@ All other endpoints require Bearer Token authentication.
 
 **Error: "No active account found"**
 - Check your username and password are correct
-

@@ -46,7 +46,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.dry_run = options['dry_run']
-        
+
         if self.dry_run:
             self.stdout.write(self.style.WARNING('DRY RUN MODE - No records will be created'))
 
@@ -107,9 +107,9 @@ class Command(BaseCommand):
         self.stdout.write(f'Administrative Divisions - Created: {stats["admin_divisions_created"]}, Existing: {stats["admin_divisions_existing"]}')
         self.stdout.write(f'Facility Types - Created: {stats["facility_types_created"]}, Existing: {stats["facility_types_existing"]}')
         self.stdout.write(f'Facilities - Created: {stats["facilities_created"]}, Existing: {stats["facilities_existing"]}')
-        
+
         total_created = (
-            stats['admin_levels_created'] + stats['admin_divisions_created'] + 
+            stats['admin_levels_created'] + stats['admin_divisions_created'] +
             stats['facility_types_created'] + stats['facilities_created']
         )
         self.stdout.write(self.style.SUCCESS(f'\nTotal records created: {total_created}'))
@@ -120,7 +120,7 @@ class Command(BaseCommand):
             raise CommandError(f'File "{file_path}" does not exist.')
 
         self.stdout.write(self.style.SUCCESS(f'Importing AdministrativeLevel from: {file_path}'))
-        
+
         with open(file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
 
@@ -131,11 +131,11 @@ class Command(BaseCommand):
                     continue
                 pk = uuid.UUID(item['pk'])
                 fields = item.get('fields', {})
-                
+
                 if 'name' not in fields:
                     self.stdout.write(self.style.WARNING(f'  Skipping item {pk} without name field'))
                     continue
-                
+
                 parent = None
                 if fields.get('parent'):
                     try:
@@ -179,7 +179,7 @@ class Command(BaseCommand):
             raise CommandError(f'File "{file_path}" does not exist.')
 
         self.stdout.write(self.style.SUCCESS(f'Importing AdministrativeDivision from: {file_path}'))
-        
+
         with open(file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
 
@@ -190,11 +190,11 @@ class Command(BaseCommand):
                     continue
                 pk = uuid.UUID(item['pk'])
                 fields = item.get('fields', {})
-                
+
                 if 'name' not in fields:
                     self.stdout.write(self.style.WARNING(f'  Skipping item {pk} without name field'))
                     continue
-                
+
                 parent = None
                 if fields.get('parent'):
                     try:
@@ -252,7 +252,7 @@ class Command(BaseCommand):
             raise CommandError(f'File "{file_path}" does not exist.')
 
         self.stdout.write(self.style.SUCCESS(f'Importing FacilityType from: {file_path}'))
-        
+
         with open(file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
 
@@ -263,7 +263,7 @@ class Command(BaseCommand):
                     continue
                 pk = uuid.UUID(item['pk'])
                 fields = item.get('fields', {})
-                
+
                 if 'name' not in fields:
                     self.stdout.write(self.style.WARNING(f'  Skipping item {pk} without name field'))
                     continue
@@ -301,7 +301,7 @@ class Command(BaseCommand):
             raise CommandError(f'File "{file_path}" does not exist.')
 
         self.stdout.write(self.style.SUCCESS(f'Importing Facility from: {file_path}'))
-        
+
         with open(file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
 
@@ -314,11 +314,11 @@ class Command(BaseCommand):
                 else:
                     pk = uuid.UUID(item['pk'])
                 fields = item.get('fields', {})
-                
+
                 if 'name' not in fields:
                     self.stdout.write(self.style.WARNING(f'  Skipping facility {pk} without name field'))
                     continue
-                
+
                 facility_type = None
                 if fields.get('type'):
                     try:
@@ -377,4 +377,3 @@ class Command(BaseCommand):
                     raise
 
         self.stdout.write(f'  Total facilities processed: {stats["facilities_created"] + stats["facilities_existing"]}')
-

@@ -6,13 +6,6 @@ import { NetworkStatusChip } from '@/components/ui';
 import React from 'react';
 
 export default function Dashboard() {
-  // Mock data - replace with actual data later
-  const stats = {
-    todaysChildren: 12,
-    totalEnrolled: 150,
-    pendingReferrals: 3,
-  };
-
   return (
     <View className="flex-1 bg-background dark:bg-foreground">
       <ScrollView className="flex-1">

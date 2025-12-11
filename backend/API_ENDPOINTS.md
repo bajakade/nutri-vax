@@ -129,4 +129,3 @@ curl -X POST https://your-app.railway.app/api/nutrivax/facilities/ \
     "is_active": true
   }'
 ```
-

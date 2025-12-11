@@ -14,7 +14,7 @@ from drf_spectacular.views import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/nutrivax/', include('nutrivax_app.urls')),
-    
+
     # DRF Spectacular OpenAPI schema generation
     path('api/nutrivax/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/nutrivax/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),

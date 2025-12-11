@@ -217,10 +217,9 @@ python manage.py migrate
 
 2. **Create Program Staff**: Use Django admin or API to create staff members
 
-3. **Set Up User Roles**: 
+3. **Set Up User Roles**:
    - Create users in Django admin
    - Create ProgramStaff records linked to users
    - Assign appropriate PHCCs and roles
 
 4. **Start Using the API**: Begin creating children, distribution visits, referrals, and stock records through the API
-

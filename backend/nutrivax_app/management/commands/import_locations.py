@@ -32,7 +32,7 @@ class Command(BaseCommand):
         try:
             with open(csv_file_path, 'r', encoding='utf-8') as file:
                 reader = csv.DictReader(file)
-                
+
                 # Validate required columns
                 required_columns = ['state_name', 'lga_name', 'ward_name', 'phcc_name']
                 if not all(col in reader.fieldnames for col in required_columns):
@@ -179,10 +179,10 @@ class Command(BaseCommand):
         self.stdout.write(f'Wards - Created: {stats["wards_created"]}, Existing: {stats["wards_existing"]}')
         self.stdout.write(f'PHCCs - Created: {stats["phccs_created"]}, Existing: {stats["phccs_existing"]}')
         self.stdout.write(f'Settlements - Created: {stats["settlements_created"]}, Existing: {stats["settlements_existing"]}')
-        
+
         total_created = (
-            stats['states_created'] + stats['lgas_created'] + 
-            stats['wards_created'] + stats['phccs_created'] + 
+            stats['states_created'] + stats['lgas_created'] +
+            stats['wards_created'] + stats['phccs_created'] +
             stats['settlements_created']
         )
         self.stdout.write(self.style.SUCCESS(f'\nTotal locations created: {total_created}'))
@@ -217,4 +217,3 @@ class Command(BaseCommand):
             defaults={'name': name, 'type': location_type, 'parent': parent}
         )
         return location, created
-

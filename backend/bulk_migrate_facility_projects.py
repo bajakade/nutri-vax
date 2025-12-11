@@ -21,46 +21,46 @@ def bulk_migrate():
     print("=" * 60)
     print("Bulk Migrating Facility-Project Relationships")
     print("=" * 60)
-    
+
     with connection.cursor() as cursor:
         # Check if facility_project table exists
         cursor.execute("""
-            SELECT table_name 
-            FROM information_schema.tables 
+            SELECT table_name
+            FROM information_schema.tables
             WHERE table_name = 'facility_project'
         """)
         if not cursor.fetchone():
             print("[ERROR] facility_project table does not exist!")
             print("Please run the migration first to create the table.")
             return
-        
+
         # Check if old project_id column exists
         cursor.execute("""
-            SELECT column_name 
-            FROM information_schema.columns 
-            WHERE table_name = 'facility' 
+            SELECT column_name
+            FROM information_schema.columns
+            WHERE table_name = 'facility'
             AND column_name = 'project_id'
         """)
         if not cursor.fetchone():
             print("[INFO] Old project_id column doesn't exist. Migration may already be complete.")
             return
-        
+
         # Count existing relationships
         cursor.execute("SELECT COUNT(*) FROM facility_project")
         existing = cursor.fetchone()[0]
         print(f"Existing relationships: {existing}")
-        
+
         # Count facilities to migrate
         cursor.execute("SELECT COUNT(*) FROM facility WHERE project_id IS NOT NULL")
         to_migrate = cursor.fetchone()[0]
         print(f"Facilities to migrate: {to_migrate}")
-        
+
         if to_migrate == 0:
             print("[INFO] No facilities to migrate.")
             return
-        
+
         print("\nStarting bulk migration...")
-        
+
         with transaction.atomic():
             # Bulk insert - much faster than individual adds
             cursor.execute("""
@@ -73,10 +73,10 @@ def bulk_migrate():
                     WHERE fp.facility_id = f.id AND fp.project_id = f.project_id
                 )
             """)
-            
+
             migrated = cursor.rowcount
             print(f"[OK] Successfully migrated {migrated} relationships!")
-        
+
         # Verify
         cursor.execute("SELECT COUNT(*) FROM facility_project")
         total = cursor.fetchone()[0]
@@ -84,4 +84,3 @@ def bulk_migrate():
 
 if __name__ == '__main__':
     bulk_migrate()
-
