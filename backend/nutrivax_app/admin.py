@@ -13,7 +13,7 @@ class ProjectAdmin(admin.ModelAdmin):
     search_fields = ['name', 'country']
     ordering = ['name']
     readonly_fields = ['id', 'created_at', 'updated_at']
-    
+
     fieldsets = (
         ('Project Information', {
             'fields': ('name', 'country', 'is_active')
@@ -32,12 +32,12 @@ class AdminLevelAdmin(admin.ModelAdmin):
     search_fields = ['name']
     ordering = ['project', 'order', 'name']
     readonly_fields = ['id', 'created_at', 'updated_at']
-    
+
     def get_queryset(self, request):
         """Override to safely handle related objects."""
         qs = super().get_queryset(request)
         return qs.select_related('project')
-    
+
     fieldsets = (
         ('Level Information', {
             'fields': ('project', 'name', 'order', 'is_active')
@@ -56,12 +56,12 @@ class AdminDivisionAdmin(admin.ModelAdmin):
     search_fields = ['name']
     ordering = ['project', 'level__order', 'name']
     readonly_fields = ['id', 'created_at', 'updated_at']
-    
+
     def get_queryset(self, request):
         """Override to safely handle related objects."""
         qs = super().get_queryset(request)
         return qs.select_related('project', 'level', 'parent_division')
-    
+
     fieldsets = (
         ('Division Information', {
             'fields': ('project', 'level', 'parent_division', 'name', 'is_active')
@@ -71,7 +71,7 @@ class AdminDivisionAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
     )
-    
+
     def get_parent_division(self, obj):
         """Safely return parent division name."""
         if obj is None:
@@ -93,12 +93,12 @@ class FacilityTypeAdmin(admin.ModelAdmin):
     search_fields = ['name']
     ordering = ['project', 'name']
     readonly_fields = ['id', 'created_at', 'updated_at']
-    
+
     def get_queryset(self, request):
         """Override to safely handle related objects."""
         qs = super().get_queryset(request)
         return qs.select_related('project')
-    
+
     fieldsets = (
         ('Type Information', {
             'fields': ('project', 'name', 'is_active')
@@ -118,12 +118,12 @@ class FacilityAdmin(admin.ModelAdmin):
     ordering = ['name']
     readonly_fields = ['id', 'created_at', 'updated_at']
     filter_horizontal = ['projects']
-    
+
     def get_queryset(self, request):
         """Override to safely handle related objects."""
         qs = super().get_queryset(request)
         return qs.prefetch_related('projects').select_related('facility_type', 'admin_division')
-    
+
     def get_projects(self, obj):
         """Return comma-separated list of project names."""
         if obj is None:
@@ -134,7 +134,7 @@ class FacilityAdmin(admin.ModelAdmin):
         except (AttributeError, Exception):
             return '-'
     get_projects.short_description = 'Projects'
-    
+
     fieldsets = (
         ('Facility Information', {
             'fields': ('name', 'facility_type', 'admin_division', 'is_active')
@@ -156,7 +156,7 @@ class UserProfileAdmin(admin.ModelAdmin):
     search_fields = ['user__username', 'user__email']
     ordering = ['user__username']
     readonly_fields = ['id', 'created_at', 'updated_at']
-    
+
     fieldsets = (
         ('User Account', {
             'fields': ('user',)
@@ -169,12 +169,12 @@ class UserProfileAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
     )
-    
+
     def get_queryset(self, request):
         """Override to safely handle related objects."""
         qs = super().get_queryset(request)
         return qs.select_related('user').prefetch_related('project', 'facility')
-    
+
     def get_project(self, obj):
         """Safely return project name."""
         if obj is None:
@@ -187,7 +187,7 @@ class UserProfileAdmin(admin.ModelAdmin):
             return '-'
     get_project.short_description = 'Project'
     get_project.admin_order_field = 'project__name'
-    
+
     def get_facility(self, obj):
         """Safely return facility name."""
         if obj is None:
@@ -209,12 +209,12 @@ class DistributionRegisterAdmin(admin.ModelAdmin):
     search_fields = ['child_serial_number']
     ordering = ['-date_of_visit', 'facility', 'child_serial_number']
     readonly_fields = ['id', 'created_at', 'updated_at']
-    
+
     def get_queryset(self, request):
         """Override to safely handle related objects."""
         qs = super().get_queryset(request)
         return qs.select_related('project', 'facility', 'created_by')
-    
+
     fieldsets = (
         ('Register Information', {
             'fields': ('project', 'facility', 'child_serial_number', 'date_of_visit')
@@ -230,7 +230,7 @@ class DistributionRegisterAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
     )
-    
+
     def get_created_by(self, obj):
         """Safely return created_by username."""
         if obj is None:
@@ -252,12 +252,12 @@ class RationCardAdmin(admin.ModelAdmin):
     search_fields = ['child_serial_number']
     ordering = ['-admission_date', 'facility', 'child_serial_number']
     readonly_fields = ['id', 'created_at', 'updated_at']
-    
+
     def get_queryset(self, request):
         """Override to safely handle related objects."""
         qs = super().get_queryset(request)
         return qs.select_related('project', 'facility', 'created_by')
-    
+
     fieldsets = (
         ('Card Information', {
             'fields': ('project', 'facility', 'child_serial_number', 'admission_date')
@@ -276,7 +276,7 @@ class RationCardAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
     )
-    
+
     def get_created_by(self, obj):
         """Safely return created_by username."""
         if obj is None:

@@ -157,4 +157,3 @@ railway run python manage.py dbshell
 Your API will be live at: `https://your-app.railway.app`
 
 The many-to-many relationship between Project and Facility is ready to use!
-

@@ -8,23 +8,23 @@ def migrate_facility_projects(apps, schema_editor):
     # Process in batches of 1000 to avoid timeouts and allow progress monitoring
     conn = schema_editor.connection
     batch_size = 1000
-    
+
     with conn.cursor() as cursor:
         # Get total count
         cursor.execute("SELECT COUNT(*) FROM facility WHERE project_id IS NOT NULL")
         total_count = cursor.fetchone()[0]
         print(f"Total facilities to migrate: {total_count}")
-        
+
         # Calculate number of batches
         num_batches = (total_count + batch_size - 1) // batch_size
         print(f"Processing in {num_batches} batches of {batch_size} (or less for last batch)")
-        
+
         total_migrated = 0
-        
+
         for batch_num in range(num_batches):
             offset = batch_num * batch_size
             print(f"Processing batch {batch_num + 1}/{num_batches} (offset: {offset})...")
-            
+
             # First, get the IDs for this batch
             cursor.execute("""
                 SELECT id, project_id
@@ -37,13 +37,13 @@ def migrate_facility_projects(apps, schema_editor):
                 ORDER BY id
                 LIMIT %s OFFSET %s
             """, [batch_size, offset])
-            
+
             batch_facilities = cursor.fetchall()
-            
+
             if not batch_facilities:
                 print(f"  Batch {batch_num + 1}: No more facilities to migrate")
                 break
-            
+
             # Insert this batch (skip if already exists)
             try:
                 cursor.executemany("""
@@ -63,11 +63,11 @@ def migrate_facility_projects(apps, schema_editor):
                     except Exception:
                         # Skip duplicates
                         pass
-            
+
             batch_migrated = len(batch_facilities)
             total_migrated += batch_migrated
             print(f"  Batch {batch_num + 1} complete: {batch_migrated} relationships migrated (Total: {total_migrated}/{total_count})")
-        
+
         print(f"\nMigration complete! Total relationships migrated: {total_migrated}")
 
 
@@ -100,7 +100,7 @@ def remove_unique_constraint_if_exists(apps, schema_editor):
                 GROUP BY c.conname
             """)
             constraints = cursor.fetchall()
-            
+
             # Check if the constraint involves both project_id and name columns
             for constraint_name, columns in constraints:
                 if 'project_id' in columns and 'name' in columns:
@@ -113,16 +113,16 @@ def remove_unique_constraint_if_exists(apps, schema_editor):
         elif 'sqlite' in conn.vendor:
             # SQLite: unique_together creates a unique index
             cursor.execute("""
-                SELECT name FROM sqlite_master 
-                WHERE type='index' 
+                SELECT name FROM sqlite_master
+                WHERE type='index'
                 AND tbl_name='facility'
             """)
             all_indexes = cursor.fetchall()
             for index in all_indexes:
                 index_name = index[0]
                 cursor.execute("""
-                    SELECT sql FROM sqlite_master 
-                    WHERE type='index' 
+                    SELECT sql FROM sqlite_master
+                    WHERE type='index'
                     AND name=?
                 """, [index_name])
                 sql_result = cursor.fetchone()

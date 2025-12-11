@@ -73,4 +73,3 @@ pip install -r requirements.txt
 ```
 
 If that doesn't work, proceed with Option 1 (Visual C++ Build Tools) or Option 3 (SQLite for development).
-

@@ -18,14 +18,14 @@ def create_superuser():
     username = 'admin'
     email = 'admin@nutrivax.com'
     password = 'admin123'  # Change this after first login!
-    
+
     if User.objects.filter(username=username).exists():
         print(f"Superuser '{username}' already exists!")
         print(f"Username: {username}")
         print(f"Password: {password}")
         print("\nIf you forgot the password, you can reset it in Django admin or create a new superuser.")
         return
-    
+
     try:
         User.objects.create_superuser(
             username=username,
@@ -48,4 +48,3 @@ def create_superuser():
 
 if __name__ == '__main__':
     create_superuser()
-
